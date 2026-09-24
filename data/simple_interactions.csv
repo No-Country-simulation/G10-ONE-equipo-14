@@ -1,0 +1,4 @@
+external_id,author,channel,type,text,occurred_at
+msg-001,Mariana,logros,testimonio,Conseguí mi primer empleo gracias a mi proyecto de IA.,2026-09-18T12:00:00Z
+msg-002,Lucas,dudas-langgraph,pregunta_tecnica,¿Cómo implemento reintentos en LangGraph?,2026-09-18T13:00:00Z
+msg-003,Ana,general,comentario,Gracias por la sesión de hoy.,2026-09-18T14:00:00Z
