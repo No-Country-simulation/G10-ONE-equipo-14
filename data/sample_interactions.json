@@ -1,0 +1,35 @@
+{
+  "organization_id": "one",
+  "community_id": "g10",
+  "reference_period": "2026-W38",
+  "requested_assets": [
+    "LINKEDIN",
+    "FAQ"
+  ],
+  "interactions": [
+    {
+      "external_id": "msg-001",
+      "author": "Mariana",
+      "channel": "logros",
+      "type": "testimonio",
+      "text": "Conseguí mi primer empleo gracias a mi proyecto de IA.",
+      "occurred_at": "2026-09-18T12:00:00Z"
+    },
+    {
+      "external_id": "msg-002",
+      "author": "Lucas",
+      "channel": "dudas-langgraph",
+      "type": "pregunta_tecnica",
+      "text": "¿Cómo implemento reintentos en un nodo condicional de LangGraph?",
+      "occurred_at": "2026-09-18T13:00:00Z"
+    },
+    {
+      "external_id": "msg-003",
+      "author": "Ana",
+      "channel": "general",
+      "type": "comentario",
+      "text": "Gracias por la sesión de hoy.",
+      "occurred_at": "2026-09-18T14:00:00Z"
+    }
+  ]
+}
