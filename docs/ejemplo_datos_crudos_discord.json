@@ -1,0 +1,261 @@
+{
+"source": "Discord",
+"export_version": "1.0",
+"server_id": "srv_community_992",
+"exported_at": "2026-06-07T14:00:00Z",
+"channels": [
+{
+"channel_id": "ch_logros_y_empleo",
+"channel_name": "logros-y-empleo",
+"messages": [
+{
+"message_id": "msg_9823410293",
+"author": {
+"id": "usr_772134",
+"username": "carlos_dev99",
+"discriminator": "0001"
+},
+"timestamp": "2026-06-07T08:15:22Z",
+"content": "¡Hola a todos! Quería compartirles la tremenda noticia de que hoy firmé mi contrato como Desarrollador Frontend Jr. Después de 8 meses picando código todos los días en esta comunidad, sufriendo con los desafíos de React y ayudando en lo que podía, por fin dio frutos. Gracias a todos los que me tiraron buena onda en el canal de código.",
+"attachments": [],
+"reply_to": null,
+"thread_replies": [
+{
+"message_id": "msg_9823415122",
+"author": {
+"id": "usr_331902",
+"username": "sofia_tech",
+"discriminator": "0412"
+},
+"timestamp": "2026-06-07T08:18:05Z",
+"content": "¡Felicitaciones Carlos! Te lo merecías muchísimo, siempre le ponías mucha onda a los ejercicios."
+},
+{
+"message_id": "msg_9823416000",
+"author": {
+"id": "usr_102030",
+"username": "pablo_gamer",
+"discriminator": "5512"
+},
+"timestamp": "2026-06-07T08:19:10Z",
+"content": "crack!!"
+},
+{
+"message_id": "msg_9823419999",
+"author": {
+"id": "usr_772134",
+"username": "carlos_dev99",
+"discriminator": "0001"
+},
+"timestamp": "2026-06-07T08:20:11Z",
+"content": "¡Muchas gracias Sofi y Pablo! Sin las mentorías y los debates de acá no lo hubiera logrado."
+}
+]
+},
+{
+"message_id": "msg_9823430111",
+"author": {
+"id": "usr_882312",
+"username": "mariana_data",
+"discriminator": "9901"
+},
+"timestamp": "2026-06-07T10:05:00Z",
+"content": "Pude presentar el MVP de mi app para la entrega final del bootcamp y a los mentores les encantó. Superé mis miedos a hablar en público gracias al ensayo que hicimos la semana pasada.",
+"attachments": [
+{
+"filename": "demo_project_mvp.mp4",
+"url": "https://cdn.discordapp.com/attachments/mock/demo_project_mvp.mp4"
+}
+],
+"reply_to": null,
+"thread_replies": [
+{
+"message_id": "msg_9823432000",
+"author": {
+"id": "usr_119028",
+"username": "martin_dev",
+"discriminator": "3320"
+},
+"timestamp": "2026-06-07T10:12:00Z",
+"content": "👏👏👏"
+}
+]
+}
+]
+},
+{
+"channel_id": "ch_dudas_tecnicas",
+"channel_name": "dudas-tecnicas",
+"messages": [
+{
+"message_id": "msg_9823500001",
+"author": {
+"id": "usr_665544",
+"username": "nico_node",
+"discriminator": "1122"
+},
+"timestamp": "2026-06-07T08:30:00Z",
+"content": "alguien para jugar unas partidas de lol en un rato?",
+"attachments": [],
+"reply_to": null,
+"thread_replies": []
+},
+{
+"message_id": "msg_9823500002",
+"author": {
+"id": "usr_102030",
+"username": "pablo_gamer",
+"discriminator": "5512"
+},
+"timestamp": "2026-06-07T08:31:15Z",
+"content": "dale yo me sumo en 10 min",
+"attachments": [],
+"reply_to": "msg_9823500001",
+"thread_replies": []
+},
+{
+"message_id": "msg_9823554101",
+"author": {
+"id": "usr_441209",
+"username": "lucas_code",
+"discriminator": "8821"
+},
+"timestamp": "2026-06-07T09:02:40Z",
+"content": "Buenas gente, una duda rápida que me viene pasando seguido: ¿Cómo configuran las variables de entorno (.env) en un proyecto de Next.js cuando despliegan en Vercel pero necesitan que algunas sean accesibles desde el cliente? Siempre me terminan quedando en undefined y me vuelvo loco.",
+"attachments": [],
+"reply_to": null,
+"thread_replies": [
+{
+"message_id": "msg_9823561230",
+"author": {
+"id": "usr_119028",
+"username": "martin_dev",
+"discriminator": "3320"
+},
+"timestamp": "2026-06-07T09:10:15Z",
+"content": "Tenés que asegurarte de prefijarlas con NEXT_PUBLIC_ para que el empaquetador las inyecte en el cliente. Si no le pones eso, Next.js las oculta por seguridad en el servidor."
+},
+{
+"message_id": "msg_9823565555",
+"author": {
+"id": "usr_441209",
+"username": "lucas_code",
+"discriminator": "8821"
+},
+"timestamp": "2026-06-07T09:12:44Z",
+"content": "¡Uf, claro! Con razón. Era eso, mil gracias Martin, ya van como 5 personas que preguntan lo mismo esta semana jajaja."
+},
+{
+"message_id": "msg_9823566000",
+"author": {
+"id": "usr_331902",
+"username": "sofia_tech",
+"discriminator": "0412"
+},
+"timestamp": "2026-06-07T09:15:00Z",
+"content": "Totalmente, en los docs de Next lo mencionan pero siempre nos lo olvidamos al principio."
+}
+]
+},
+{
+"message_id": "msg_9823580000",
+"author": {
+"id": "usr_990011",
+"username": "gonza_js",
+"discriminator": "4432"
+},
+"timestamp": "2026-06-07T11:20:00Z",
+"content": "ok gracias",
+"attachments": [],
+"reply_to": null,
+"thread_replies": []
+}
+]
+},
+{
+"channel_id": "ch_general_soporte",
+"channel_name": "soporte-comunidad",
+"messages": [
+{
+"message_id": "msg_9823712900",
+"author": {
+"id": "usr_998811",
+"username": "andrea_ux",
+"discriminator": "1994"
+},
+"timestamp": "2026-06-07T09:45:10Z",
+"content": "La verdad estoy súper frustrada con la plataforma del curso de este mes. Ya van tres veces que intento subir mi entrega del sprint 2, se queda tildado el servidor y pierdo todo el progreso. Nadie me responde los mensajes privados y siento que estoy perdiendo el tiempo. Así dan ganas de dejar todo.",
+"attachments": [
+{
+"filename": "error_504_gateway.png",
+"url": "https://cdn.discordapp.com/attachments/mock/error_504_gateway.png"
+}
+],
+"reply_to": null,
+"thread_replies": [
+{
+"message_id": "msg_9823720011",
+"author": {
+"id": "usr_554433",
+"username": "admin_clara",
+"discriminator": "0007"
+},
+"timestamp": "2026-06-07T09:50:00Z",
+"content": "Hola Andrea, disculpa el inconveniente. Ya escalé tu caso con el equipo técnico para revisar el servidor. Te escribo por privado para ayudarte a recuperar la entrega."
+}
+]
+},
+{
+"message_id": "msg_9823750000",
+"author": {
+"id": "usr_123456",
+"username": "random_user",
+"discriminator": "7788"
+},
+"timestamp": "2026-06-07T12:00:00Z",
+"content": "a mi me anda joya la verdad",
+"attachments": [],
+"reply_to": "msg_9823712900",
+"thread_replies": []
+}
+]
+},
+{
+"channel_id": "ch_random",
+"channel_name": "off-topic",
+"messages": [
+{
+"message_id": "msg_9823900001",
+"author": {
+"id": "usr_102030",
+"username": "pablo_gamer",
+"discriminator": "5512"
+},
+"timestamp": "2026-06-07T13:10:00Z",
+"content": "Miren este meme de CSS jajaja https://i.imgflip.com/mock_css_meme.jpg",
+"attachments": [
+{
+"filename": "mock_css_meme.jpg",
+"url": "https://i.imgflip.com/mock_css_meme.jpg"
+}
+],
+"reply_to": null,
+"thread_replies": []
+},
+{
+"message_id": "msg_9823900002",
+"author": {
+"id": "usr_665544",
+"username": "nico_node",
+"discriminator": "1122"
+},
+"timestamp": "2026-06-07T13:12:30Z",
+"content": "jajajajajaj tal cual",
+"attachments": [],
+"reply_to": "msg_9823900001",
+"thread_replies": []
+}
+]
+}
+]
+}
