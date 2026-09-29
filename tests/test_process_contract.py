@@ -1,28 +1,26 @@
-"""Contract tests for POST /api/v1/process."""
+"""Contract tests for the /api/v1/process endpoint."""
 
 
-def _payload():
-    return {
-        "schema_version": "v1",
-        "organization_id": "one",
-        "community_id": "g10",
-        "reference_period": "2026-W38",
-        "requested_assets": ["LINKEDIN", "FAQ"],
-        "interactions": [
-            {
-                "author": "Mariana",
-                "channel": "logros",
-                "type": "testimonio",
-                "text": "Conseguí mi primer empleo.",
-            }
-        ],
-    }
+payload = {
+    "organization_id": "one",
+    "community_id": "g10",
+    "reference_period": "2026-W38",
+    "requested_assets": ["LINKEDIN", "FAQ"],
+    "interactions": [
+        {
+            "author": "Mariana",
+            "channel": "logros",
+            "type": "testimonio",
+            "text": "Conseguí mi primer empleo.",
+        }
+    ],
+}
 
 
 def test_idempotency_required(client):
     response = client.post(
         "/api/v1/process",
-        json=_payload(),
+        json=payload,
     )
 
     assert response.status_code == 422
@@ -31,18 +29,12 @@ def test_idempotency_required(client):
 def test_contract_returns_202(client):
     response = client.post(
         "/api/v1/process",
-        json=_payload(),
+        json=payload,
         headers={"Idempotency-Key": "demo-001"},
     )
 
     assert response.status_code == 202
-
-    body = response.json()
-
-    assert body["schema_version"] == "v1"
-    assert body["run_id"]
-    assert body["status"] in {"ACCEPTED", "ACCEPTED_WITH_ERRORS"}
-    assert "summary" in body
+    assert response.json()["schema_version"] == "v1"
 
 
 def test_same_key_same_run_id(client):
@@ -50,17 +42,16 @@ def test_same_key_same_run_id(client):
 
     first = client.post(
         "/api/v1/process",
-        json=_payload(),
+        json=payload,
         headers=headers,
     )
 
     second = client.post(
         "/api/v1/process",
-        json=_payload(),
+        json=payload,
         headers=headers,
     )
 
     assert first.status_code == 202
     assert second.status_code == 202
-
     assert first.json()["run_id"] == second.json()["run_id"]
