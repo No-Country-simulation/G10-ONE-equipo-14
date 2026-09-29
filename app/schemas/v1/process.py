@@ -20,6 +20,12 @@ class ProcessRequest(BaseModel):
     requested_assets: list[RequestedAsset] = Field(min_length=1)
     interactions: list[InteractionRequest] = Field(min_length=1, max_length=500)
 
+class RecordErrorResponse(BaseModel):
+    index: int = Field(ge=0)
+    external_id: str | None = None
+    code: str
+    message: str
+
 class RunSummary(BaseModel):
     received: int = Field(ge=0)
     accepted: int = Field(ge=0)
@@ -31,6 +37,7 @@ class ProcessResponse(BaseModel):
     run_id: UUID
     status: str
     summary: RunSummary
+    record_errors: list[RecordErrorResponse] = Field(default_factory=list)
     analyses: list[Analysis] = Field(default_factory=list)
     opportunities: list[Opportunity] = Field(default_factory=list)
     assets: list[Asset] = Field(default_factory=list)
