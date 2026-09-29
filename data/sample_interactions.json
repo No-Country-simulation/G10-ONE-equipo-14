@@ -1,171 +1,162 @@
-{
-  "organization_id": "one",
-  "community_id": "g10",
-  "reference_period": "2026-W38",
-  "requested_assets": [
-    "LINKEDIN",
-    "FAQ"
-  ],
-  "interactions": [
-    {
-      "external_id": "msg-001",
-      "author": "Mariana",
-      "channel": "logros",
-      "type": "testimonio",
-      "text": "Conseguí mi primer empleo como desarrolladora gracias al proyecto de inteligencia artificial que construí durante el programa.",
-      "occurred_at": "2026-09-18T12:00:00Z"
-    },
-    {
-      "external_id": "msg-002",
-      "author": "Lucas",
-      "channel": "dudas-langgraph",
-      "type": "pregunta_tecnica",
-      "text": "¿Cómo implemento reintentos en un nodo condicional de LangGraph cuando falla una llamada al modelo?",
-      "occurred_at": "2026-09-18T13:00:00Z"
-    },
-    {
-      "external_id": "msg-003",
-      "author": "Ana",
-      "channel": "general",
-      "type": "comentario",
-      "text": "Gracias por la sesión de hoy.",
-      "occurred_at": "2026-09-18T14:00:00Z"
-    },
-    {
-      "external_id": "msg-004",
-      "author": "Carlos",
-      "channel": "dudas-fastapi",
-      "type": "pregunta_tecnica",
-      "text": "¿Cuál es la mejor manera de validar un request body con Pydantic v2 en FastAPI?",
-      "occurred_at": "2026-09-18T14:30:00Z"
-    },
-    {
-      "external_id": "msg-005",
-      "author": "Sofia",
-      "channel": "logros",
-      "type": "testimonio",
-      "text": "Terminé mi primera API con FastAPI y PostgreSQL y conseguí desplegarla correctamente usando Docker.",
-      "occurred_at": "2026-09-18T15:00:00Z"
-    },
-    {
-      "external_id": "msg-006",
-      "author": "Diego",
-      "channel": "dudas-fastapi",
-      "type": "pregunta_tecnica",
-      "text": "¿Cómo puedo validar un request body usando Pydantic v2 antes de guardar la información en PostgreSQL?",
-      "occurred_at": "2026-09-18T15:30:00Z"
-    },
-    {
-      "external_id": "msg-007",
-      "author": "Valentina",
-      "channel": "feedback",
-      "type": "feedback_curso",
-      "text": "El ejemplo de Docker Compose me ayudó mucho, pero sería útil tener una explicación adicional sobre healthchecks y depends_on.",
-      "occurred_at": "2026-09-18T16:00:00Z"
-    },
-    {
-      "external_id": "msg-008",
-      "author": "Mateo",
-      "channel": "proyectos",
-      "type": "entrega_proyecto",
-      "text": "Entregué una aplicación que analiza comentarios de usuarios con inteligencia artificial y genera un resumen automático.",
-      "occurred_at": "2026-09-18T16:30:00Z"
-    },
-    {
-      "external_id": "msg-009",
-      "author": "Camila",
-      "channel": "dudas-langgraph",
-      "type": "pregunta_tecnica",
-      "text": "Estoy teniendo problemas con los reintentos de LangGraph. ¿Cómo debería manejar un nodo cuando la llamada al LLM produce un error?",
-      "occurred_at": "2026-09-18T17:00:00Z"
-    },
-    {
-      "external_id": "msg-010",
-      "author": "Andres",
-      "channel": "general",
-      "type": "comentario",
-      "text": "La explicación sobre agentes de inteligencia artificial estuvo interesante y quiero experimentar con un agente para automatizar tareas repetitivas.",
-      "occurred_at": "2026-09-18T17:30:00Z"
-    },
-    {
-      "external_id": "msg-011",
-      "author": "Gabriela",
-      "channel": "logros",
-      "type": "testimonio",
-      "text": "Después de varios meses buscando trabajo recibí una oferta para trabajar como backend developer. Mi proyecto final fue una parte importante de la entrevista.",
-      "occurred_at": "2026-09-19T12:00:00Z"
-    },
-    {
-      "external_id": "msg-012",
-      "author": "Fernando",
-      "channel": "dudas-docker",
-      "type": "pregunta_tecnica",
-      "text": "¿Cómo puedo hacer que Docker Compose espere hasta que PostgreSQL realmente esté disponible antes de iniciar FastAPI?",
-      "occurred_at": "2026-09-19T12:30:00Z"
-    },
-    {
-      "external_id": "msg-013",
-      "author": "Daniela",
-      "channel": "feedback",
-      "type": "feedback_curso",
-      "text": "Me cuesta seguir algunas partes del módulo de inteligencia artificial porque los ejemplos avanzan demasiado rápido.",
-      "occurred_at": "2026-09-19T13:00:00Z"
-    },
-    {
-      "external_id": "msg-014",
-      "author": "Alejandro",
-      "channel": "dudas-langgraph",
-      "type": "pregunta_tecnica",
-      "text": "¿Existe alguna estrategia recomendada para reintentar automáticamente un nodo de LangGraph cuando un proveedor de IA no responde?",
-      "occurred_at": "2026-09-19T13:30:00Z"
-    },
-    {
-      "external_id": "msg-015",
-      "author": "Paula",
-      "channel": "proyectos",
-      "type": "entrega_proyecto",
-      "text": "Mi proyecto permite cargar conversaciones de una comunidad, detectar preguntas frecuentes y generar borradores de contenido educativo.",
-      "occurred_at": "2026-09-19T14:00:00Z"
-    },
-    {
-      "external_id": "msg-016",
-      "author": "Ricardo",
-      "channel": "dudas-postgresql",
-      "type": "pregunta_tecnica",
-      "text": "¿Conviene usar UUID como primary key para las interacciones almacenadas en PostgreSQL y qué ventajas tiene frente a un ID incremental?",
-      "occurred_at": "2026-09-19T14:30:00Z"
-    },
-    {
-      "external_id": "msg-017",
-      "author": "Elena",
-      "channel": "logros",
-      "type": "testimonio",
-      "text": "Publiqué mi primer proyecto open source y varias personas de la comunidad ya comenzaron a probarlo y aportar sugerencias.",
-      "occurred_at": "2026-09-19T15:00:00Z"
-    },
-    {
-      "external_id": "msg-018",
-      "author": "Javier",
-      "channel": "dudas-docker",
-      "type": "pregunta_tecnica",
-      "text": "Mi API inicia antes que PostgreSQL y falla la conexión. ¿Cómo puedo configurar correctamente el healthcheck en Docker Compose?",
-      "occurred_at": "2026-09-19T15:30:00Z"
-    },
-    {
-      "external_id": "msg-019",
-      "author": "Natalia",
-      "channel": "debates",
-      "type": "debate_foro",
-      "text": "¿Deberíamos requerir revisión humana para todo el contenido generado por IA o solamente cuando la confianza del modelo sea baja?",
-      "occurred_at": "2026-09-19T16:00:00Z"
-    },
-    {
-      "external_id": "msg-020",
-      "author": "Miguel",
-      "channel": "general",
-      "type": "comentario",
-      "text": "Me interesa ver cómo el proyecto puede identificar automáticamente los temas más importantes discutidos por la comunidad durante la semana.",
-      "occurred_at": "2026-09-19T16:30:00Z"
-    }
-  ]
-}
+[
+  {
+    "external_id": "msg-001",
+    "author": "Mariana",
+    "channel": "logros",
+    "type": "testimonio",
+    "text": "Conseguí mi primer empleo como desarrolladora gracias al proyecto de inteligencia artificial que construí durante el programa.",
+    "occurred_at": "2026-09-18T12:00:00Z"
+  },
+  {
+    "external_id": "msg-002",
+    "author": "Lucas",
+    "channel": "dudas-langgraph",
+    "type": "pregunta_tecnica",
+    "text": "¿Cómo implemento reintentos en un nodo condicional de LangGraph cuando falla una llamada al modelo?",
+    "occurred_at": "2026-09-18T13:00:00Z"
+  },
+  {
+    "external_id": "msg-003",
+    "author": "Ana",
+    "channel": "general",
+    "type": "comentario",
+    "text": "Gracias por la sesión de hoy.",
+    "occurred_at": "2026-09-18T14:00:00Z"
+  },
+  {
+    "external_id": "msg-004",
+    "author": "Carlos",
+    "channel": "dudas-fastapi",
+    "type": "pregunta_tecnica",
+    "text": "¿Cuál es la mejor manera de validar un request body con Pydantic v2 en FastAPI?",
+    "occurred_at": "2026-09-18T14:30:00Z"
+  },
+  {
+    "external_id": "msg-005",
+    "author": "Sofia",
+    "channel": "logros",
+    "type": "testimonio",
+    "text": "Terminé mi primera API con FastAPI y PostgreSQL y conseguí desplegarla correctamente usando Docker.",
+    "occurred_at": "2026-09-18T15:00:00Z"
+  },
+  {
+    "external_id": "msg-006",
+    "author": "Diego",
+    "channel": "dudas-fastapi",
+    "type": "pregunta_tecnica",
+    "text": "¿Cómo puedo validar un request body usando Pydantic v2 antes de guardar la información en PostgreSQL?",
+    "occurred_at": "2026-09-18T15:30:00Z"
+  },
+  {
+    "external_id": "msg-007",
+    "author": "Valentina",
+    "channel": "feedback",
+    "type": "feedback_curso",
+    "text": "El ejemplo de Docker Compose me ayudó mucho, pero sería útil tener una explicación adicional sobre healthchecks y depends_on.",
+    "occurred_at": "2026-09-18T16:00:00Z"
+  },
+  {
+    "external_id": "msg-008",
+    "author": "Mateo",
+    "channel": "proyectos",
+    "type": "entrega_proyecto",
+    "text": "Entregué una aplicación que analiza comentarios de usuarios con inteligencia artificial y genera un resumen automático.",
+    "occurred_at": "2026-09-18T16:30:00Z"
+  },
+  {
+    "external_id": "msg-009",
+    "author": "Camila",
+    "channel": "dudas-langgraph",
+    "type": "pregunta_tecnica",
+    "text": "Estoy teniendo problemas con los reintentos de LangGraph. ¿Cómo debería manejar un nodo cuando la llamada al LLM produce un error?",
+    "occurred_at": "2026-09-18T17:00:00Z"
+  },
+  {
+    "external_id": "msg-010",
+    "author": "Andres",
+    "channel": "general",
+    "type": "comentario",
+    "text": "La explicación sobre agentes de inteligencia artificial estuvo interesante y quiero experimentar con un agente para automatizar tareas repetitivas.",
+    "occurred_at": "2026-09-18T17:30:00Z"
+  },
+  {
+    "external_id": "msg-011",
+    "author": "Gabriela",
+    "channel": "logros",
+    "type": "testimonio",
+    "text": "Después de varios meses buscando trabajo recibí una oferta para trabajar como backend developer. Mi proyecto final fue una parte importante de la entrevista.",
+    "occurred_at": "2026-09-19T12:00:00Z"
+  },
+  {
+    "external_id": "msg-012",
+    "author": "Fernando",
+    "channel": "dudas-docker",
+    "type": "pregunta_tecnica",
+    "text": "¿Cómo puedo hacer que Docker Compose espere hasta que PostgreSQL realmente esté disponible antes de iniciar FastAPI?",
+    "occurred_at": "2026-09-19T12:30:00Z"
+  },
+  {
+    "external_id": "msg-013",
+    "author": "Daniela",
+    "channel": "feedback",
+    "type": "feedback_curso",
+    "text": "Me cuesta seguir algunas partes del módulo de inteligencia artificial porque los ejemplos avanzan demasiado rápido.",
+    "occurred_at": "2026-09-19T13:00:00Z"
+  },
+  {
+    "external_id": "msg-014",
+    "author": "Alejandro",
+    "channel": "dudas-langgraph",
+    "type": "pregunta_tecnica",
+    "text": "¿Existe alguna estrategia recomendada para reintentar automáticamente un nodo de LangGraph cuando un proveedor de IA no responde?",
+    "occurred_at": "2026-09-19T13:30:00Z"
+  },
+  {
+    "external_id": "msg-015",
+    "author": "Paula",
+    "channel": "proyectos",
+    "type": "entrega_proyecto",
+    "text": "Mi proyecto permite cargar conversaciones de una comunidad, detectar preguntas frecuentes y generar borradores de contenido educativo.",
+    "occurred_at": "2026-09-19T14:00:00Z"
+  },
+  {
+    "external_id": "msg-016",
+    "author": "Ricardo",
+    "channel": "dudas-postgresql",
+    "type": "pregunta_tecnica",
+    "text": "¿Conviene usar UUID como primary key para las interacciones almacenadas en PostgreSQL y qué ventajas tiene frente a un ID incremental?",
+    "occurred_at": "2026-09-19T14:30:00Z"
+  },
+  {
+    "external_id": "msg-017",
+    "author": "Elena",
+    "channel": "logros",
+    "type": "testimonio",
+    "text": "Publiqué mi primer proyecto open source y varias personas de la comunidad ya comenzaron a probarlo y aportar sugerencias.",
+    "occurred_at": "2026-09-19T15:00:00Z"
+  },
+  {
+    "external_id": "msg-018",
+    "author": "Javier",
+    "channel": "dudas-docker",
+    "type": "pregunta_tecnica",
+    "text": "Mi API inicia antes que PostgreSQL y falla la conexión. ¿Cómo puedo configurar correctamente el healthcheck en Docker Compose?",
+    "occurred_at": "2026-09-19T15:30:00Z"
+  },
+  {
+    "external_id": "msg-019",
+    "author": "Natalia",
+    "channel": "debates",
+    "type": "debate_foro",
+    "text": "¿Deberíamos requerir revisión humana para todo el contenido generado por IA o solamente cuando la confianza del modelo sea baja?",
+    "occurred_at": "2026-09-19T16:00:00Z"
+  },
+  {
+    "external_id": "msg-020",
+    "author": "Miguel",
+    "channel": "general",
+    "type": "comentario",
+    "text": "Me interesa ver cómo el proyecto puede identificar automáticamente los temas más importantes discutidos por la comunidad durante la semana.",
+    "occurred_at": "2026-09-19T16:30:00Z"
+  }
+]
