@@ -1,4 +1,21 @@
-external_id,author,channel,type,text,occurred_at
-msg-001,Mariana,logros,testimonio,Conseguí mi primer empleo gracias a mi proyecto de IA.,2026-09-18T12:00:00Z
-msg-002,Lucas,dudas-langgraph,pregunta_tecnica,¿Cómo implemento reintentos en LangGraph?,2026-09-18T13:00:00Z
+﻿external_id,author,channel,type,text,occurred_at
+msg-001,Mariana,logros,testimonio,Conseguí mi primer empleo como desarrolladora gracias al proyecto de inteligencia artificial que construí durante el programa.,2026-09-18T12:00:00Z
+msg-002,Lucas,dudas-langgraph,pregunta_tecnica,¿Cómo implemento reintentos en un nodo condicional de LangGraph cuando falla una llamada al modelo?,2026-09-18T13:00:00Z
 msg-003,Ana,general,comentario,Gracias por la sesión de hoy.,2026-09-18T14:00:00Z
+msg-004,Carlos,dudas-fastapi,pregunta_tecnica,¿Cuál es la mejor manera de validar un request body con Pydantic v2 en FastAPI?,2026-09-18T14:30:00Z
+msg-005,Sofia,logros,testimonio,Terminé mi primera API con FastAPI y PostgreSQL y conseguí desplegarla correctamente usando Docker.,2026-09-18T15:00:00Z
+msg-006,Diego,dudas-fastapi,pregunta_tecnica,¿Cómo puedo validar un request body usando Pydantic v2 antes de guardar la información en PostgreSQL?,2026-09-18T15:30:00Z
+msg-007,Valentina,feedback,feedback_curso,"El ejemplo de Docker Compose me ayudó mucho, pero sería útil tener una explicación adicional sobre healthchecks y depends_on.",2026-09-18T16:00:00Z
+msg-008,Mateo,proyectos,entrega_proyecto,Entregué una aplicación que analiza comentarios de usuarios con inteligencia artificial y genera un resumen automático.,2026-09-18T16:30:00Z
+msg-009,Camila,dudas-langgraph,pregunta_tecnica,Estoy teniendo problemas con los reintentos de LangGraph. ¿Cómo debería manejar un nodo cuando la llamada al LLM produce un error?,2026-09-18T17:00:00Z
+msg-010,Andres,general,comentario,La explicación sobre agentes de inteligencia artificial estuvo interesante y quiero experimentar con un agente para automatizar tareas repetitivas.,2026-09-18T17:30:00Z
+msg-011,Gabriela,logros,testimonio,Después de varios meses buscando trabajo recibí una oferta para trabajar como backend developer. Mi proyecto final fue una parte importante de la entrevista.,2026-09-19T12:00:00Z
+msg-012,Fernando,dudas-docker,pregunta_tecnica,¿Cómo puedo hacer que Docker Compose espere hasta que PostgreSQL realmente esté disponible antes de iniciar FastAPI?,2026-09-19T12:30:00Z
+msg-013,Daniela,feedback,feedback_curso,Me cuesta seguir algunas partes del módulo de inteligencia artificial porque los ejemplos avanzan demasiado rápido.,2026-09-19T13:00:00Z
+msg-014,Alejandro,dudas-langgraph,pregunta_tecnica,¿Existe alguna estrategia recomendada para reintentar automáticamente un nodo de LangGraph cuando un proveedor de IA no responde?,2026-09-19T13:30:00Z
+msg-015,Paula,proyectos,entrega_proyecto,"Mi proyecto permite cargar conversaciones de una comunidad, detectar preguntas frecuentes y generar borradores de contenido educativo.",2026-09-19T14:00:00Z
+msg-016,Ricardo,dudas-postgresql,pregunta_tecnica,¿Conviene usar UUID como primary key para las interacciones almacenadas en PostgreSQL y qué ventajas tiene frente a un ID incremental?,2026-09-19T14:30:00Z
+msg-017,Elena,logros,testimonio,Publiqué mi primer proyecto open source y varias personas de la comunidad ya comenzaron a probarlo y aportar sugerencias.,2026-09-19T15:00:00Z
+msg-018,Javier,dudas-docker,pregunta_tecnica,Mi API inicia antes que PostgreSQL y falla la conexión. ¿Cómo puedo configurar correctamente el healthcheck en Docker Compose?,2026-09-19T15:30:00Z
+msg-019,Natalia,debates,debate_foro,¿Deberíamos requerir revisión humana para todo el contenido generado por IA o solamente cuando la confianza del modelo sea baja?,2026-09-19T16:00:00Z
+msg-020,Miguel,general,comentario,Me interesa ver cómo el proyecto puede identificar automáticamente los temas más importantes discutidos por la comunidad durante la semana.,2026-09-19T16:30:00Z
