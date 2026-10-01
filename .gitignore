@@ -22,6 +22,7 @@ build/
 # --- Datos locales / base de datos ---
 *.sqlite3
 /data/
+/tmp/
 
 # --- Testing / coverage ---
 .pytest_cache/

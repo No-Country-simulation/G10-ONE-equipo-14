@@ -55,8 +55,9 @@ tests/       # Pruebas unitarias, de contrato e integración
 3. Copiar `.env.example` como `.env` y ajustar la configuración local.
 4. Ejecutar `docker compose up -d --build`. La API aplica las migraciones antes de iniciar.
 5. Abrir Swagger en `http://localhost:8000/docs` y el dashboard en `http://localhost:8501`.
-6. Ejecutar `python -m pytest -q tests` dentro de un entorno con las dependencias instaladas.
-7. Gestionar tareas, responsables y avances desde [Jira](https://g10-latam-equipo14.atlassian.net/).
+6. En el dashboard, cargar `data/sample_interactions.json` o `data/sample_interactions.csv` y verificar el resumen persistido.
+7. Ejecutar `python -m pytest -q tests` dentro de un entorno con las dependencias instaladas.
+8. Gestionar tareas, responsables y avances desde [Jira](https://g10-latam-equipo14.atlassian.net/).
 
 ## Estado actual
 
