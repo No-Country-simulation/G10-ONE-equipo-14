@@ -8,12 +8,13 @@ Start Docker Desktop, then from repository root:
 
 ```powershell
 Copy-Item .env.example .env  # only if .env does not exist
- docker compose up -d --build
- docker compose exec api alembic upgrade head
- docker compose exec db psql -U communitylab -d communitylab -c "\d interactions"
+docker compose up -d --build
+docker compose exec db psql -U communitylab -d communitylab -c "\d interactions"
 ```
 
-`docker compose up` alone starts the database but does NOT apply the migration. Run `alembic upgrade head` once per new database/migration. Do not run `alembic downgrade` on databases containing data without a backup.
+The API service runs `python -m alembic upgrade head` before starting Uvicorn. If a migration fails, the API does not report healthy and the dashboard waits instead of connecting to an incomplete database.
+
+Do not run `alembic downgrade` on databases containing data without a backup. CI verifies upgrade and downgrade only against its isolated `communitylab_test` database.
 
 ## Constraints
 
