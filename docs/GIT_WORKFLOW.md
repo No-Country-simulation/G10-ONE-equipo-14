@@ -2,7 +2,7 @@
 
 ## Permanent branches
 - `main`: stable/demo-ready.
-- `develop`: team integration.
+- `develop`: team integration. Feature, fix and documentation pull requests target this branch.
 
 ## Suggested short-lived branches
 - `feature/api-contracts`
@@ -12,6 +12,10 @@
 - `feature/streamlit-curation`
 - `feature/oci-storage`
 - `test/e2e-demo`
+
+Create short-lived branches from `develop`. Do not create duplicate application folders to isolate work; Git branches provide that isolation. Promote `develop` to `main` only when the integrated stage is stable.
+
+The initial ticket breakdown, dependencies and acceptance criteria are documented in [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md).
 
 ## Suggested initial commits
 1. `chore: bootstrap CommunityLab backend v0.1.0`
