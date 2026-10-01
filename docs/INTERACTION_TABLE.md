@@ -26,7 +26,7 @@ Do not run `alembic downgrade` on databases containing data without a backup. CI
 - `created_at` defaults to database server time; `occurred_at` is optional timezone-aware timestamp.
 - Index on organization/community/created_at for scoped retrieval.
 
-The existing `/process` endpoint remains a mock and does NOT persist interactions yet. A subsequent ingestion PR must calculate fingerprints, insert rows, handle uniqueness violations and implement persisted idempotency.
+`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions, calculate fingerprints, ignore duplicates and store idempotent run responses. `GET /api/v1/runs/{run_id}` is still a declared contract that returns HTTP 501 until the run-query implementation is completed.
 
 ## Validation
 

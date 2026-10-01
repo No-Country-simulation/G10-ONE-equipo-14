@@ -40,31 +40,42 @@ Componentes principales:
 ## Estructura del repositorio
 
 ```
-backend/     # API FastAPI, lógica de negocio, LangGraph, persistencia en PostgreSQL
-frontend/    # Interfaz Streamlit para curaduría (revisar, editar, aprobar/rechazar)
-docs/        # Documentación técnica y de producto (arquitectura, contratos, ADRs)
-tests/       # Tests unitarios y de integración
+app/         # API FastAPI, contratos, dominio, servicios y persistencia
+alembic/     # Migraciones de PostgreSQL
+dashboard/   # Interfaz Streamlit actual
+data/        # Datos de demostración JSON y CSV
+docs/        # Documentación técnica y de producto
+tests/       # Pruebas unitarias, de contrato e integración
 ```
 
 ## Setup
 
 1. Clonar el [repositorio](https://github.com/No-Country-simulation/G10-ONE-equipo-14).
 2. Instalar Docker y Docker Compose.
-3. Configurar `.env` con credenciales del LLM, PostgreSQL y OCI (ver `.env.example`).
-4. Levantar API, base de datos y dashboard con Docker Compose.
-5. Crear o configurar el bucket de OCI Object Storage.
-6. Ejecutar las pruebas y cargar el dataset JSON o CSV de demostración.
+3. Copiar `.env.example` como `.env` y ajustar la configuración local.
+4. Ejecutar `docker compose up -d --build`. La API aplica las migraciones antes de iniciar.
+5. Abrir Swagger en `http://localhost:8000/docs` y el dashboard en `http://localhost:8501`.
+6. Ejecutar `python -m pytest -q tests` dentro de un entorno con las dependencias instaladas.
 7. Gestionar tareas, responsables y avances desde [Jira](https://g10-latam-equipo14.atlassian.net/).
 
 ## Estado actual
 
-🚧 En construcción — Sprint 1 (E1: base técnica y contratos).
+🚧 En construcción.
+
+Implementado actualmente:
+
+- API FastAPI v1, contratos Pydantic y health check de PostgreSQL.
+- Ingesta JSON/CSV, normalización, deduplicación e idempotencia persistidas.
+- Tablas `interactions` y `runs` con migraciones Alembic reproducibles.
+- Dashboard técnico de estado y CI con PostgreSQL 16.
+
+Pendiente para completar el MVP:
+
+- Consulta persistida de ejecuciones mediante `GET /api/v1/runs/{run_id}`.
+- Análisis y generación con LLM/LangGraph.
+- Curaduría y aprobación de activos en Streamlit.
+- Publicación de paquetes aprobados en OCI Object Storage.
 
 ## Convenciones de contribución
 
-Branching, PRs y Definition of Done se documentan en `docs/CONTRIBUTING.md` (E1-S06).
-
-Convención de ramas mientras tanto:
-- `main` — protegida, siempre estable/demo-able.
-- `feature/<clave-jira>-descripcion-corta` — una por Story/Task.
-- `fix/<clave-jira>-descripcion` — para bugfixes.
+Branching, PRs y Definition of Done se documentan en [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md).
