@@ -33,7 +33,7 @@ Antes de integrar:
 
 ## Etapa 0 - Alinear la base existente
 
-### CL-001 - Auditar el código actual
+### [CL-001 - Auditar el código actual](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/35)
 
 **Objetivo:** determinar qué partes del repositorio se conservan, corrigen o reemplazan antes de asignar nuevas funcionalidades.
 
@@ -46,7 +46,7 @@ Antes de integrar:
 
 **Criterio de aceptación:** inventario aprobado por el equipo con decisiones de conservar, corregir o retirar por componente.
 
-### CL-002 - Confirmar el modelo de datos
+### [CL-002 - Confirmar el modelo de datos](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/36)
 
 **Objetivo:** revisar las tablas `interactions` y `runs` existentes y diseñar las entidades todavía necesarias.
 
@@ -61,7 +61,7 @@ Antes de integrar:
 
 ## Etapa 1 - Esqueleto visual y base técnica
 
-### CL-003 - Maquetar la interfaz Streamlit
+### [CL-003 - Maquetar la interfaz Streamlit](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/37)
 
 **Objetivo:** crear el recorrido visual completo con datos simulados, sin implementar todavía las validaciones funcionales del frontend.
 
@@ -77,7 +77,7 @@ Antes de integrar:
 
 **Criterio de aceptación:** el recorrido puede demostrarse con fixtures locales y no afirma que una operación se haya persistido o enviado cuando sólo está simulada.
 
-### CL-004 - Estabilizar la base FastAPI
+### [CL-004 - Estabilizar la base FastAPI](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/38)
 
 **Objetivo:** conservar una API integrable para que los demás integrantes desarrollen por contratos.
 
@@ -90,7 +90,7 @@ Antes de integrar:
 
 **Criterio de aceptación:** API y dashboard levantan con Docker Compose y los contratos acordados están documentados.
 
-### CL-005 - Diseñar los triggers de PostgreSQL
+### [CL-005 - Diseñar los triggers de PostgreSQL](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/39)
 
 **Objetivo:** incorporar solamente disparadores que resuelvan requisitos de integridad o auditoría aprobados.
 
@@ -112,19 +112,19 @@ Antes de integrar:
 
 ## Etapas posteriores
 
-### CL-006 - Pipeline de IA
+### [CL-006 - Pipeline de IA](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/40)
 
 Implementar gateway de LLM, LangGraph, análisis estructurado, routing determinístico y quality gate. Debe mantener evidencia, versionar modelo y prompt, y bloquear contenido sin sustento.
 
-### CL-007 - Curaduría persistente
+### [CL-007 - Curaduría persistente](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/41)
 
 Implementar edición, aprobación y rechazo con auditoría. Ninguna acción puede publicar automáticamente.
 
-### CL-008 - OCI Object Storage
+### [CL-008 - OCI Object Storage](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/42)
 
 Persistir paquetes aprobados y manifests con checksum, ETag y rutas definidas por el MVP dentro de los recursos gratuitos acordados.
 
-### CL-009 - Demostración integral
+### [CL-009 - Demostración integral](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/43)
 
 Preparar al menos tres transformaciones reproducibles, incluyendo un caso exitoso, una FAQ y un contenido bloqueado o enviado a revisión.
 
