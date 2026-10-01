@@ -8,12 +8,13 @@ Start Docker Desktop, then from repository root:
 
 ```powershell
 Copy-Item .env.example .env  # only if .env does not exist
- docker compose up -d --build
- docker compose exec api alembic upgrade head
- docker compose exec db psql -U communitylab -d communitylab -c "\d interactions"
+docker compose up -d --build
+docker compose exec db psql -U communitylab -d communitylab -c "\d interactions"
 ```
 
-`docker compose up` alone starts the database but does NOT apply the migration. Run `alembic upgrade head` once per new database/migration. Do not run `alembic downgrade` on databases containing data without a backup.
+The API service runs `python -m alembic upgrade head` before starting Uvicorn. If a migration fails, the API does not report healthy and the dashboard waits instead of connecting to an incomplete database.
+
+Do not run `alembic downgrade` on databases containing data without a backup. CI verifies upgrade and downgrade only against its isolated `communitylab_test` database.
 
 ## Constraints
 
@@ -25,7 +26,7 @@ Copy-Item .env.example .env  # only if .env does not exist
 - `created_at` defaults to database server time; `occurred_at` is optional timezone-aware timestamp.
 - Index on organization/community/created_at for scoped retrieval.
 
-The existing `/process` endpoint remains a mock and does NOT persist interactions yet. A subsequent ingestion PR must calculate fingerprints, insert rows, handle uniqueness violations and implement persisted idempotency.
+`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions, calculate fingerprints, ignore duplicates and store idempotent run responses. `GET /api/v1/runs/{run_id}` is still a declared contract that returns HTTP 501 until the run-query implementation is completed.
 
 ## Validation
 

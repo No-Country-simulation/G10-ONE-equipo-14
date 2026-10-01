@@ -6,7 +6,7 @@ API_URL = os.getenv("API_URL", "http://api:8000")
 
 st.set_page_config(page_title="CommunityLab", page_icon="🧪", layout="wide")
 st.title("CommunityLab")
-st.caption("Week 1 integration dashboard")
+st.caption("MVP integration dashboard")
 
 try:
     response = requests.get(f"{API_URL}/api/v1/health", timeout=3)
@@ -18,4 +18,5 @@ except Exception as exc:
     st.error(f"API unavailable: {exc}")
 
 st.subheader("Integration status")
-st.write("Use FastAPI Swagger at http://localhost:8000/docs to test the v1 contracts.")
+st.write("Use FastAPI Swagger at http://localhost:8000/docs to test health and the persisted JSON/CSV ingestion endpoints.")
+st.info("Run queries, AI generation, asset curation and OCI publication are still under development.")
