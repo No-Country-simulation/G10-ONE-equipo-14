@@ -3,7 +3,12 @@ from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.schema import CreateTable
 from app.db.base import Base
-from app.db.models import Interaction
+from app.db.models import Interaction, Run
+
+
+def test_all_models_are_registered_in_shared_metadata():
+    assert Interaction.__table__ is Base.metadata.tables["interactions"]
+    assert Run.__table__ is Base.metadata.tables["runs"]
 
 def test_interaction_model_metadata():
     table = Base.metadata.tables["interactions"]
