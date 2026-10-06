@@ -118,6 +118,17 @@ def test_analysis_is_structured_json():
     assert isinstance(payload["evidence"], list)
 
 
+def test_model_and_prompt_are_registered():
+    result = analyze_interaction(
+        MockAnalysisProvider(),
+        uuid4(),
+        make_interaction(),
+    )
+
+    assert result.model == "mock-analysis-v1"
+    assert result.prompt_version == "v1"
+
+
 def test_negative_sentiment():
     result = analyze_interaction(
         MockAnalysisProvider(),
