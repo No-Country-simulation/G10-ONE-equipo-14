@@ -344,6 +344,7 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - Backlog: [proyecto CommunityLab en Jira](https://g10-latam-equipo14.atlassian.net/jira/software/projects/COMLAB/boards/1)
 - Documentación funcional: carpeta [`docs`](docs)
 - Roadmap y proceso por etapas: [docs/ROADMAP_ETAPAS.md](docs/ROADMAP_ETAPAS.md)
+- Guion de demo y cierre: [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
 - Evidencias visuales: [docs/evidence](docs/evidence)
 
 Antes de empezar una tarea, revisar el backlog para evitar duplicar trabajo y mantener el ticket relacionado actualizado.
