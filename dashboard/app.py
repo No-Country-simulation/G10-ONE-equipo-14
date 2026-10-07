@@ -79,14 +79,14 @@ def process_upload(
 
 health = api_health()
 with st.sidebar:
-    st.header("Estado local")
+    st.header("Estado del sistema")
     if health:
         st.success("API disponible")
         st.write(f"PostgreSQL: **{health.get('database', 'desconocido')}**")
         st.caption(API_URL)
     else:
         st.error("API no disponible")
-        st.caption("Ejecutá `docker compose up -d --build` y recargá la página.")
+        st.caption("Comprobá que la API esté iniciada y recargá la página.")
 
     st.divider()
     st.write("**Disponible ahora**")

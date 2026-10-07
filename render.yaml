@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: communitylab-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: ENVIRONMENT
+        value: demo
+      - key: DATABASE_URL
+        fromDatabase:
+          name: communitylab-db
+          property: connectionString
+      - key: STORAGE_BACKEND
+        value: local
+      - key: STORAGE_BUCKET
+        value: communitylab-demo
+
+  - type: web
+    name: communitylab-dashboard
+    runtime: docker
+    plan: free
+    dockerfilePath: ./dashboard/Dockerfile
+    envVars:
+      - key: API_URL
+        fromService:
+          type: web
+          name: communitylab-api
+          envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  - name: communitylab-db
+    plan: free
+    databaseName: communitylab
+    user: communitylab

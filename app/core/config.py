@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -12,6 +13,16 @@ class Settings(BaseSettings):
     oci_namespace: str | None = None
     oci_region: str | None = None
     oci_use_instance_principal: bool = True
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def use_psycopg_v3(cls, value: str) -> str:
+        """Render and Neon expose generic PostgreSQL URLs; the app uses psycopg 3."""
+        if value.startswith("postgres://"):
+            return value.replace("postgres://", "postgresql+psycopg://", 1)
+        if value.startswith("postgresql://"):
+            return value.replace("postgresql://", "postgresql+psycopg://", 1)
+        return value
 
     model_config = SettingsConfigDict(
         env_file=".env",
