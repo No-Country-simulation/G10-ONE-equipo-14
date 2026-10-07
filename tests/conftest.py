@@ -11,10 +11,13 @@ from __future__ import annotations
 import os
 
 import pytest
+from alembic import command
+from alembic.config import Config
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from app.core.config import settings
 from app.db.base import Base
 from app.db import models as db_models  # noqa: F401
 from app.db.session import get_db
@@ -45,11 +48,18 @@ TestingSessionLocal = sessionmaker(
 
 @pytest.fixture(scope="session", autouse=True)
 def prepare_test_database():
-    """Create the test schema once and remove it after the test session."""
-    Base.metadata.create_all(bind=test_engine)
-    yield
-    Base.metadata.drop_all(bind=test_engine)
-    test_engine.dispose()
+    """Build the test schema through Alembic and remove it after the session."""
+    application_database_url = settings.database_url
+    settings.database_url = TEST_DATABASE_URL
+    alembic_config = Config("alembic.ini")
+
+    try:
+        command.upgrade(alembic_config, "head")
+        yield
+    finally:
+        command.downgrade(alembic_config, "base")
+        settings.database_url = application_database_url
+        test_engine.dispose()
 
 
 @pytest.fixture()
