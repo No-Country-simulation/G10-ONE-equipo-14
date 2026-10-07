@@ -2,6 +2,7 @@
 
 from app.db.models.analysis import Analysis, AnalysisEvidence
 from app.db.models.opportunity import Opportunity, OpportunitySource
+from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
 
 
 def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
@@ -31,11 +32,15 @@ def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
     assert body["analyses"][0]["model"] == "mock-analysis-v1"
     assert len(body["opportunities"]) == 1
     assert body["opportunities"][0]["status"] == "PENDING"
+    assert {asset["channel"] for asset in body["assets"]} == {"LINKEDIN"}
 
     assert db_session.query(Analysis).count() == 1
     assert db_session.query(AnalysisEvidence).count() == 1
     assert db_session.query(Opportunity).count() == 1
     assert db_session.query(OpportunitySource).count() == 1
+    assert db_session.query(AssetRecord).count() == 1
+    assert db_session.query(AssetVersion).count() == 1
+    assert db_session.query(AssetVersionSource).count() == 1
 
 
 def test_pipeline_blocks_pii_and_persists_the_decision(client, db_session):
@@ -60,4 +65,5 @@ def test_pipeline_blocks_pii_and_persists_the_decision(client, db_session):
 
     assert response.status_code == 202
     assert response.json()["opportunities"][0]["status"] == "BLOCKED"
+    assert response.json()["assets"] == []
     assert db_session.query(Opportunity).one().status == "BLOCKED"
