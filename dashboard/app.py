@@ -79,20 +79,18 @@ def process_upload(
 
 health = api_health()
 with st.sidebar:
-    st.header("Estado local")
+    st.header("Estado del sistema")
     if health:
         st.success("API disponible")
         st.write(f"PostgreSQL: **{health.get('database', 'desconocido')}**")
         st.caption(API_URL)
     else:
         st.error("API no disponible")
-        st.caption("Ejecutá `docker compose up -d --build` y recargá la página.")
+        st.caption("Comprobá que la API esté iniciada y recargá la página.")
 
     st.divider()
     st.write("**Disponible ahora**")
-    st.caption("Ingesta JSON/CSV, normalización, deduplicación e idempotencia.")
-    st.write("**Próximas etapas**")
-    st.caption("IA, oportunidades, curaduría y publicación en OCI.")
+    st.caption("Ingesta, IA, oportunidades, generación y curaduría persistente.")
 
 st.subheader("1. Cargar interacciones")
 left, middle, right = st.columns(3)
@@ -148,13 +146,33 @@ if result:
         st.warning("Algunos registros no pudieron procesarse.")
         st.dataframe(result["record_errors"], use_container_width=True)
 
-st.subheader("3. Flujo visual de las próximas etapas")
+st.subheader("3. Análisis, oportunidades y curaduría")
 analysis_tab, opportunities_tab, assets_tab = st.tabs(
     ["Análisis", "Oportunidades", "LinkedIn y FAQ"]
 )
 with analysis_tab:
-    st.info("Pendiente CL-006: análisis de sentimiento, temas y relevancia mediante IA.")
+    if result:
+        st.dataframe(result.get("analyses", []), use_container_width=True)
+    else:
+        st.info("Procesá un archivo para ver análisis.")
 with opportunities_tab:
-    st.info("Pendiente CL-006: agrupación de evidencia y oportunidades de contenido.")
+    if result:
+        st.dataframe(result.get("opportunities", []), use_container_width=True)
+    else:
+        st.info("Procesá un archivo para ver oportunidades.")
 with assets_tab:
-    st.info("Pendiente CL-006/CL-007: borradores editables y aprobación humana persistente.")
+    for asset in (result.get("assets", []) if result else []):
+        with st.container(border=True):
+            title = st.text_input("Título", value=asset["title"], key=f"title-{asset['id']}")
+            body = st.text_area("Contenido", value=asset["body"], key=f"body-{asset['id']}")
+            st.caption(f"{asset['channel']} · {asset['status']} · versión {asset['version']}")
+            save, approve, reject = st.columns(3)
+            if save.button("Guardar", key=f"save-{asset['id']}"):
+                response = requests.patch(f"{API_URL}/api/v1/assets/{asset['id']}", json={"title": title, "body": body, "editor": "dashboard"}, timeout=10)
+                response.raise_for_status(); asset.update(response.json()); st.success("Nueva versión guardada.")
+            if approve.button("Aprobar", key=f"approve-{asset['id']}"):
+                response = requests.post(f"{API_URL}/api/v1/assets/{asset['id']}/approve", json={"reviewer": "dashboard"}, timeout=10)
+                response.raise_for_status(); asset.update(response.json()); st.success("Activo aprobado.")
+            if reject.button("Rechazar", key=f"reject-{asset['id']}"):
+                response = requests.post(f"{API_URL}/api/v1/assets/{asset['id']}/reject", json={"reviewer": "dashboard"}, timeout=10)
+                response.raise_for_status(); asset.update(response.json()); st.warning("Activo rechazado.")

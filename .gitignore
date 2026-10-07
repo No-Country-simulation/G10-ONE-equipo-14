@@ -15,6 +15,11 @@ build/
 .env
 .env.*
 !.env.example
+!deploy/.env.production.example
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
 
 # --- Streamlit ---
 .streamlit/secrets.toml

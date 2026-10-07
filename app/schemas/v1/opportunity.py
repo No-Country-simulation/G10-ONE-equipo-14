@@ -8,3 +8,4 @@ class Opportunity(BaseModel):
     priority: float = Field(ge=0, le=1)
     reason: str
     source_ids: list[UUID]
+    status: str = "PENDING"

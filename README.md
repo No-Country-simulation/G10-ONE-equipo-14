@@ -4,6 +4,15 @@ Motor inteligente de transformación y distribución para comunidades digitales,
 
 CommunityLab recibe interacciones en JSON o CSV, las normaliza, deduplica y guarda en PostgreSQL. El dashboard Streamlit permite realizar una demostración local de la ingesta. El análisis con IA, la curaduría persistente y la publicación en OCI forman parte de las próximas etapas del MVP.
 
+## Demo pública
+
+- Aplicación: https://communitylab-dashboard.onrender.com
+- API: https://communitylab-api.onrender.com
+- Swagger/OpenAPI: https://communitylab-api.onrender.com/docs
+- Health: https://communitylab-api.onrender.com/api/v1/health
+
+El entorno está desplegado con el plan gratuito de Render y puede tardar cerca de un minuto en despertar después de un período sin actividad. La base gratuita de demostración expira a los 30 días.
+
 ## Estado del proyecto
 
 ### Implementado
@@ -343,6 +352,9 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - Código: [repositorio de GitHub](https://github.com/No-Country-simulation/G10-ONE-equipo-14)
 - Backlog: [proyecto CommunityLab en Jira](https://g10-latam-equipo14.atlassian.net/jira/software/projects/COMLAB/boards/1)
 - Documentación funcional: carpeta [`docs`](docs)
+- Roadmap y proceso por etapas: [docs/ROADMAP_ETAPAS.md](docs/ROADMAP_ETAPAS.md)
+- Guion de demo y cierre: [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
+- Evidencias visuales: [docs/evidence](docs/evidence)
 
 Antes de empezar una tarea, revisar el backlog para evitar duplicar trabajo y mantener el ticket relacionado actualizado.
 
