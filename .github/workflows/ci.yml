@@ -10,6 +10,18 @@ permissions:
   contents: read
 
 jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.16.5'
+      - run: terraform -chdir=infra/oci fmt -check -recursive
+      - run: terraform -chdir=infra/oci init -backend=false
+      - run: terraform -chdir=infra/oci validate
+
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
