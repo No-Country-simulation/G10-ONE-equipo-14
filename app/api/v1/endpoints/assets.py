@@ -7,8 +7,14 @@ from sqlalchemy.orm import Session
 
 from app.db.models.approval import ApprovalRecord
 from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
+from app.db.models.manifest import ManifestRecord
+from app.db.models.run import Run
 from app.db.session import get_db
 from app.schemas.v1.asset import Asset, AssetDecisionRequest, AssetEditRequest, AssetStatus
+from app.schemas.v1.manifest import Manifest
+from app.services.object_storage import configured_storage
+import hashlib
+import json
 
 router = APIRouter()
 
@@ -71,3 +77,23 @@ def approve_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = D
 @router.post("/assets/{asset_id}/reject", response_model=Asset)
 def reject_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)) -> Asset:
     return _decide(asset_id, payload, "REJECTED", db)
+
+@router.post("/assets/{asset_id}/publish", response_model=Manifest)
+def publish_asset(asset_id: UUID, db: Session = Depends(get_db)) -> Manifest:
+    asset = db.get(AssetRecord, asset_id)
+    if asset is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Asset not found.")
+    if asset.status != "APPROVED":
+        raise HTTPException(status.HTTP_409_CONFLICT, "Only approved assets can be published.")
+    version = _current(db, asset)
+    run = db.get(Run, asset.run_id)
+    package = {"schema_version": asset.schema_version, "asset_id": str(asset.id), "version": version.version_number, "channel": asset.asset_type, "title": version.title, "content": version.content}
+    content = json.dumps(package, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    object_key = f"{run.organization_id}/{run.community_id}/{asset.asset_type.lower()}/{asset.id}/v{version.version_number}.json"
+    stored = configured_storage().put(object_key, content, "application/json")
+    digest = hashlib.sha256(content).hexdigest()
+    if stored.sha256 != digest:
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Storage checksum verification failed.")
+    record = ManifestRecord(run_id=asset.run_id, asset_id=asset.id, schema_version="v1", bucket=stored.bucket, object_key=stored.object_key, content_type="application/json", sha256=digest, etag=stored.etag)
+    db.add(record); db.commit(); db.refresh(record)
+    return Manifest(run_id=record.run_id, object_key=record.object_key, content_type=record.content_type, sha256=record.sha256, etag=record.etag, created_at=record.created_at)
