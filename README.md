@@ -4,6 +4,15 @@ Motor inteligente de transformación y distribución para comunidades digitales,
 
 CommunityLab recibe interacciones en JSON o CSV, las normaliza, deduplica y guarda en PostgreSQL. El dashboard Streamlit permite realizar una demostración local de la ingesta. El análisis con IA, la curaduría persistente y la publicación en OCI forman parte de las próximas etapas del MVP.
 
+## Demo pública
+
+- Aplicación: https://communitylab-dashboard.onrender.com
+- API: https://communitylab-api.onrender.com
+- Swagger/OpenAPI: https://communitylab-api.onrender.com/docs
+- Health: https://communitylab-api.onrender.com/api/v1/health
+
+El entorno está desplegado con el plan gratuito de Render y puede tardar cerca de un minuto en despertar después de un período sin actividad. La base gratuita de demostración expira a los 30 días.
+
 ## Estado del proyecto
 
 ### Implementado

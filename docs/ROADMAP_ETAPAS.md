@@ -162,13 +162,13 @@ Objetivo: validar los tres recorridos finales:
 2. Duda técnica a FAQ aprobada.
 3. Contenido sensible detectado y bloqueado.
 
-### E8 — Despliegue gratuito y operación en OCI
+### E8 — Despliegue gratuito y operación
 
 - Jira: [COMLAB-74](https://g10-latam-equipo14.atlassian.net/browse/COMLAB-74)
 - GitHub: [#70](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/70)
 - Tickets Jira: COMLAB-75 a COMLAB-79
 
-Objetivo: desplegar el MVP estable mediante recursos elegibles para OCI Free Tier, sin activar servicios pagos sin autorización explícita.
+Objetivo: desplegar el MVP estable sin activar servicios pagos sin autorización explícita. La ruta OCI Free Tier quedó preparada, pero la demostración activa utiliza Render Free debido a la falta de capacidad de Compute en OCI.
 
 ## Próxima etapa
 
