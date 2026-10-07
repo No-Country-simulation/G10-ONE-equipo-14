@@ -1,0 +1,5 @@
+compartment_ocid    = "ocid1.compartment.oc1..CHANGE_ME"
+availability_domain = "CHANGE_ME"
+image_ocid          = "ocid1.image.oc1.sa-saopaulo-1.CHANGE_ME"
+ssh_public_key      = "ssh-ed25519 CHANGE_ME"
+ssh_source_cidr     = "203.0.113.10/32"

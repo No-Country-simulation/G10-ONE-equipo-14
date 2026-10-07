@@ -1,0 +1,8 @@
+#cloud-config
+package_update: true
+packages: [git, docker-engine, docker-compose-plugin]
+runcmd:
+  - systemctl enable --now docker
+  - usermod -aG docker opc
+  - mkdir -p /opt/communitylab/backups
+  - chown -R opc:opc /opt/communitylab
