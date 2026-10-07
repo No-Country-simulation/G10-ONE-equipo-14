@@ -96,6 +96,7 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 - Jira: [COMLAB-11](https://g10-latam-equipo14.atlassian.net/browse/COMLAB-11)
 - GitHub: [#64](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/64)
 - Issues existentes: [#36](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/36), [#38](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/38), [#39](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/39)
+- Propuesta de modelo: [data-model/CL-002_DATA_MODEL.md](data-model/CL-002_DATA_MODEL.md)
 
 Objetivo: completar el modelo persistente antes de conectar IA y curaduría.
 
