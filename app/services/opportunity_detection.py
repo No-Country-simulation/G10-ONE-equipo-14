@@ -1,76 +1,43 @@
 from uuid import UUID
-
 from app.schemas.v1.analysis import Analysis
-from app.schemas.v1.content_opportunity import (
-    ContentOpportunity,
-    ContentOpportunityStatus,
-)
-
+from app.schemas.v1.content_opportunity import ContentOpportunity, ContentOpportunityStatus
+from app.services.pii_detection import contains_pii
 
 MIN_RELEVANCE = 0.80
-MIN_CONFIDENCE = 0.80
+REVIEW_CONFIDENCE_THRESHOLD = 0.70
 
-
-def detect_content_opportunity(
-    analysis_id: UUID,
-    analysis: Analysis,
-) -> ContentOpportunity | None:
-    """Create a content opportunity using backend-owned deterministic rules.
-
-    The AI provider supplies analysis signals only. It does not choose workflow
-    states. Status is assigned here by backend business logic.
-    """
-    if analysis.relevance < MIN_RELEVANCE:
-        return None
-
-    if analysis.confidence < MIN_CONFIDENCE:
-        return None
-
-    source_ids = [
-        evidence.source_interaction_id
-        for evidence in analysis.evidence
-    ]
-
+def detect_content_opportunity(analysis_id: UUID, analysis: Analysis) -> ContentOpportunity | None:
+    source_ids = [e.source_interaction_id for e in analysis.evidence]
     if not source_ids:
         return None
 
-    priority = _calculate_priority(
-        relevance=analysis.relevance,
-        confidence=analysis.confidence,
-    )
+    if any(contains_pii(e.excerpt) for e in analysis.evidence):
+        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
+                      "Blocked because PII was detected.")
 
+    if analysis.confidence < REVIEW_CONFIDENCE_THRESHOLD:
+        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.REVIEW_REQUIRED,
+                      "Human review required because confidence is below 0.70.")
+
+    if analysis.relevance < MIN_RELEVANCE:
+        return None
+
+    return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.PENDING,
+                  "Qualified by backend content rules.")
+
+def _build(analysis_id, analysis, source_ids, status, prefix):
     return ContentOpportunity(
         analysis_id=analysis_id,
-        kind=_determine_kind(analysis),
-        priority=priority,
-        reason=_build_reason(analysis),
+        kind=_kind(analysis),
+        priority=round((analysis.relevance + analysis.confidence) / 2, 4),
+        reason=f"{prefix} relevance={analysis.relevance:.2f}; confidence={analysis.confidence:.2f}",
         source_ids=source_ids,
-        status=ContentOpportunityStatus.PENDING,
+        status=status,
     )
 
-
-def _calculate_priority(
-    relevance: float,
-    confidence: float,
-) -> float:
-    return round((relevance + confidence) / 2, 4)
-
-
-def _determine_kind(analysis: Analysis) -> str:
+def _kind(analysis: Analysis) -> str:
     if analysis.sentiment == "negative":
         return "support_content"
-
     if analysis.sentiment == "positive":
         return "success_content"
-
     return "educational_content"
-
-
-def _build_reason(analysis: Analysis) -> str:
-    topics = ", ".join(analysis.topics) if analysis.topics else "general"
-
-    return (
-        f"Relevant analysis for topics: {topics}; "
-        f"relevance={analysis.relevance:.2f}; "
-        f"confidence={analysis.confidence:.2f}"
-    )
