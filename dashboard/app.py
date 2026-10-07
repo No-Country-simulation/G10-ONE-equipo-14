@@ -151,9 +151,15 @@ analysis_tab, opportunities_tab, assets_tab = st.tabs(
     ["Análisis", "Oportunidades", "LinkedIn y FAQ"]
 )
 with analysis_tab:
-    st.dataframe(result.get("analyses", []), use_container_width=True) if result else st.info("Procesá un archivo para ver análisis.")
+    if result:
+        st.dataframe(result.get("analyses", []), use_container_width=True)
+    else:
+        st.info("Procesá un archivo para ver análisis.")
 with opportunities_tab:
-    st.dataframe(result.get("opportunities", []), use_container_width=True) if result else st.info("Procesá un archivo para ver oportunidades.")
+    if result:
+        st.dataframe(result.get("opportunities", []), use_container_width=True)
+    else:
+        st.info("Procesá un archivo para ver oportunidades.")
 with assets_tab:
     for asset in (result.get("assets", []) if result else []):
         with st.container(border=True):
