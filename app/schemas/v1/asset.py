@@ -21,3 +21,12 @@ class Asset(BaseModel):
     body: str
     status: AssetStatus
     version: int = Field(ge=1)
+
+class AssetEditRequest(BaseModel):
+    title: str = Field(min_length=1)
+    body: str = Field(min_length=1)
+    editor: str = Field(min_length=1)
+
+class AssetDecisionRequest(BaseModel):
+    reviewer: str = Field(min_length=1)
+    comment: str | None = None
