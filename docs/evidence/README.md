@@ -2,6 +2,16 @@
 
 Esta carpeta contiene capturas y resultados que demuestran el cierre de cada etapa del roadmap.
 
+## Inventario actual
+
+| Etapa | Capturas disponibles |
+| --- | --- |
+| E1–E6 | No se generaron capturas específicas |
+| E7 | `E7-cierre-mvp/02-swagger.png`, `E7-cierre-mvp/03-health.png` |
+| E8 | `E8-render-deployment/01-dashboard-publico.png`, `E8-render-deployment/02-api-swagger.png` |
+
+El detalle técnico y el procedimiento de reproducción están en [`../ENTREGABLE_IMPLEMENTACION_E1_E8.md`](../ENTREGABLE_IMPLEMENTACION_E1_E8.md).
+
 ## Reglas
 
 - Crear una subcarpeta por etapa siguiendo `docs/ROADMAP_ETAPAS.md`.
