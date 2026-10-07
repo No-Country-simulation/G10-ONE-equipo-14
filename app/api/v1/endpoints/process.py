@@ -75,10 +75,11 @@ def _response(
         )
 
         all_errors = list(pre_errors or []) + result.errors
-        analyses, opportunities = analyze_and_persist(
+        analyses, opportunities, assets = analyze_and_persist(
             db,
             run.id,
             result.persisted,
+            [asset.value for asset in payload.requested_assets],
         )
 
         response = ProcessResponse(
@@ -101,6 +102,7 @@ def _response(
             ],
             analyses=analyses,
             opportunities=opportunities,
+            assets=assets,
         )
 
         save_run_response(
