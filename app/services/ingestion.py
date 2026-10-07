@@ -24,6 +24,7 @@ class IngestionResult:
     accepted: int = 0
     duplicates: int = 0
     errors: list[RecordError] = field(default_factory=list)
+    persisted: list[Interaction] = field(default_factory=list)
 
 
 def ingest_interactions(
@@ -84,8 +85,7 @@ def ingest_interactions(
 
         try:
             with db.begin_nested():
-                db.add(
-                    Interaction(
+                interaction = Interaction(
                         organization_id=organization_id,
                         community_id=community_id,
                         external_id=external_id,
@@ -96,10 +96,11 @@ def ingest_interactions(
                         fingerprint=fingerprint,
                         occurred_at=normalized.get("occurred_at"),
                     )
-                )
+                db.add(interaction)
                 db.flush()
 
             result.accepted += 1
+            result.persisted.append(interaction)
 
         except IntegrityError:
             # The DB unique constraints are the last line of defense against

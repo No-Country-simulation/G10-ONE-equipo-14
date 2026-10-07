@@ -25,6 +25,7 @@ from app.services.idempotency import (
     save_run_response,
 )
 from app.services.ingestion import ingest_interactions
+from app.services.pipeline import analyze_and_persist
 
 router = APIRouter()
 
@@ -74,6 +75,11 @@ def _response(
         )
 
         all_errors = list(pre_errors or []) + result.errors
+        analyses, opportunities = analyze_and_persist(
+            db,
+            run.id,
+            result.persisted,
+        )
 
         response = ProcessResponse(
             schema_version="v1",
@@ -93,6 +99,8 @@ def _response(
                 RecordErrorResponse(**vars(error))
                 for error in all_errors
             ],
+            analyses=analyses,
+            opportunities=opportunities,
         )
 
         save_run_response(
