@@ -13,8 +13,8 @@ from app.db.models.opportunity import OpportunitySource
 from app.schemas.v1.analysis import Analysis
 from app.schemas.v1.interaction import InteractionRequest
 from app.schemas.v1.opportunity import Opportunity
-from app.services.analysis import analyze_interaction
 from app.services.opportunity_detection import detect_content_opportunity
+from app.services.resilient_analysis import analyze_with_resilience
 
 
 def analyze_and_persist(
@@ -36,10 +36,10 @@ def analyze_and_persist(
             text=interaction.text,
             occurred_at=interaction.occurred_at,
         )
-        analysis = analyze_interaction(
-            provider,
-            interaction.id,
-            interaction_payload,
+        analysis = analyze_with_resilience(
+            provider=provider,
+            interaction_id=interaction.id,
+            interaction=interaction_payload,
         )
         analysis_record = AnalysisRecord(
             run_id=run_id,
