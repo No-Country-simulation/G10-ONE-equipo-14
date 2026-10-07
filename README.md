@@ -2,7 +2,7 @@
 
 Motor inteligente de transformación y distribución para comunidades digitales, desarrollado por **G10 · Hackathon ONE · Equipo 14**.
 
-CommunityLab recibe interacciones en JSON o CSV, las normaliza, deduplica y guarda en PostgreSQL. El dashboard Streamlit permite realizar una demostración local de la ingesta. El análisis con IA, la curaduría persistente y la publicación en OCI forman parte de las próximas etapas del MVP.
+CommunityLab recibe interacciones en JSON o CSV, las normaliza, deduplica y guarda en PostgreSQL. El pipeline analiza las interacciones, detecta oportunidades, genera activos LinkedIn/FAQ y permite curarlos antes de su publicación mediante un adaptador de almacenamiento.
 
 ## Demo pública
 
@@ -24,17 +24,18 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - PostgreSQL 16 con migraciones Alembic automáticas.
 - Dashboard Streamlit para cargar archivos y visualizar el resultado.
 - Health checks de PostgreSQL y API.
-- Suite de 27 pruebas y CI en GitHub Actions.
+- Pipeline de análisis, detección de PII y oportunidades.
+- Generación versionada de activos LinkedIn y FAQ.
+- Curaduría persistente: edición, aprobación y rechazo.
+- Adaptadores de almacenamiento local y OCI con manifiestos verificables.
+- Suite de 93 pruebas aprobadas, 1 omitida y CI en GitHub Actions al cierre E8.
 - Datos de demostración en JSON y CSV.
 
-### Pendiente
+### Próximos pasos operativos
 
-- `GET /api/v1/runs/{run_id}` con consulta persistida.
-- Pipeline de análisis y generación con LLM/LangGraph.
-- Persistencia y curaduría de activos LinkedIn/FAQ.
-- Aprobación y rechazo de contenido.
-- Publicación en OCI Object Storage.
-- Prueba integral de la cadena completa del MVP.
+- Migrar o recrear PostgreSQL antes del vencimiento del plan gratuito de Render.
+- Configurar credenciales OCI sólo en el entorno que deba publicar objetos de forma persistente.
+- Capturar retrospectivamente evidencias visuales de E1–E6 si el proceso académico exige una imagen por etapa.
 
 ## Arquitectura
 
@@ -177,7 +178,7 @@ El resultado esperado es `Up` para los tres servicios y `healthy` para `db` y `a
 5. Confirmar el resumen de recibidas, aceptadas, duplicadas y errores.
 6. Volver a cargar el mismo archivo. La segunda carga debe informar los registros como duplicados para esa comunidad.
 
-Las pestañas de análisis, oportunidades y activos indican explícitamente las etapas que todavía están pendientes.
+Las pestañas permiten inspeccionar el análisis, las oportunidades y los activos generados por la ejecución.
 
 ## Endpoints de la API
 
@@ -186,11 +187,12 @@ Las pestañas de análisis, oportunidades y activos indican explícitamente las 
 | `GET` | `/api/v1/health` | Implementado |
 | `POST` | `/api/v1/process` | Ingesta JSON implementada |
 | `POST` | `/api/v1/process/csv` | Ingesta CSV implementada |
-| `GET` | `/api/v1/runs/{run_id}` | Contrato creado; responde 501 |
-| `GET` | `/api/v1/assets` | Contrato inicial; devuelve lista vacía |
-| `PATCH` | `/api/v1/assets/{asset_id}` | Contrato creado; responde 501 |
-| `POST` | `/api/v1/assets/{asset_id}/approve` | Contrato creado; responde 501 |
-| `POST` | `/api/v1/assets/{asset_id}/reject` | Contrato creado; responde 501 |
+| `GET` | `/api/v1/runs/{run_id}` | Implementado |
+| `GET` | `/api/v1/assets` | Implementado |
+| `PATCH` | `/api/v1/assets/{asset_id}` | Implementado |
+| `POST` | `/api/v1/assets/{asset_id}/approve` | Implementado |
+| `POST` | `/api/v1/assets/{asset_id}/reject` | Implementado |
+| `POST` | `/api/v1/assets/{asset_id}/publish` | Implementado |
 
 Todas las rutas versionadas usan el prefijo `/api/v1`.
 
@@ -355,6 +357,7 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - Roadmap y proceso por etapas: [docs/ROADMAP_ETAPAS.md](docs/ROADMAP_ETAPAS.md)
 - Guion de demo y cierre: [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
 - Evidencias visuales: [docs/evidence](docs/evidence)
+- Entregable técnico E1–E8: [docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md](docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md)
 
 Antes de empezar una tarea, revisar el backlog para evitar duplicar trabajo y mantener el ticket relacionado actualizado.
 
