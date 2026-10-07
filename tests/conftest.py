@@ -16,12 +16,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.db.base import Base
+from app.db import models as db_models  # noqa: F401
 from app.db.session import get_db
 from app.main import app
-
-# Import models before Base.metadata.create_all() so their tables are registered.
-from app.db.models.interaction import Interaction  # noqa: F401
-from app.db.models.run import Run  # noqa: F401
 
 
 TEST_DATABASE_URL = os.getenv(
@@ -66,10 +63,16 @@ def db_session(prepare_test_database):
         db.close()
 
         # Application code commits during ingestion/idempotency, so a simple
-        # transaction rollback is not enough. Clear data between tests.
+        # transaction rollback is not enough. TRUNCATE with CASCADE handles
+        # the intentional assets <-> asset_versions foreign-key cycle.
         with test_engine.begin() as connection:
-            for table in reversed(Base.metadata.sorted_tables):
-                connection.execute(table.delete())
+            preparer = connection.dialect.identifier_preparer
+            table_names = ", ".join(
+                preparer.format_table(table) for table in Base.metadata.sorted_tables
+            )
+            connection.exec_driver_sql(
+                f"TRUNCATE TABLE {table_names} RESTART IDENTITY CASCADE"
+            )
 
 
 @pytest.fixture()
