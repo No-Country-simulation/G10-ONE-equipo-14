@@ -1,0 +1,492 @@
+{
+  "schema_version": "1.0",
+  "organization_id": "academia-digital",
+  "community_id": "talento-tech-latam",
+  "reference_period": "2026-W42",
+  "requested_assets": [
+    "LINKEDIN",
+    "FAQ"
+  ],
+  "interactions": [
+    {
+      "external_id": "S1-INT-001",
+      "author_alias": "set1_miembro_01",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Conseguí una entrevista después de publicar mi proyecto de Python.",
+      "occurred_at": "2026-10-08T09:11:00Z"
+    },
+    {
+      "external_id": "S1-INT-002",
+      "author_alias": "set1_miembro_02",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Finalicé la certificación de FastAPI y agregué el laboratorio a mi portfolio.",
+      "occurred_at": "2026-10-08T10:22:00Z"
+    },
+    {
+      "external_id": "S1-INT-003",
+      "author_alias": "set1_miembro_03",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Mi equipo seleccionó mi solución de LangGraph para la demo final.",
+      "occurred_at": "2026-10-08T11:33:00Z"
+    },
+    {
+      "external_id": "S1-INT-004",
+      "author_alias": "set1_miembro_04",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Recibí una oferta para un rol junior tras explicar mi proyecto de OCI.",
+      "occurred_at": "2026-10-08T12:44:00Z"
+    },
+    {
+      "external_id": "S1-INT-005",
+      "author_alias": "set1_miembro_05",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Presenté mi primer proyecto de Docker ante la comunidad y recibí feedback útil.",
+      "occurred_at": "2026-10-08T13:55:00Z"
+    },
+    {
+      "external_id": "S1-INT-006",
+      "author_alias": "set1_miembro_06",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Conseguí una entrevista después de publicar mi proyecto de Pydantic.",
+      "occurred_at": "2026-10-08T14:06:00Z"
+    },
+    {
+      "external_id": "S1-INT-007",
+      "author_alias": "set1_miembro_07",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Finalicé la certificación de Git y agregué el laboratorio a mi portfolio.",
+      "occurred_at": "2026-10-08T15:17:00Z"
+    },
+    {
+      "external_id": "S1-INT-008",
+      "author_alias": "set1_miembro_08",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Mi equipo seleccionó mi solución de SQL para la demo final.",
+      "occurred_at": "2026-10-08T16:28:00Z"
+    },
+    {
+      "external_id": "S1-INT-009",
+      "author_alias": "set1_miembro_09",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Recibí una oferta para un rol junior tras explicar mi proyecto de Streamlit.",
+      "occurred_at": "2026-10-08T17:39:00Z"
+    },
+    {
+      "external_id": "S1-INT-010",
+      "author_alias": "set1_miembro_10",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Presenté mi primer proyecto de prompt engineering ante la comunidad y recibí feedback útil.",
+      "occurred_at": "2026-10-08T08:50:00Z"
+    },
+    {
+      "external_id": "S1-INT-011",
+      "author_alias": "set1_miembro_11",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo puedo demostrar experiencia práctica en Python dentro de mi portfolio?",
+      "occurred_at": "2026-10-08T09:01:00Z"
+    },
+    {
+      "external_id": "S1-INT-012",
+      "author_alias": "set1_miembro_12",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué ejemplo corto recomiendan para explicar FastAPI en una entrevista?",
+      "occurred_at": "2026-10-08T10:12:00Z"
+    },
+    {
+      "external_id": "S1-INT-013",
+      "author_alias": "set1_miembro_13",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo documento decisiones técnicas de LangGraph sin extender demasiado el README?",
+      "occurred_at": "2026-10-08T11:23:00Z"
+    },
+    {
+      "external_id": "S1-INT-014",
+      "author_alias": "set1_miembro_14",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué métricas debería mostrar para evaluar un proyecto de OCI?",
+      "occurred_at": "2026-10-08T12:34:00Z"
+    },
+    {
+      "external_id": "S1-INT-015",
+      "author_alias": "set1_miembro_15",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo preparo una demo reproducible de Docker para una entrevista?",
+      "occurred_at": "2026-10-08T13:45:00Z"
+    },
+    {
+      "external_id": "S1-INT-016",
+      "author_alias": "set1_miembro_16",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo puedo demostrar experiencia práctica en Pydantic dentro de mi portfolio?",
+      "occurred_at": "2026-10-08T14:56:00Z"
+    },
+    {
+      "external_id": "S1-INT-017",
+      "author_alias": "set1_miembro_17",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué ejemplo corto recomiendan para explicar Git en una entrevista?",
+      "occurred_at": "2026-10-08T15:07:00Z"
+    },
+    {
+      "external_id": "S1-INT-018",
+      "author_alias": "set1_miembro_18",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo documento decisiones técnicas de SQL sin extender demasiado el README?",
+      "occurred_at": "2026-10-08T16:18:00Z"
+    },
+    {
+      "external_id": "S1-INT-019",
+      "author_alias": "set1_miembro_19",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué métricas debería mostrar para evaluar un proyecto de Streamlit?",
+      "occurred_at": "2026-10-08T17:29:00Z"
+    },
+    {
+      "external_id": "S1-INT-020",
+      "author_alias": "set1_miembro_20",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo preparo una demo reproducible de prompt engineering para una entrevista?",
+      "occurred_at": "2026-10-08T08:40:00Z"
+    },
+    {
+      "external_id": "S1-INT-021",
+      "author_alias": "set1_miembro_21",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La mentoría de Python fue clara y pude completar el ejercicio sin ayuda adicional.",
+      "occurred_at": "2026-10-08T09:51:00Z"
+    },
+    {
+      "external_id": "S1-INT-022",
+      "author_alias": "set1_miembro_22",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El ejemplo de FastAPI me permitió entender cómo dividir el problema en pasos.",
+      "occurred_at": "2026-10-08T10:02:00Z"
+    },
+    {
+      "external_id": "S1-INT-023",
+      "author_alias": "set1_miembro_23",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La mentoría de LangGraph fue clara y pude completar el ejercicio sin ayuda adicional.",
+      "occurred_at": "2026-10-08T11:13:00Z"
+    },
+    {
+      "external_id": "S1-INT-024",
+      "author_alias": "set1_miembro_24",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El ejemplo de OCI me permitió entender cómo dividir el problema en pasos.",
+      "occurred_at": "2026-10-08T12:24:00Z"
+    },
+    {
+      "external_id": "S1-INT-025",
+      "author_alias": "set1_miembro_25",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La mentoría de Docker fue clara y pude completar el ejercicio sin ayuda adicional.",
+      "occurred_at": "2026-10-08T13:35:00Z"
+    },
+    {
+      "external_id": "S1-INT-026",
+      "author_alias": "set1_miembro_26",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El ejemplo de Pydantic me permitió entender cómo dividir el problema en pasos.",
+      "occurred_at": "2026-10-08T14:46:00Z"
+    },
+    {
+      "external_id": "S1-INT-027",
+      "author_alias": "set1_miembro_27",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La mentoría de Git fue clara y pude completar el ejercicio sin ayuda adicional.",
+      "occurred_at": "2026-10-08T15:57:00Z"
+    },
+    {
+      "external_id": "S1-INT-028",
+      "author_alias": "set1_miembro_28",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El ejemplo de SQL me permitió entender cómo dividir el problema en pasos.",
+      "occurred_at": "2026-10-08T16:08:00Z"
+    },
+    {
+      "external_id": "S1-INT-029",
+      "author_alias": "set1_miembro_29",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La mentoría de Streamlit fue clara y pude completar el ejercicio sin ayuda adicional.",
+      "occurred_at": "2026-10-08T17:19:00Z"
+    },
+    {
+      "external_id": "S1-INT-030",
+      "author_alias": "set1_miembro_30",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El ejemplo de prompt engineering me permitió entender cómo dividir el problema en pasos.",
+      "occurred_at": "2026-10-08T08:30:00Z"
+    },
+    {
+      "external_id": "S1-INT-031",
+      "author_alias": "set1_miembro_31",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El laboratorio de Python falla porque una variable de entorno no está documentada.",
+      "occurred_at": "2026-10-08T09:41:00Z"
+    },
+    {
+      "external_id": "S1-INT-032",
+      "author_alias": "set1_miembro_32",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La guía de FastAPI utiliza una versión diferente y el comando ya no funciona.",
+      "occurred_at": "2026-10-08T10:52:00Z"
+    },
+    {
+      "external_id": "S1-INT-033",
+      "author_alias": "set1_miembro_33",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El laboratorio de LangGraph falla porque una variable de entorno no está documentada.",
+      "occurred_at": "2026-10-08T11:03:00Z"
+    },
+    {
+      "external_id": "S1-INT-034",
+      "author_alias": "set1_miembro_34",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La guía de OCI utiliza una versión diferente y el comando ya no funciona.",
+      "occurred_at": "2026-10-08T12:14:00Z"
+    },
+    {
+      "external_id": "S1-INT-035",
+      "author_alias": "set1_miembro_35",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El laboratorio de Docker falla porque una variable de entorno no está documentada.",
+      "occurred_at": "2026-10-08T13:25:00Z"
+    },
+    {
+      "external_id": "S1-INT-036",
+      "author_alias": "set1_miembro_36",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La guía de Pydantic utiliza una versión diferente y el comando ya no funciona.",
+      "occurred_at": "2026-10-08T14:36:00Z"
+    },
+    {
+      "external_id": "S1-INT-037",
+      "author_alias": "set1_miembro_37",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El laboratorio de Git falla porque una variable de entorno no está documentada.",
+      "occurred_at": "2026-10-08T15:47:00Z"
+    },
+    {
+      "external_id": "S1-INT-038",
+      "author_alias": "set1_miembro_38",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La guía de SQL utiliza una versión diferente y el comando ya no funciona.",
+      "occurred_at": "2026-10-08T16:58:00Z"
+    },
+    {
+      "external_id": "S1-INT-039",
+      "author_alias": "set1_miembro_39",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El laboratorio de Streamlit falla porque una variable de entorno no está documentada.",
+      "occurred_at": "2026-10-08T17:09:00Z"
+    },
+    {
+      "external_id": "S1-INT-040",
+      "author_alias": "set1_miembro_40",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La guía de prompt engineering utiliza una versión diferente y el comando ya no funciona.",
+      "occurred_at": "2026-10-08T08:20:00Z"
+    },
+    {
+      "external_id": "S1-INT-041",
+      "author_alias": "set1_miembro_41",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el horario de la próxima sesión de Python.",
+      "occurred_at": "2026-10-08T09:31:00Z"
+    },
+    {
+      "external_id": "S1-INT-042",
+      "author_alias": "set1_miembro_42",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La grabación de FastAPI ya está disponible en la carpeta del grupo.",
+      "occurred_at": "2026-10-08T10:42:00Z"
+    },
+    {
+      "external_id": "S1-INT-043",
+      "author_alias": "set1_miembro_43",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el horario de la próxima sesión de LangGraph.",
+      "occurred_at": "2026-10-08T11:53:00Z"
+    },
+    {
+      "external_id": "S1-INT-044",
+      "author_alias": "set1_miembro_44",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La grabación de OCI ya está disponible en la carpeta del grupo.",
+      "occurred_at": "2026-10-08T12:04:00Z"
+    },
+    {
+      "external_id": "S1-INT-045",
+      "author_alias": "set1_miembro_45",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el horario de la próxima sesión de Docker.",
+      "occurred_at": "2026-10-08T13:15:00Z"
+    },
+    {
+      "external_id": "S1-INT-046",
+      "author_alias": "set1_miembro_46",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La grabación de Pydantic ya está disponible en la carpeta del grupo.",
+      "occurred_at": "2026-10-08T14:26:00Z"
+    },
+    {
+      "external_id": "S1-INT-047",
+      "author_alias": "set1_miembro_47",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el horario de la próxima sesión de Git.",
+      "occurred_at": "2026-10-08T15:37:00Z"
+    },
+    {
+      "external_id": "S1-INT-048",
+      "author_alias": "set1_miembro_48",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La grabación de SQL ya está disponible en la carpeta del grupo.",
+      "occurred_at": "2026-10-08T16:48:00Z"
+    },
+    {
+      "external_id": "S1-INT-049",
+      "author_alias": "set1_miembro_49",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el horario de la próxima sesión de Streamlit.",
+      "occurred_at": "2026-10-08T17:59:00Z"
+    },
+    {
+      "external_id": "S1-INT-050",
+      "author_alias": "set1_miembro_50",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La grabación de prompt engineering ya está disponible en la carpeta del grupo.",
+      "occurred_at": "2026-10-08T08:10:00Z"
+    },
+    {
+      "external_id": "S1-INT-051",
+      "author_alias": "set1_miembro_51",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Este testimonio sobre Python incluye mi correo y teléfono; debe anonimizarse antes de publicarse.",
+      "occurred_at": "2026-10-08T09:21:00Z"
+    },
+    {
+      "external_id": "S1-INT-052",
+      "author_alias": "set1_miembro_52",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Adjunté un CV con datos personales al ejemplo de FastAPI; no debe usarse como contenido público.",
+      "occurred_at": "2026-10-08T10:32:00Z"
+    },
+    {
+      "external_id": "S1-INT-053",
+      "author_alias": "set1_miembro_53",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Este testimonio sobre LangGraph incluye mi correo y teléfono; debe anonimizarse antes de publicarse.",
+      "occurred_at": "2026-10-08T11:43:00Z"
+    },
+    {
+      "external_id": "S1-INT-054",
+      "author_alias": "set1_miembro_54",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Adjunté un CV con datos personales al ejemplo de OCI; no debe usarse como contenido público.",
+      "occurred_at": "2026-10-08T12:54:00Z"
+    },
+    {
+      "external_id": "S1-INT-055",
+      "author_alias": "set1_miembro_55",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Este testimonio sobre Docker incluye mi correo y teléfono; debe anonimizarse antes de publicarse.",
+      "occurred_at": "2026-10-08T13:05:00Z"
+    },
+    {
+      "external_id": "S1-INT-056",
+      "author_alias": "set1_miembro_56",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Adjunté un CV con datos personales al ejemplo de Pydantic; no debe usarse como contenido público.",
+      "occurred_at": "2026-10-08T14:16:00Z"
+    },
+    {
+      "external_id": "S1-INT-057",
+      "author_alias": "set1_miembro_57",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Este testimonio sobre Git incluye mi correo y teléfono; debe anonimizarse antes de publicarse.",
+      "occurred_at": "2026-10-08T15:27:00Z"
+    },
+    {
+      "external_id": "S1-INT-058",
+      "author_alias": "set1_miembro_58",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Adjunté un CV con datos personales al ejemplo de SQL; no debe usarse como contenido público.",
+      "occurred_at": "2026-10-08T16:38:00Z"
+    },
+    {
+      "external_id": "S1-INT-059",
+      "author_alias": "set1_miembro_59",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Este testimonio sobre Streamlit incluye mi correo y teléfono; debe anonimizarse antes de publicarse.",
+      "occurred_at": "2026-10-08T17:49:00Z"
+    },
+    {
+      "external_id": "S1-INT-060",
+      "author_alias": "set1_miembro_60",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "Adjunté un CV con datos personales al ejemplo de prompt engineering; no debe usarse como contenido público.",
+      "occurred_at": "2026-10-08T08:00:00Z"
+    }
+  ]
+}

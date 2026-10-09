@@ -1,0 +1,29 @@
+MISIÓN
+
+Ayudar a los equipos de comunidad y marketing a identificar información valiosa dentro de sus conversaciones y convertirla en contenido claro, trazable y sujeto a revisión humana.
+
+VISIÓN
+
+Ser una plataforma confiable para transformar la actividad de comunidades digitales en conocimiento, contenido y oportunidades de mejora, respetando la privacidad de las personas y la voz de cada organización.
+
+PROPÓSITO
+
+Evitar que los logros, preguntas y aprendizajes de una comunidad se pierdan en el historial de mensajes, facilitando su análisis y reutilización responsable.
+
+PRINCIPIOS
+
+1. Evidencia antes que suposición.
+Cada contenido debe poder relacionarse con las interacciones que le dieron origen.
+
+2. Revisión humana.
+La inteligencia artificial propone borradores; las personas deciden qué se aprueba, edita o rechaza.
+
+3. Privacidad desde el diseño.
+Los datos sensibles deben identificarse y tratarse antes de generar o publicar contenido.
+
+4. Tecnología intercambiable.
+La solución debe permitir cambiar de proveedor de inteligencia artificial sin afectar el dominio principal.
+
+5. Mejora continua.
+Las decisiones de los curadores sirven para evaluar y mejorar la calidad de los resultados.
+

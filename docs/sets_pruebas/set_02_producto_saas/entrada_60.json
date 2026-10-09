@@ -1,0 +1,492 @@
+{
+  "schema_version": "1.0",
+  "organization_id": "cloud-product-lab",
+  "community_id": "saas-builders",
+  "reference_period": "2026-W43",
+  "requested_assets": [
+    "LINKEDIN",
+    "FAQ"
+  ],
+  "interactions": [
+    {
+      "external_id": "S2-INT-001",
+      "author_alias": "set2_miembro_01",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Publicamos la mejora de onboarding y redujimos los tickets repetidos durante la prueba.",
+      "occurred_at": "2026-10-09T09:11:00Z"
+    },
+    {
+      "external_id": "S2-INT-002",
+      "author_alias": "set2_miembro_02",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "El prototipo de webhooks fue validado por cinco usuarios del programa piloto.",
+      "occurred_at": "2026-10-09T10:22:00Z"
+    },
+    {
+      "external_id": "S2-INT-003",
+      "author_alias": "set2_miembro_03",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Automatizamos facturación y el equipo dejó de realizar esa tarea manualmente.",
+      "occurred_at": "2026-10-09T11:33:00Z"
+    },
+    {
+      "external_id": "S2-INT-004",
+      "author_alias": "set2_miembro_04",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "La nueva versión de API pública pasó las pruebas de integración del entorno de staging.",
+      "occurred_at": "2026-10-09T12:44:00Z"
+    },
+    {
+      "external_id": "S2-INT-005",
+      "author_alias": "set2_miembro_05",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Terminamos la migración de notificaciones sin interrupciones para los usuarios de prueba.",
+      "occurred_at": "2026-10-09T13:55:00Z"
+    },
+    {
+      "external_id": "S2-INT-006",
+      "author_alias": "set2_miembro_06",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Publicamos la mejora de búsqueda y redujimos los tickets repetidos durante la prueba.",
+      "occurred_at": "2026-10-09T14:06:00Z"
+    },
+    {
+      "external_id": "S2-INT-007",
+      "author_alias": "set2_miembro_07",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "El prototipo de auditoría fue validado por cinco usuarios del programa piloto.",
+      "occurred_at": "2026-10-09T15:17:00Z"
+    },
+    {
+      "external_id": "S2-INT-008",
+      "author_alias": "set2_miembro_08",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Automatizamos exportación CSV y el equipo dejó de realizar esa tarea manualmente.",
+      "occurred_at": "2026-10-09T16:28:00Z"
+    },
+    {
+      "external_id": "S2-INT-009",
+      "author_alias": "set2_miembro_09",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "La nueva versión de roles y permisos pasó las pruebas de integración del entorno de staging.",
+      "occurred_at": "2026-10-09T17:39:00Z"
+    },
+    {
+      "external_id": "S2-INT-010",
+      "author_alias": "set2_miembro_10",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Terminamos la migración de observabilidad sin interrupciones para los usuarios de prueba.",
+      "occurred_at": "2026-10-09T08:50:00Z"
+    },
+    {
+      "external_id": "S2-INT-011",
+      "author_alias": "set2_miembro_11",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué estrategia recomiendan para versionar onboarding sin romper clientes existentes?",
+      "occurred_at": "2026-10-09T09:01:00Z"
+    },
+    {
+      "external_id": "S2-INT-012",
+      "author_alias": "set2_miembro_12",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo medimos si webhooks realmente reduce el tiempo de soporte?",
+      "occurred_at": "2026-10-09T10:12:00Z"
+    },
+    {
+      "external_id": "S2-INT-013",
+      "author_alias": "set2_miembro_13",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Conviene ejecutar facturación de forma síncrona o mediante una cola?",
+      "occurred_at": "2026-10-09T11:23:00Z"
+    },
+    {
+      "external_id": "S2-INT-014",
+      "author_alias": "set2_miembro_14",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo documentamos el contrato de API pública para frontend y backend?",
+      "occurred_at": "2026-10-09T12:34:00Z"
+    },
+    {
+      "external_id": "S2-INT-015",
+      "author_alias": "set2_miembro_15",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué fallback deberíamos aplicar cuando notificaciones no está disponible?",
+      "occurred_at": "2026-10-09T13:45:00Z"
+    },
+    {
+      "external_id": "S2-INT-016",
+      "author_alias": "set2_miembro_16",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué estrategia recomiendan para versionar búsqueda sin romper clientes existentes?",
+      "occurred_at": "2026-10-09T14:56:00Z"
+    },
+    {
+      "external_id": "S2-INT-017",
+      "author_alias": "set2_miembro_17",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo medimos si auditoría realmente reduce el tiempo de soporte?",
+      "occurred_at": "2026-10-09T15:07:00Z"
+    },
+    {
+      "external_id": "S2-INT-018",
+      "author_alias": "set2_miembro_18",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Conviene ejecutar exportación CSV de forma síncrona o mediante una cola?",
+      "occurred_at": "2026-10-09T16:18:00Z"
+    },
+    {
+      "external_id": "S2-INT-019",
+      "author_alias": "set2_miembro_19",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo documentamos el contrato de roles y permisos para frontend y backend?",
+      "occurred_at": "2026-10-09T17:29:00Z"
+    },
+    {
+      "external_id": "S2-INT-020",
+      "author_alias": "set2_miembro_20",
+      "channel": "#preguntas",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué fallback deberíamos aplicar cuando observabilidad no está disponible?",
+      "occurred_at": "2026-10-09T08:40:00Z"
+    },
+    {
+      "external_id": "S2-INT-021",
+      "author_alias": "set2_miembro_21",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La experiencia de onboarding es más clara y ahora encuentro la acción principal rápidamente.",
+      "occurred_at": "2026-10-09T09:51:00Z"
+    },
+    {
+      "external_id": "S2-INT-022",
+      "author_alias": "set2_miembro_22",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La documentación de webhooks permitió integrar el servicio sin reuniones adicionales.",
+      "occurred_at": "2026-10-09T10:02:00Z"
+    },
+    {
+      "external_id": "S2-INT-023",
+      "author_alias": "set2_miembro_23",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La experiencia de facturación es más clara y ahora encuentro la acción principal rápidamente.",
+      "occurred_at": "2026-10-09T11:13:00Z"
+    },
+    {
+      "external_id": "S2-INT-024",
+      "author_alias": "set2_miembro_24",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La documentación de API pública permitió integrar el servicio sin reuniones adicionales.",
+      "occurred_at": "2026-10-09T12:24:00Z"
+    },
+    {
+      "external_id": "S2-INT-025",
+      "author_alias": "set2_miembro_25",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La experiencia de notificaciones es más clara y ahora encuentro la acción principal rápidamente.",
+      "occurred_at": "2026-10-09T13:35:00Z"
+    },
+    {
+      "external_id": "S2-INT-026",
+      "author_alias": "set2_miembro_26",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La documentación de búsqueda permitió integrar el servicio sin reuniones adicionales.",
+      "occurred_at": "2026-10-09T14:46:00Z"
+    },
+    {
+      "external_id": "S2-INT-027",
+      "author_alias": "set2_miembro_27",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La experiencia de auditoría es más clara y ahora encuentro la acción principal rápidamente.",
+      "occurred_at": "2026-10-09T15:57:00Z"
+    },
+    {
+      "external_id": "S2-INT-028",
+      "author_alias": "set2_miembro_28",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La documentación de exportación CSV permitió integrar el servicio sin reuniones adicionales.",
+      "occurred_at": "2026-10-09T16:08:00Z"
+    },
+    {
+      "external_id": "S2-INT-029",
+      "author_alias": "set2_miembro_29",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La experiencia de roles y permisos es más clara y ahora encuentro la acción principal rápidamente.",
+      "occurred_at": "2026-10-09T17:19:00Z"
+    },
+    {
+      "external_id": "S2-INT-030",
+      "author_alias": "set2_miembro_30",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La documentación de observabilidad permitió integrar el servicio sin reuniones adicionales.",
+      "occurred_at": "2026-10-09T08:30:00Z"
+    },
+    {
+      "external_id": "S2-INT-031",
+      "author_alias": "set2_miembro_31",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La función de onboarding devuelve resultados duplicados cuando el cliente reintenta la solicitud.",
+      "occurred_at": "2026-10-09T09:41:00Z"
+    },
+    {
+      "external_id": "S2-INT-032",
+      "author_alias": "set2_miembro_32",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El panel de webhooks no explica por qué el proceso quedó en estado pendiente.",
+      "occurred_at": "2026-10-09T10:52:00Z"
+    },
+    {
+      "external_id": "S2-INT-033",
+      "author_alias": "set2_miembro_33",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La función de facturación devuelve resultados duplicados cuando el cliente reintenta la solicitud.",
+      "occurred_at": "2026-10-09T11:03:00Z"
+    },
+    {
+      "external_id": "S2-INT-034",
+      "author_alias": "set2_miembro_34",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El panel de API pública no explica por qué el proceso quedó en estado pendiente.",
+      "occurred_at": "2026-10-09T12:14:00Z"
+    },
+    {
+      "external_id": "S2-INT-035",
+      "author_alias": "set2_miembro_35",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La función de notificaciones devuelve resultados duplicados cuando el cliente reintenta la solicitud.",
+      "occurred_at": "2026-10-09T13:25:00Z"
+    },
+    {
+      "external_id": "S2-INT-036",
+      "author_alias": "set2_miembro_36",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El panel de búsqueda no explica por qué el proceso quedó en estado pendiente.",
+      "occurred_at": "2026-10-09T14:36:00Z"
+    },
+    {
+      "external_id": "S2-INT-037",
+      "author_alias": "set2_miembro_37",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La función de auditoría devuelve resultados duplicados cuando el cliente reintenta la solicitud.",
+      "occurred_at": "2026-10-09T15:47:00Z"
+    },
+    {
+      "external_id": "S2-INT-038",
+      "author_alias": "set2_miembro_38",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El panel de exportación CSV no explica por qué el proceso quedó en estado pendiente.",
+      "occurred_at": "2026-10-09T16:58:00Z"
+    },
+    {
+      "external_id": "S2-INT-039",
+      "author_alias": "set2_miembro_39",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La función de roles y permisos devuelve resultados duplicados cuando el cliente reintenta la solicitud.",
+      "occurred_at": "2026-10-09T17:09:00Z"
+    },
+    {
+      "external_id": "S2-INT-040",
+      "author_alias": "set2_miembro_40",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "El panel de observabilidad no explica por qué el proceso quedó en estado pendiente.",
+      "occurred_at": "2026-10-09T08:20:00Z"
+    },
+    {
+      "external_id": "S2-INT-041",
+      "author_alias": "set2_miembro_41",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La revisión semanal de onboarding se realizará mañana a las 10:00.",
+      "occurred_at": "2026-10-09T09:31:00Z"
+    },
+    {
+      "external_id": "S2-INT-042",
+      "author_alias": "set2_miembro_42",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Se actualizó el enlace al entorno de pruebas de webhooks.",
+      "occurred_at": "2026-10-09T10:42:00Z"
+    },
+    {
+      "external_id": "S2-INT-043",
+      "author_alias": "set2_miembro_43",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La revisión semanal de facturación se realizará mañana a las 10:00.",
+      "occurred_at": "2026-10-09T11:53:00Z"
+    },
+    {
+      "external_id": "S2-INT-044",
+      "author_alias": "set2_miembro_44",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Se actualizó el enlace al entorno de pruebas de API pública.",
+      "occurred_at": "2026-10-09T12:04:00Z"
+    },
+    {
+      "external_id": "S2-INT-045",
+      "author_alias": "set2_miembro_45",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La revisión semanal de notificaciones se realizará mañana a las 10:00.",
+      "occurred_at": "2026-10-09T13:15:00Z"
+    },
+    {
+      "external_id": "S2-INT-046",
+      "author_alias": "set2_miembro_46",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Se actualizó el enlace al entorno de pruebas de búsqueda.",
+      "occurred_at": "2026-10-09T14:26:00Z"
+    },
+    {
+      "external_id": "S2-INT-047",
+      "author_alias": "set2_miembro_47",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La revisión semanal de auditoría se realizará mañana a las 10:00.",
+      "occurred_at": "2026-10-09T15:37:00Z"
+    },
+    {
+      "external_id": "S2-INT-048",
+      "author_alias": "set2_miembro_48",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Se actualizó el enlace al entorno de pruebas de exportación CSV.",
+      "occurred_at": "2026-10-09T16:48:00Z"
+    },
+    {
+      "external_id": "S2-INT-049",
+      "author_alias": "set2_miembro_49",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "La revisión semanal de roles y permisos se realizará mañana a las 10:00.",
+      "occurred_at": "2026-10-09T17:59:00Z"
+    },
+    {
+      "external_id": "S2-INT-050",
+      "author_alias": "set2_miembro_50",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Se actualizó el enlace al entorno de pruebas de observabilidad.",
+      "occurred_at": "2026-10-09T08:10:00Z"
+    },
+    {
+      "external_id": "S2-INT-051",
+      "author_alias": "set2_miembro_51",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El log de onboarding muestra tokens de acceso; debe bloquearse y redactarse.",
+      "occurred_at": "2026-10-09T09:21:00Z"
+    },
+    {
+      "external_id": "S2-INT-052",
+      "author_alias": "set2_miembro_52",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "La captura de webhooks contiene datos de un cliente y no puede publicarse.",
+      "occurred_at": "2026-10-09T10:32:00Z"
+    },
+    {
+      "external_id": "S2-INT-053",
+      "author_alias": "set2_miembro_53",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El log de facturación muestra tokens de acceso; debe bloquearse y redactarse.",
+      "occurred_at": "2026-10-09T11:43:00Z"
+    },
+    {
+      "external_id": "S2-INT-054",
+      "author_alias": "set2_miembro_54",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "La captura de API pública contiene datos de un cliente y no puede publicarse.",
+      "occurred_at": "2026-10-09T12:54:00Z"
+    },
+    {
+      "external_id": "S2-INT-055",
+      "author_alias": "set2_miembro_55",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El log de notificaciones muestra tokens de acceso; debe bloquearse y redactarse.",
+      "occurred_at": "2026-10-09T13:05:00Z"
+    },
+    {
+      "external_id": "S2-INT-056",
+      "author_alias": "set2_miembro_56",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "La captura de búsqueda contiene datos de un cliente y no puede publicarse.",
+      "occurred_at": "2026-10-09T14:16:00Z"
+    },
+    {
+      "external_id": "S2-INT-057",
+      "author_alias": "set2_miembro_57",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El log de auditoría muestra tokens de acceso; debe bloquearse y redactarse.",
+      "occurred_at": "2026-10-09T15:27:00Z"
+    },
+    {
+      "external_id": "S2-INT-058",
+      "author_alias": "set2_miembro_58",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "La captura de exportación CSV contiene datos de un cliente y no puede publicarse.",
+      "occurred_at": "2026-10-09T16:38:00Z"
+    },
+    {
+      "external_id": "S2-INT-059",
+      "author_alias": "set2_miembro_59",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El log de roles y permisos muestra tokens de acceso; debe bloquearse y redactarse.",
+      "occurred_at": "2026-10-09T17:49:00Z"
+    },
+    {
+      "external_id": "S2-INT-060",
+      "author_alias": "set2_miembro_60",
+      "channel": "#privacidad",
+      "interaction_type": "alerta_privacidad",
+      "text": "La captura de observabilidad contiene datos de un cliente y no puede publicarse.",
+      "occurred_at": "2026-10-09T08:00:00Z"
+    }
+  ]
+}

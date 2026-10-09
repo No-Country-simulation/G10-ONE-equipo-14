@@ -1,0 +1,14 @@
+{
+  "set": "set_03_sostenibilidad_impacto",
+  "records": 60,
+  "files": [
+    {
+      "name": "entrada_60.json",
+      "sha256": "55631139cfae95319a04904206dbf5ad4154eb7506731e57657972908112c1b9"
+    },
+    {
+      "name": "salida_esperada_60.json",
+      "sha256": "da0bf5f4986f073169ac3b30ebdda533f73da74485d8c13b45989abdf0971634"
+    }
+  ]
+}

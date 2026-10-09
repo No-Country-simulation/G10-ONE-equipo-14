@@ -1,0 +1,26 @@
+OBJETIVO GENERAL
+
+Convertir interacciones de comunidades digitales en análisis estructurados y borradores de contenido que puedan ser revisados, aprobados y almacenados de forma trazable.
+
+OBJETIVOS ESPECÍFICOS
+
+1. Recibir archivos JSON o CSV con mensajes e interacciones de una comunidad.
+
+2. Validar, normalizar y deduplicar los registros antes de procesarlos.
+
+3. Analizar sentimiento, temas, relevancia, confianza y evidencias mediante inteligencia artificial.
+
+4. Detectar oportunidades de contenido como testimonios, historias de éxito y preguntas frecuentes.
+
+5. Generar borradores para LinkedIn y FAQ adaptados al contexto de la interacción.
+
+6. Permitir que una persona edite, apruebe o rechace cada borrador.
+
+7. Bloquear o marcar los casos que contengan información sensible o evidencia insuficiente.
+
+8. Mantener trazabilidad entre cada contenido y sus mensajes de origen.
+
+9. Guardar los paquetes aprobados y sus manifiestos en OCI Object Storage.
+
+10. Medir la calidad mediante salidas válidas, afirmaciones sustentadas y tasa de aprobación humana.
+

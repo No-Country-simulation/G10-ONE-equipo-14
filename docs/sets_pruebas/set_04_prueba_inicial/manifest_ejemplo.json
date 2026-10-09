@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run_demo_2026_10_07_001",
+  "objects": [
+    {
+      "file": "entrada_interacciones_25.json",
+      "sha256": "5619801044e6f4b20e27b6edcfdf034c19ee5d26a586e4cb9fb70f72dbbe3b78",
+      "content_type": "application/json"
+    },
+    {
+      "file": "entrada_interacciones_25.csv",
+      "sha256": "6c9bfecff28e9d8f5f6ab5270f9ed55f22d95dea3fd9acc423f2f572c2c9c0f8",
+      "content_type": "text/csv"
+    },
+    {
+      "file": "salida_procesada_ejemplo.json",
+      "sha256": "f8fbf9663ebe0fb35072549924a1ddbdaf566f4dc6aa13e9c76f8d571f466e13",
+      "content_type": "application/json"
+    }
+  ]
+}

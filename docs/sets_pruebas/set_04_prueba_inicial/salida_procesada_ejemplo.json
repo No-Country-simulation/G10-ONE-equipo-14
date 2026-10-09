@@ -1,0 +1,773 @@
+{
+  "status": "success",
+  "schema_version": "1.0",
+  "run_id": "run_demo_2026_10_07_001",
+  "reference_period": "2026-W41",
+  "summary": {
+    "total_interactions_received": 25,
+    "total_interactions_processed": 25,
+    "predominant_sentiment": "neutral",
+    "top_topics": [
+      "consulta técnica",
+      "logros profesionales",
+      "calidad y soporte"
+    ],
+    "opportunities_detected": 21,
+    "assets_generated": 10,
+    "blocked_for_privacy": 1
+  },
+  "analyses": [
+    {
+      "interaction_id": "INT-001",
+      "sentiment": "positive",
+      "topics": [
+        "logros profesionales"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.94,
+      "evidence": [
+        "Conseguí mi primer empleo como desarrolladora junior. El proyecto de LangGraph y OCI fue clave en la entrevista."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-002",
+      "sentiment": "neutral",
+      "topics": [
+        "LangGraph y reintentos"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Cómo puedo implementar un nodo de reintento cuando el modelo devuelve un JSON inválido?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-003",
+      "sentiment": "positive",
+      "topics": [
+        "proyectos de IA"
+      ],
+      "relevance": 0.86,
+      "confidence": 0.91,
+      "evidence": [
+        "Terminé un asistente que clasifica consultas y guarda los resultados en OCI Object Storage."
+      ],
+      "opportunity_hints": [
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-004",
+      "sentiment": "positive",
+      "topics": [
+        "experiencia de aprendizaje"
+      ],
+      "relevance": 0.71,
+      "confidence": 0.88,
+      "evidence": [
+        "La explicación sobre prompts estructurados me ayudó a corregir los errores de formato de mi API."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-005",
+      "sentiment": "neutral",
+      "topics": [
+        "procesamiento por lotes"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Conviene procesar un CSV completo o dividirlo en lotes antes de enviarlo al modelo?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-006",
+      "sentiment": "neutral",
+      "topics": [
+        "coordinación comunitaria"
+      ],
+      "relevance": 0.28,
+      "confidence": 0.96,
+      "evidence": [
+        "Buenos días, ¿a qué hora comienza la mentoría de hoy?"
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-007",
+      "sentiment": "positive",
+      "topics": [
+        "logros profesionales"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.94,
+      "evidence": [
+        "Aprobé la certificación de fundamentos de nube después de practicar con los laboratorios del programa."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-008",
+      "sentiment": "negative",
+      "topics": [
+        "codificación de CSV"
+      ],
+      "relevance": 0.69,
+      "confidence": 0.9,
+      "evidence": [
+        "La carga del archivo falla cuando el CSV contiene tildes y caracteres especiales."
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-009",
+      "sentiment": "neutral",
+      "topics": [
+        "estructura de OCI"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Qué estructura de carpetas recomiendan para separar archivos raw, analyzed y approved en el bucket?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-010",
+      "sentiment": "mixed",
+      "topics": [
+        "experiencia de aprendizaje"
+      ],
+      "relevance": 0.62,
+      "confidence": 0.88,
+      "evidence": [
+        "El ejercicio fue útil, pero faltó un ejemplo completo de principio a fin y perdí tiempo configurando variables."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-011",
+      "sentiment": "positive",
+      "topics": [
+        "proyectos de IA"
+      ],
+      "relevance": 0.86,
+      "confidence": 0.91,
+      "evidence": [
+        "Publiqué mi portfolio con tres proyectos de IA y ya recibí una invitación a entrevista."
+      ],
+      "opportunity_hints": [
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-012",
+      "sentiment": "neutral",
+      "topics": [
+        "idempotencia"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Cómo utilizo una Idempotency-Key para evitar que un reintento genere activos duplicados?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-013",
+      "sentiment": "neutral",
+      "topics": [
+        "coordinación comunitaria"
+      ],
+      "relevance": 0.28,
+      "confidence": 0.96,
+      "evidence": [
+        "Comparto el enlace de la grabación de la sesión para quienes no pudieron asistir."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-014",
+      "sentiment": "positive",
+      "topics": [
+        "logros profesionales"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.94,
+      "evidence": [
+        "Mi equipo eligió mi prototipo como base para la demostración final del hackathon."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-015",
+      "sentiment": "negative",
+      "topics": [
+        "manejo de errores OCI"
+      ],
+      "relevance": 0.69,
+      "confidence": 0.9,
+      "evidence": [
+        "La API responde 500 cuando OCI no está configurado. Sería mejor mostrar un mensaje de configuración pendiente."
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-016",
+      "sentiment": "neutral",
+      "topics": [
+        "validación Pydantic"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Cómo valido con Pydantic que la relevancia y la confianza estén entre cero y uno?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-017",
+      "sentiment": "positive",
+      "topics": [
+        "experiencia de aprendizaje"
+      ],
+      "relevance": 0.71,
+      "confidence": 0.88,
+      "evidence": [
+        "El tablero de curaduría es claro y permite identificar rápidamente qué contenido requiere revisión."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-018",
+      "sentiment": "positive",
+      "topics": [
+        "proyectos de IA"
+      ],
+      "relevance": 0.86,
+      "confidence": 0.91,
+      "evidence": [
+        "Construí un flujo que transforma preguntas frecuentes en borradores de FAQ con evidencia de origen."
+      ],
+      "opportunity_hints": [
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-019",
+      "sentiment": "neutral",
+      "topics": [
+        "coordinación comunitaria"
+      ],
+      "relevance": 0.28,
+      "confidence": 0.96,
+      "evidence": [
+        "¿Alguien tiene el documento con las fechas de entrega de esta semana?"
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-020",
+      "sentiment": "negative",
+      "topics": [
+        "protección de datos"
+      ],
+      "relevance": 0.95,
+      "confidence": 0.98,
+      "evidence": [
+        "El mensaje de prueba contiene un correo personal y un número de teléfono. No debería publicarse sin anonimizar."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "PII_REVIEW_REQUIRED"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "interaction_id": "INT-021",
+      "sentiment": "neutral",
+      "topics": [
+        "Docker Compose"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Cómo hago para que FastAPI espere a que PostgreSQL esté saludable en Docker Compose?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-022",
+      "sentiment": "mixed",
+      "topics": [
+        "experiencia de interfaz"
+      ],
+      "relevance": 0.66,
+      "confidence": 0.91,
+      "evidence": [
+        "La interfaz se ve bien, aunque el botón de procesar debería indicar por qué permanece deshabilitado."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-023",
+      "sentiment": "positive",
+      "topics": [
+        "logros profesionales"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.94,
+      "evidence": [
+        "Presenté el MVP a mi comunidad y tres personas se ofrecieron a probarlo con datos simulados."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-024",
+      "sentiment": "negative",
+      "topics": [
+        "deduplicación"
+      ],
+      "relevance": 0.69,
+      "confidence": 0.9,
+      "evidence": [
+        "Al repetir la carga del mismo JSON aparecen registros duplicados en la tabla de resultados."
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    },
+    {
+      "interaction_id": "INT-025",
+      "sentiment": "neutral",
+      "topics": [
+        "evaluación de contenido"
+      ],
+      "relevance": 0.82,
+      "confidence": 0.92,
+      "evidence": [
+        "¿Qué métricas mínimas podemos usar para evaluar si los posts generados son útiles y están sustentados?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false
+    }
+  ],
+  "opportunities": [
+    {
+      "opportunity_id": "OPP-001",
+      "kind": "SUCCESS_STORY",
+      "priority": 0.9600000000000001,
+      "reason": "Interacción de tipo testimonio con relevancia 0.91",
+      "source_interaction_ids": [
+        "INT-001"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-002",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-002"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-003",
+      "kind": "LINKEDIN",
+      "priority": 0.86,
+      "reason": "Interacción de tipo proyecto_destacado con relevancia 0.86",
+      "source_interaction_ids": [
+        "INT-003"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-004",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.71,
+      "reason": "Interacción de tipo feedback_positivo con relevancia 0.71",
+      "source_interaction_ids": [
+        "INT-004"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-005",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-005"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-006",
+      "kind": "SUCCESS_STORY",
+      "priority": 0.9600000000000001,
+      "reason": "Interacción de tipo testimonio con relevancia 0.91",
+      "source_interaction_ids": [
+        "INT-007"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-007",
+      "kind": "FAQ",
+      "priority": 0.69,
+      "reason": "Interacción de tipo problema con relevancia 0.69",
+      "source_interaction_ids": [
+        "INT-008"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-008",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-009"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-009",
+      "kind": "IMPROVEMENT",
+      "priority": 0.62,
+      "reason": "Interacción de tipo feedback_negativo con relevancia 0.62",
+      "source_interaction_ids": [
+        "INT-010"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-010",
+      "kind": "LINKEDIN",
+      "priority": 0.86,
+      "reason": "Interacción de tipo proyecto_destacado con relevancia 0.86",
+      "source_interaction_ids": [
+        "INT-011"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-011",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-012"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-012",
+      "kind": "SUCCESS_STORY",
+      "priority": 0.9600000000000001,
+      "reason": "Interacción de tipo testimonio con relevancia 0.91",
+      "source_interaction_ids": [
+        "INT-014"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-013",
+      "kind": "FAQ",
+      "priority": 0.69,
+      "reason": "Interacción de tipo problema con relevancia 0.69",
+      "source_interaction_ids": [
+        "INT-015"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-014",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-016"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-015",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.71,
+      "reason": "Interacción de tipo feedback_positivo con relevancia 0.71",
+      "source_interaction_ids": [
+        "INT-017"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-016",
+      "kind": "LINKEDIN",
+      "priority": 0.86,
+      "reason": "Interacción de tipo proyecto_destacado con relevancia 0.86",
+      "source_interaction_ids": [
+        "INT-018"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-017",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-021"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-018",
+      "kind": "IMPROVEMENT",
+      "priority": 0.66,
+      "reason": "Interacción de tipo feedback_mixto con relevancia 0.66",
+      "source_interaction_ids": [
+        "INT-022"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-019",
+      "kind": "SUCCESS_STORY",
+      "priority": 0.9600000000000001,
+      "reason": "Interacción de tipo testimonio con relevancia 0.91",
+      "source_interaction_ids": [
+        "INT-023"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-020",
+      "kind": "FAQ",
+      "priority": 0.69,
+      "reason": "Interacción de tipo problema con relevancia 0.69",
+      "source_interaction_ids": [
+        "INT-024"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "opportunity_id": "OPP-021",
+      "kind": "FAQ",
+      "priority": 0.82,
+      "reason": "Interacción de tipo pregunta_tecnica con relevancia 0.82",
+      "source_interaction_ids": [
+        "INT-025"
+      ],
+      "status": "OPEN"
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "AST-001",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Del aprendizaje al primer empleo en tecnología",
+      "body": "Un nuevo logro nació en nuestra comunidad: una participante consiguió su primer empleo como desarrolladora junior y destacó su proyecto con LangGraph y OCI durante la entrevista. Este resultado muestra el valor de construir soluciones reales y explicarlas con claridad. Felicitaciones por este paso. #InteligenciaArtificial #ComunidadTech #OracleCloud",
+      "source_interaction_ids": [
+        "INT-001"
+      ],
+      "safety_notes": [
+        "Usar alias o solicitar consentimiento antes de publicar identidad."
+      ]
+    },
+    {
+      "asset_id": "AST-002",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cómo reintentar una respuesta JSON inválida en LangGraph",
+      "body": "Valida la salida con un schema, dirige los errores a un nodo de corrección y limita los reintentos. Conserva el error anterior en el estado para que el modelo corrija únicamente el formato. Si se supera el máximo, devuelve un fallback controlado y envía el caso a revisión.",
+      "source_interaction_ids": [
+        "INT-002"
+      ],
+      "safety_notes": [
+        "Requiere revisión técnica del ejemplo de implementación."
+      ]
+    },
+    {
+      "asset_id": "AST-003",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cuándo dividir un CSV en lotes",
+      "body": "Divide el archivo cuando el número de filas o tokens pueda superar los límites del modelo. Valida primero todo el archivo, procesa lotes pequeños con un identificador de ejecución y consolida los resultados al final. Registra fallos por lote para reintentar sin duplicar datos.",
+      "source_interaction_ids": [
+        "INT-005"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-004",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cómo organizar objetos raw analyzed generated y approved",
+      "body": "Usa prefijos por etapa, fecha, comunidad y run_id. Mantén un manifest con rutas, checksum y tipo de contenido. PostgreSQL conserva los estados; Object Storage conserva los paquetes y artefactos.",
+      "source_interaction_ids": [
+        "INT-009"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-005",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Un portfolio que abre conversaciones profesionales",
+      "body": "Construir y publicar proyectos concretos genera oportunidades. Una persona de nuestra comunidad presentó tres soluciones de IA en su portfolio y recibió una invitación a entrevista. Documentar el problema, la arquitectura y los resultados puede convertir el aprendizaje en evidencia profesional. #PortfolioTech #IA #TalentoDigital",
+      "source_interaction_ids": [
+        "INT-011"
+      ],
+      "safety_notes": [
+        "Confirmar consentimiento antes de asociar una identidad."
+      ]
+    },
+    {
+      "asset_id": "AST-006",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cómo evitar duplicados con Idempotency Key",
+      "body": "El cliente envía una clave única por operación. La API la registra junto con el hash del payload y devuelve el resultado anterior cuando recibe el mismo intento. La clave debe combinarse con fingerprints por interacción y restricciones únicas en la base de datos.",
+      "source_interaction_ids": [
+        "INT-012"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-007",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Del prototipo a una demostración colaborativa",
+      "body": "Un prototipo de nuestra comunidad fue elegido como base para la demostración final del hackathon. El reconocimiento refleja el valor de definir un alcance claro, construir un recorrido completo y trabajar con evidencia. #Hackathon #TrabajoEnEquipo #Innovación",
+      "source_interaction_ids": [
+        "INT-014"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-008",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cómo validar relevancia y confianza con Pydantic",
+      "body": "Declara ambos campos como float con límites ge=0.0 y le=1.0. Rechaza respuestas fuera de rango antes de persistirlas y activa un reintento correctivo. Mantén el umbral de revisión humana como configuración del dominio.",
+      "source_interaction_ids": [
+        "INT-016"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-009",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Cómo iniciar FastAPI después de PostgreSQL",
+      "body": "Configura un healthcheck para PostgreSQL y usa depends_on con la condición de servicio saludable. La aplicación debe conservar reintentos de conexión porque el orden de inicio no garantiza disponibilidad permanente.",
+      "source_interaction_ids": [
+        "INT-021"
+      ],
+      "safety_notes": []
+    },
+    {
+      "asset_id": "AST-010",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Métricas mínimas para evaluar contenido generado",
+      "body": "Mide salidas válidas, afirmaciones sustentadas, precisión de oportunidades, tasa de aprobación humana y número de ediciones por activo. Evalúa con un conjunto fijo y una rúbrica humana antes de cambiar prompts o modelos.",
+      "source_interaction_ids": [
+        "INT-025"
+      ],
+      "safety_notes": []
+    }
+  ],
+  "storage": {
+    "status": "stored",
+    "bucket": "communitylab-assets",
+    "object_key": "approved/2026/10/07/g10-equipo-14/run_demo_2026_10_07_001/package.json",
+    "manifest_key": "manifests/2026/10/07/g10-equipo-14/run_demo_2026_10_07_001/manifest.json",
+    "etag": "example-etag-not-real"
+  }
+}

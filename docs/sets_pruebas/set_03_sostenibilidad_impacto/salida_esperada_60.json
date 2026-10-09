@@ -1,0 +1,1636 @@
+{
+  "status": "success",
+  "schema_version": "1.0",
+  "run_id": "run_set_03_expected",
+  "summary": {
+    "received": 60,
+    "processed": 60,
+    "sentiment_counts": {
+      "positive": 20,
+      "neutral": 20,
+      "negative": 20
+    },
+    "opportunities_detected": 40,
+    "assets_generated": 12,
+    "blocked_for_privacy": 10,
+    "ignored_for_content": 10
+  },
+  "analyses": [
+    {
+      "interaction_id": "S3-INT-001",
+      "sentiment": "positive",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La campaña de reciclaje alcanzó a nuevas familias y completamos la meta semanal."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-002",
+      "sentiment": "positive",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "El equipo publicó el tablero de huertas urbanas con datos verificados por los coordinadores."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-003",
+      "sentiment": "positive",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La jornada de ahorro de agua reunió a voluntarios de tres barrios."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-004",
+      "sentiment": "positive",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "Con el proyecto de movilidad sostenible redujimos el uso de materiales descartables en el evento."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-005",
+      "sentiment": "positive",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La comunidad aprobó el piloto de reforestación para el próximo mes."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-006",
+      "sentiment": "positive",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La campaña de educación ambiental alcanzó a nuevas familias y completamos la meta semanal."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-007",
+      "sentiment": "positive",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "El equipo publicó el tablero de voluntariado con datos verificados por los coordinadores."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-008",
+      "sentiment": "positive",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La jornada de donaciones reunió a voluntarios de tres barrios."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-009",
+      "sentiment": "positive",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "Con el proyecto de energía comunitaria redujimos el uso de materiales descartables en el evento."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-010",
+      "sentiment": "positive",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.91,
+      "confidence": 0.95,
+      "evidence": [
+        "La comunidad aprobó el piloto de consumo responsable para el próximo mes."
+      ],
+      "opportunity_hints": [
+        "SUCCESS_STORY",
+        "LINKEDIN"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-011",
+      "sentiment": "neutral",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo verificamos los datos de reciclaje antes de publicar un resumen?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-012",
+      "sentiment": "neutral",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Qué indicador simple podemos usar para comunicar el impacto de huertas urbanas?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-013",
+      "sentiment": "neutral",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo evitamos contar dos veces a participantes de ahorro de agua?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-014",
+      "sentiment": "neutral",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Qué información mínima debería incluir una historia sobre movilidad sostenible?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-015",
+      "sentiment": "neutral",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo presentamos resultados de reforestación sin exagerar el impacto?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-016",
+      "sentiment": "neutral",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo verificamos los datos de educación ambiental antes de publicar un resumen?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-017",
+      "sentiment": "neutral",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Qué indicador simple podemos usar para comunicar el impacto de voluntariado?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-018",
+      "sentiment": "neutral",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo evitamos contar dos veces a participantes de donaciones?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-019",
+      "sentiment": "neutral",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Qué información mínima debería incluir una historia sobre energía comunitaria?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-020",
+      "sentiment": "neutral",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.83,
+      "confidence": 0.93,
+      "evidence": [
+        "¿Cómo presentamos resultados de consumo responsable sin exagerar el impacto?"
+      ],
+      "opportunity_hints": [
+        "FAQ"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-021",
+      "sentiment": "positive",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "El resumen de reciclaje fue claro y permitió que más personas comprendieran la iniciativa."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-022",
+      "sentiment": "positive",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "La guía de huertas urbanas ayudó a los voluntarios a registrar datos de manera consistente."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-023",
+      "sentiment": "positive",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "El resumen de ahorro de agua fue claro y permitió que más personas comprendieran la iniciativa."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-024",
+      "sentiment": "positive",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "La guía de movilidad sostenible ayudó a los voluntarios a registrar datos de manera consistente."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-025",
+      "sentiment": "positive",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "El resumen de reforestación fue claro y permitió que más personas comprendieran la iniciativa."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-026",
+      "sentiment": "positive",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "La guía de educación ambiental ayudó a los voluntarios a registrar datos de manera consistente."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-027",
+      "sentiment": "positive",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "El resumen de voluntariado fue claro y permitió que más personas comprendieran la iniciativa."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-028",
+      "sentiment": "positive",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "La guía de donaciones ayudó a los voluntarios a registrar datos de manera consistente."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-029",
+      "sentiment": "positive",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "El resumen de energía comunitaria fue claro y permitió que más personas comprendieran la iniciativa."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-030",
+      "sentiment": "positive",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.7,
+      "confidence": 0.91,
+      "evidence": [
+        "La guía de consumo responsable ayudó a los voluntarios a registrar datos de manera consistente."
+      ],
+      "opportunity_hints": [
+        "COMMUNITY_HIGHLIGHT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-031",
+      "sentiment": "negative",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "El formulario de reciclaje permite enviar registros sin fecha y complica la consolidación."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-032",
+      "sentiment": "negative",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "Los resultados de huertas urbanas mezclan estimaciones con valores confirmados sin diferenciarlos."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-033",
+      "sentiment": "negative",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "El formulario de ahorro de agua permite enviar registros sin fecha y complica la consolidación."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-034",
+      "sentiment": "negative",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "Los resultados de movilidad sostenible mezclan estimaciones con valores confirmados sin diferenciarlos."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-035",
+      "sentiment": "negative",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "El formulario de reforestación permite enviar registros sin fecha y complica la consolidación."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-036",
+      "sentiment": "negative",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "Los resultados de educación ambiental mezclan estimaciones con valores confirmados sin diferenciarlos."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-037",
+      "sentiment": "negative",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "El formulario de voluntariado permite enviar registros sin fecha y complica la consolidación."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-038",
+      "sentiment": "negative",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "Los resultados de donaciones mezclan estimaciones con valores confirmados sin diferenciarlos."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-039",
+      "sentiment": "negative",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "El formulario de energía comunitaria permite enviar registros sin fecha y complica la consolidación."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-040",
+      "sentiment": "negative",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.74,
+      "confidence": 0.92,
+      "evidence": [
+        "Los resultados de consumo responsable mezclan estimaciones con valores confirmados sin diferenciarlos."
+      ],
+      "opportunity_hints": [
+        "FAQ",
+        "IMPROVEMENT"
+      ],
+      "privacy_flags": [],
+      "requires_human_review": true,
+      "expected_action": "CREATE_OPPORTUNITY"
+    },
+    {
+      "interaction_id": "S3-INT-041",
+      "sentiment": "neutral",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "La próxima reunión de reciclaje será en el centro comunitario."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-042",
+      "sentiment": "neutral",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "Se publicó el calendario de actividades de huertas urbanas."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-043",
+      "sentiment": "neutral",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "La próxima reunión de ahorro de agua será en el centro comunitario."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-044",
+      "sentiment": "neutral",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "Se publicó el calendario de actividades de movilidad sostenible."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-045",
+      "sentiment": "neutral",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "La próxima reunión de reforestación será en el centro comunitario."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-046",
+      "sentiment": "neutral",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "Se publicó el calendario de actividades de educación ambiental."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-047",
+      "sentiment": "neutral",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "La próxima reunión de voluntariado será en el centro comunitario."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-048",
+      "sentiment": "neutral",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "Se publicó el calendario de actividades de donaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-049",
+      "sentiment": "neutral",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "La próxima reunión de energía comunitaria será en el centro comunitario."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-050",
+      "sentiment": "neutral",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.24,
+      "confidence": 0.97,
+      "evidence": [
+        "Se publicó el calendario de actividades de consumo responsable."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [],
+      "requires_human_review": false,
+      "expected_action": "IGNORE_FOR_CONTENT"
+    },
+    {
+      "interaction_id": "S3-INT-051",
+      "sentiment": "negative",
+      "topics": [
+        "reciclaje"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "El registro de reciclaje contiene nombres de menores; no debe utilizarse para publicaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-052",
+      "sentiment": "negative",
+      "topics": [
+        "huertas urbanas"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "La historia de huertas urbanas incluye una dirección particular y requiere anonimización."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-053",
+      "sentiment": "negative",
+      "topics": [
+        "ahorro de agua"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "El registro de ahorro de agua contiene nombres de menores; no debe utilizarse para publicaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-054",
+      "sentiment": "negative",
+      "topics": [
+        "movilidad sostenible"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "La historia de movilidad sostenible incluye una dirección particular y requiere anonimización."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-055",
+      "sentiment": "negative",
+      "topics": [
+        "reforestación"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "El registro de reforestación contiene nombres de menores; no debe utilizarse para publicaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-056",
+      "sentiment": "negative",
+      "topics": [
+        "educación ambiental"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "La historia de educación ambiental incluye una dirección particular y requiere anonimización."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-057",
+      "sentiment": "negative",
+      "topics": [
+        "voluntariado"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "El registro de voluntariado contiene nombres de menores; no debe utilizarse para publicaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-058",
+      "sentiment": "negative",
+      "topics": [
+        "donaciones"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "La historia de donaciones incluye una dirección particular y requiere anonimización."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-059",
+      "sentiment": "negative",
+      "topics": [
+        "energía comunitaria"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "El registro de energía comunitaria contiene nombres de menores; no debe utilizarse para publicaciones."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    },
+    {
+      "interaction_id": "S3-INT-060",
+      "sentiment": "negative",
+      "topics": [
+        "consumo responsable"
+      ],
+      "relevance": 0.96,
+      "confidence": 0.99,
+      "evidence": [
+        "La historia de consumo responsable incluye una dirección particular y requiere anonimización."
+      ],
+      "opportunity_hints": [],
+      "privacy_flags": [
+        "SENSITIVE_DATA"
+      ],
+      "requires_human_review": true,
+      "expected_action": "BLOCK"
+    }
+  ],
+  "opportunities": [
+    {
+      "opportunity_id": "S3-OPP-001",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-001"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-002",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-002"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-003",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-003"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-004",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-004"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-005",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-005"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-006",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-006"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-007",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-007"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-008",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-008"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-009",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-009"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-010",
+      "kind": "LINKEDIN",
+      "priority": 0.91,
+      "source_interaction_ids": [
+        "S3-INT-010"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-011",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-011"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-012",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-012"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-013",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-013"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-014",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-014"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-015",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-015"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-016",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-016"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-017",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-017"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-018",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-018"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-019",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-019"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-020",
+      "kind": "FAQ",
+      "priority": 0.83,
+      "source_interaction_ids": [
+        "S3-INT-020"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-021",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-021"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-022",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-022"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-023",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-023"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-024",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-024"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-025",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-025"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-026",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-026"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-027",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-027"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-028",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-028"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-029",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-029"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-030",
+      "kind": "COMMUNITY_HIGHLIGHT",
+      "priority": 0.7,
+      "source_interaction_ids": [
+        "S3-INT-030"
+      ],
+      "status": "OPEN",
+      "expected_review": false
+    },
+    {
+      "opportunity_id": "S3-OPP-031",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-031"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-032",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-032"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-033",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-033"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-034",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-034"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-035",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-035"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-036",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-036"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-037",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-037"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-038",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-038"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-039",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-039"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    },
+    {
+      "opportunity_id": "S3-OPP-040",
+      "kind": "IMPROVEMENT",
+      "priority": 0.74,
+      "source_interaction_ids": [
+        "S3-INT-040"
+      ],
+      "status": "OPEN",
+      "expected_review": true
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "S3-AST-001",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en reciclaje",
+      "body": "La comunidad comparte un nuevo avance relacionado con reciclaje. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-001"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-002",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en huertas urbanas",
+      "body": "La comunidad comparte un nuevo avance relacionado con huertas urbanas. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-002"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-003",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en ahorro de agua",
+      "body": "La comunidad comparte un nuevo avance relacionado con ahorro de agua. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-003"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-004",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en movilidad sostenible",
+      "body": "La comunidad comparte un nuevo avance relacionado con movilidad sostenible. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-004"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-005",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en reforestación",
+      "body": "La comunidad comparte un nuevo avance relacionado con reforestación. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-005"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-006",
+      "channel": "LINKEDIN",
+      "status": "PENDING_REVIEW",
+      "title": "Avance de la comunidad en educación ambiental",
+      "body": "La comunidad comparte un nuevo avance relacionado con educación ambiental. El resultado se basa en una experiencia concreta y queda sujeto a revisión y consentimiento antes de su publicación.",
+      "source_interaction_ids": [
+        "S3-INT-006"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-007",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre reciclaje",
+      "body": "Respuesta esperada: explicar reciclaje con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-011"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-008",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre huertas urbanas",
+      "body": "Respuesta esperada: explicar huertas urbanas con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-012"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-009",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre ahorro de agua",
+      "body": "Respuesta esperada: explicar ahorro de agua con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-013"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-010",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre movilidad sostenible",
+      "body": "Respuesta esperada: explicar movilidad sostenible con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-014"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-011",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre reforestación",
+      "body": "Respuesta esperada: explicar reforestación con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-015"
+      ]
+    },
+    {
+      "asset_id": "S3-AST-012",
+      "channel": "FAQ",
+      "status": "PENDING_REVIEW",
+      "title": "Pregunta frecuente sobre educación ambiental",
+      "body": "Respuesta esperada: explicar educación ambiental con pasos verificables, límites claros y una referencia al contexto original. El contenido debe pasar por revisión técnica antes de aprobarse.",
+      "source_interaction_ids": [
+        "S3-INT-016"
+      ]
+    }
+  ],
+  "acceptance": {
+    "all_records_have_analysis": true,
+    "privacy_records_are_blocked": true,
+    "neutral_records_create_no_opportunity": true,
+    "every_asset_has_sources": true
+  },
+  "storage": {
+    "status": "expected_stored",
+    "bucket": "communitylab-assets",
+    "object_key": "approved/2026/10/10/acciones-sostenibles/run_set_03/package.json",
+    "manifest_key": "manifests/2026/10/10/acciones-sostenibles/run_set_03/manifest.json"
+  }
+}

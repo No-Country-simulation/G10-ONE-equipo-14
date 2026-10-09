@@ -1,0 +1,32 @@
+PROPUESTA DE VALOR
+
+CommunityLab reduce el trabajo manual necesario para revisar conversaciones y preparar contenido, sin eliminar el control de las personas responsables de la comunidad.
+
+BENEFICIOS PRINCIPALES
+
+Menos revisión manual
+Prioriza las interacciones con mayor valor y separa los mensajes que no deben producir contenido.
+
+Contenido con evidencia
+Cada borrador conserva referencias a los mensajes utilizados para generarlo.
+
+Revisión antes de publicar
+Los activos permanecen pendientes hasta que una persona los edita, aprueba o rechaza.
+
+Protección de datos
+Los casos sensibles pueden bloquearse antes de llegar a la etapa de generación.
+
+Arquitectura flexible
+El proveedor de inteligencia artificial puede cambiarse mediante un gateway sin modificar las reglas principales del negocio.
+
+Persistencia verificable
+Los paquetes aprobados incluyen rutas, manifiestos y checksum para facilitar auditoría y seguimiento.
+
+USUARIOS PRINCIPALES
+
+- Equipos de community management.
+- Equipos de marketing de contenidos.
+- Comunidades educativas y tecnológicas.
+- Programas de formación y empleabilidad.
+- Equipos que gestionan comunidades de productos digitales.
+

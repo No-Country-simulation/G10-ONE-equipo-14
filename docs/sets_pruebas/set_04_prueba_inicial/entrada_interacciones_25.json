@@ -1,0 +1,212 @@
+{
+  "schema_version": "1.0",
+  "organization_id": "one",
+  "community_id": "g10-equipo-14",
+  "reference_period": "2026-W41",
+  "requested_assets": [
+    "LINKEDIN",
+    "FAQ"
+  ],
+  "interactions": [
+    {
+      "external_id": "INT-001",
+      "author_alias": "miembro_01",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Conseguí mi primer empleo como desarrolladora junior. El proyecto de LangGraph y OCI fue clave en la entrevista.",
+      "occurred_at": "2026-10-01T13:07:00Z"
+    },
+    {
+      "external_id": "INT-002",
+      "author_alias": "miembro_02",
+      "channel": "#dudas-langgraph",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo puedo implementar un nodo de reintento cuando el modelo devuelve un JSON inválido?",
+      "occurred_at": "2026-10-01T14:14:00Z"
+    },
+    {
+      "external_id": "INT-003",
+      "author_alias": "miembro_03",
+      "channel": "#proyectos",
+      "interaction_type": "proyecto_destacado",
+      "text": "Terminé un asistente que clasifica consultas y guarda los resultados en OCI Object Storage.",
+      "occurred_at": "2026-10-01T15:21:00Z"
+    },
+    {
+      "external_id": "INT-004",
+      "author_alias": "miembro_04",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "La explicación sobre prompts estructurados me ayudó a corregir los errores de formato de mi API.",
+      "occurred_at": "2026-10-01T16:28:00Z"
+    },
+    {
+      "external_id": "INT-005",
+      "author_alias": "miembro_05",
+      "channel": "#dudas-python",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Conviene procesar un CSV completo o dividirlo en lotes antes de enviarlo al modelo?",
+      "occurred_at": "2026-10-01T17:35:00Z"
+    },
+    {
+      "external_id": "INT-006",
+      "author_alias": "miembro_06",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Buenos días, ¿a qué hora comienza la mentoría de hoy?",
+      "occurred_at": "2026-10-01T12:42:00Z"
+    },
+    {
+      "external_id": "INT-007",
+      "author_alias": "miembro_07",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Aprobé la certificación de fundamentos de nube después de practicar con los laboratorios del programa.",
+      "occurred_at": "2026-10-01T13:49:00Z"
+    },
+    {
+      "external_id": "INT-008",
+      "author_alias": "miembro_08",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La carga del archivo falla cuando el CSV contiene tildes y caracteres especiales.",
+      "occurred_at": "2026-10-01T14:56:00Z"
+    },
+    {
+      "external_id": "INT-009",
+      "author_alias": "miembro_09",
+      "channel": "#dudas-oci",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué estructura de carpetas recomiendan para separar archivos raw, analyzed y approved en el bucket?",
+      "occurred_at": "2026-10-02T15:03:00Z"
+    },
+    {
+      "external_id": "INT-010",
+      "author_alias": "miembro_10",
+      "channel": "#feedback",
+      "interaction_type": "feedback_negativo",
+      "text": "El ejercicio fue útil, pero faltó un ejemplo completo de principio a fin y perdí tiempo configurando variables.",
+      "occurred_at": "2026-10-02T16:10:00Z"
+    },
+    {
+      "external_id": "INT-011",
+      "author_alias": "miembro_11",
+      "channel": "#proyectos",
+      "interaction_type": "proyecto_destacado",
+      "text": "Publiqué mi portfolio con tres proyectos de IA y ya recibí una invitación a entrevista.",
+      "occurred_at": "2026-10-02T17:17:00Z"
+    },
+    {
+      "external_id": "INT-012",
+      "author_alias": "miembro_12",
+      "channel": "#dudas-api",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo utilizo una Idempotency-Key para evitar que un reintento genere activos duplicados?",
+      "occurred_at": "2026-10-02T12:24:00Z"
+    },
+    {
+      "external_id": "INT-013",
+      "author_alias": "miembro_13",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "Comparto el enlace de la grabación de la sesión para quienes no pudieron asistir.",
+      "occurred_at": "2026-10-02T13:31:00Z"
+    },
+    {
+      "external_id": "INT-014",
+      "author_alias": "miembro_14",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Mi equipo eligió mi prototipo como base para la demostración final del hackathon.",
+      "occurred_at": "2026-10-02T14:38:00Z"
+    },
+    {
+      "external_id": "INT-015",
+      "author_alias": "miembro_15",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "La API responde 500 cuando OCI no está configurado. Sería mejor mostrar un mensaje de configuración pendiente.",
+      "occurred_at": "2026-10-02T15:45:00Z"
+    },
+    {
+      "external_id": "INT-016",
+      "author_alias": "miembro_16",
+      "channel": "#dudas-llm",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo valido con Pydantic que la relevancia y la confianza estén entre cero y uno?",
+      "occurred_at": "2026-10-02T16:52:00Z"
+    },
+    {
+      "external_id": "INT-017",
+      "author_alias": "miembro_17",
+      "channel": "#feedback",
+      "interaction_type": "feedback_positivo",
+      "text": "El tablero de curaduría es claro y permite identificar rápidamente qué contenido requiere revisión.",
+      "occurred_at": "2026-10-03T17:59:00Z"
+    },
+    {
+      "external_id": "INT-018",
+      "author_alias": "miembro_18",
+      "channel": "#proyectos",
+      "interaction_type": "proyecto_destacado",
+      "text": "Construí un flujo que transforma preguntas frecuentes en borradores de FAQ con evidencia de origen.",
+      "occurred_at": "2026-10-03T12:06:00Z"
+    },
+    {
+      "external_id": "INT-019",
+      "author_alias": "miembro_19",
+      "channel": "#general",
+      "interaction_type": "conversacion",
+      "text": "¿Alguien tiene el documento con las fechas de entrega de esta semana?",
+      "occurred_at": "2026-10-03T13:13:00Z"
+    },
+    {
+      "external_id": "INT-020",
+      "author_alias": "miembro_20",
+      "channel": "#seguridad",
+      "interaction_type": "alerta_privacidad",
+      "text": "El mensaje de prueba contiene un correo personal y un número de teléfono. No debería publicarse sin anonimizar.",
+      "occurred_at": "2026-10-03T14:20:00Z"
+    },
+    {
+      "external_id": "INT-021",
+      "author_alias": "miembro_21",
+      "channel": "#dudas-docker",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Cómo hago para que FastAPI espere a que PostgreSQL esté saludable en Docker Compose?",
+      "occurred_at": "2026-10-03T15:27:00Z"
+    },
+    {
+      "external_id": "INT-022",
+      "author_alias": "miembro_22",
+      "channel": "#feedback",
+      "interaction_type": "feedback_mixto",
+      "text": "La interfaz se ve bien, aunque el botón de procesar debería indicar por qué permanece deshabilitado.",
+      "occurred_at": "2026-10-03T16:34:00Z"
+    },
+    {
+      "external_id": "INT-023",
+      "author_alias": "miembro_23",
+      "channel": "#logros",
+      "interaction_type": "testimonio",
+      "text": "Presenté el MVP a mi comunidad y tres personas se ofrecieron a probarlo con datos simulados.",
+      "occurred_at": "2026-10-03T17:41:00Z"
+    },
+    {
+      "external_id": "INT-024",
+      "author_alias": "miembro_24",
+      "channel": "#soporte",
+      "interaction_type": "problema",
+      "text": "Al repetir la carga del mismo JSON aparecen registros duplicados en la tabla de resultados.",
+      "occurred_at": "2026-10-03T12:48:00Z"
+    },
+    {
+      "external_id": "INT-025",
+      "author_alias": "miembro_25",
+      "channel": "#dudas-evaluacion",
+      "interaction_type": "pregunta_tecnica",
+      "text": "¿Qué métricas mínimas podemos usar para evaluar si los posts generados son útiles y están sustentados?",
+      "occurred_at": "2026-10-04T13:55:00Z"
+    }
+  ]
+}
