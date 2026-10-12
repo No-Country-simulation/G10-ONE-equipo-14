@@ -38,6 +38,14 @@ def generate_content(
     opportunity_id: UUID,
     analysis: Analysis,
 ) -> GeneratedContent:
+#--------------------------
+# COMLAB-40 y COMLAB-41: Validación temprana de evidencia
+#-----------------------------------
+    if not analysis.evidence:
+        raise ValueError(
+            "Cannot generate content without analysis evidence."
+        )
+
     if channel == "LINKEDIN":
         title = "Aprendizaje destacado de la comunidad"
         body = (
