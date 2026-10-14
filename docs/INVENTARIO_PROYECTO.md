@@ -18,6 +18,17 @@ Sin embargo, el MVP no cumple todavía todos los requisitos obligatorios origina
 
 Por eso, el estado global correcto es **MVP demostrable, pero parcialmente completo frente al enunciado original**.
 
+### Secuencia acordada de implementación
+
+El equipo decidió completar primero el funcionamiento de la aplicación y abordar OCI únicamente después de superar el **gate funcional** definido en este inventario.
+
+Esta decisión cambia el orden, no el alcance final:
+
+- **OCI Object Storage continúa siendo obligatorio** para la entrega final del MVP según `Detalle_proyecto.pdf`.
+- **OCI Compute es opcional**; la aplicación puede continuar desplegada en Render.
+- No se configurarán credenciales, publicación ni pruebas OCI mientras el gate funcional esté abierto.
+- La fase OCI comienza sólo cuando el flujo local/Render con LLM, reglas, activos y curaduría esté aprobado.
+
 ## 2. Evidencia de verificación
 
 - Rama revisada: `main`, commit `95c2e11`.
@@ -45,16 +56,9 @@ Por eso, el estado global correcto es **MVP demostrable, pero parcialmente compl
 
 Los identificadores `INV-*` son estables y deben reutilizarse en GitHub y Jira.
 
-### Prioridad P0 - requisitos obligatorios del proyecto
+### Fase A - gate funcional obligatorio antes de OCI
 
 - [ ] **INV-001 - Integrar un LLM real.** Implementar al menos un proveedor configurable, conservar el mock para pruebas y registrar `model`/`prompt_version`. Cierre: recorrido real de 20 interacciones con salida estructurada y fallback probado.
-- [ ] **INV-002 - Activar OCI Object Storage.** Configurar el entorno de demostración para que un activo aprobado se guarde en el bucket OCI sin versionar secretos. Cierre: objeto comprobable en OCI con recibo, ETag y SHA-256.
-- [ ] **INV-003 - Completar el layout del bucket.** Guardar objetos bajo `raw/`, `analyzed/`, `generated/`, `approved/` y `manifests/` con fecha, comunidad y `run_id`. Cierre: prueba de integración que valide todas las keys.
-- [ ] **INV-004 - Persistir el manifest como objeto.** Además del registro PostgreSQL, cargar `manifest.json` con `schema_version`, `run_id`, object keys, content types, SHA-256 y fecha. Cierre: lectura y verificación del manifest desde OCI.
-- [ ] **INV-005 - Completar publicación en Streamlit.** Agregar acción Publicar sólo para aprobados y mostrar bucket, object key, ETag y checksum. Cierre: demostración visual de aprobación a objeto OCI.
-
-### Prioridad P1 - funcionalidad central incompleta
-
 - [ ] **INV-006 - Integrar y revisar PR #125.** Validar criterios de longitud/evidencia de LinkedIn y FAQ, revisar cambios y fusionar si son correctos. Relacionado con COMLAB-40, COMLAB-41 y COMLAB-62.
 - [ ] **INV-007 - Cola persistente de curaduría.** Streamlit debe consultar `GET /assets?status=PENDING_REVIEW`, no depender solamente del resultado guardado en la sesión actual. Cierre: recargar el navegador y conservar la cola.
 - [ ] **INV-008 - Consulta visual por `run_id`.** Permitir recuperar una ejecución previa y continuar su revisión. Cierre: pegar un `run_id`, recuperar resumen, análisis, oportunidades y activos.
@@ -63,19 +67,28 @@ Los identificadores `INV-*` son estables y deben reutilizarse en GitHub y Jira.
 - [ ] **INV-011 - Consentimiento y anonimización.** Incorporar `opt-out`/autorización de cita y redacción de PII; el detector actual sólo bloquea correos y teléfonos. Cierre: casos de nombre, correo, teléfono y autor sin consentimiento.
 - [ ] **INV-012 - FAQ por recurrencia.** Implementar agregación de preguntas y umbral `N`; actualmente la decisión se toma interacción por interacción. Cierre: pregunta aislada no genera FAQ y preguntas recurrentes sí.
 - [ ] **INV-013 - Alertas internas.** El sentimiento negativo/frustración debe generar una alerta interna y nunca contenido público. Cierre: ruta y visualización separadas, con prueba de no publicación.
-
-### Prioridad P2 - operación, calidad y coherencia
-
 - [ ] **INV-014 - Resumen funcional completo.** Mostrar sentimiento predominante, temas principales y tiempo de procesamiento, además de cantidades.
+- [ ] **INV-016 - Manejo de errores del dashboard.** Capturar errores de editar/aprobar/rechazar y presentar mensajes sin romper la ejecución Streamlit.
+
+El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV-014 e INV-016 están cerrados, las pruebas están verdes y los tres recorridos se pueden demostrar sin OCI usando almacenamiento local controlado.
+
+### Fase B - integración OCI obligatoria después del gate funcional
+
+- [ ] **INV-002 - Activar OCI Object Storage.** Configurar el entorno de demostración para que un activo aprobado se guarde en el bucket OCI sin versionar secretos. Cierre: objeto comprobable en OCI con recibo, ETag y SHA-256.
+- [ ] **INV-003 - Completar el layout del bucket.** Guardar objetos bajo `raw/`, `analyzed/`, `generated/`, `approved/` y `manifests/` con fecha, comunidad y `run_id`. Cierre: prueba de integración que valide todas las keys.
+- [ ] **INV-004 - Persistir el manifest como objeto.** Además del registro PostgreSQL, cargar `manifest.json` con `schema_version`, `run_id`, object keys, content types, SHA-256 y fecha. Cierre: lectura y verificación del manifest desde OCI.
+- [ ] **INV-005 - Completar publicación en Streamlit.** Agregar acción Publicar sólo para aprobados y mostrar bucket, object key, ETag y checksum. Cierre: demostración visual de aprobación a objeto OCI.
+
+### Fase C - operación, calidad y coherencia
+
 - [ ] **INV-015 - Observabilidad estructurada.** Emitir logs JSON sin texto sensible y métricas de duración, errores, reintentos y almacenamiento.
-- [ ] **INV-016 - Manejo de errores del dashboard.** Capturar errores de editar/aprobar/rechazar/publicar y presentar mensajes sin romper la ejecución Streamlit.
 - [ ] **INV-017 - Protección de la API pública.** Definir autenticación mínima o limitar las operaciones mutables del entorno público; documentar CORS y rate limiting.
 - [ ] **INV-018 - Respaldo y restauración verificados.** Ejecutar backup y restore de PostgreSQL; el script existente no prueba restauración y Render Free expira.
 - [ ] **INV-019 - Endurecer CI.** Añadir lint/format, análisis de tipos o estático, auditoría de dependencias, prueba del dashboard y smoke test desplegado.
 - [ ] **INV-020 - Corregir documentación obsoleta.** Actualizar `docs/INTERACTION_TABLE.md`, `docs/audits/CL-001_BASELINE_AUDIT.md` y la sección “Próxima etapa” del roadmap.
 - [ ] **INV-021 - Completar evidencias visuales.** Crear capturas para E1-E6 y una evidencia final que muestre curaduría y publicación real.
 
-### Prioridad P3 - mejoras posteriores al MVP
+### Fase D - mejoras posteriores al MVP
 
 - [ ] **INV-022 - Entrada automática.** Evaluar webhook/n8n/Discord/Slack sólo después de cerrar P0 y P1.
 - [ ] **INV-023 - Procesamiento asíncrono.** Medir lotes de 500 elementos; agregar worker/cola sólo si se supera el objetivo de 30 segundos.
@@ -106,10 +119,10 @@ Antes de declarar terminado el MVP se debe reconciliar Jira con esta lista y evi
 
 1. Revisar y resolver PR #125.
 2. Crear una épica de cierre de brechas y tickets separados para INV-001 a INV-021, sin asignarlos inicialmente.
-3. Implementar LLM real y sus quality gates.
-4. Completar curaduría persistente en Streamlit.
-5. Activar OCI y completar package/manifest/layout.
-6. Ejecutar los tres recorridos completos con servicios reales.
+3. Completar la Fase A: LLM real, reglas, dos activos y curaduría persistente en Streamlit.
+4. Ejecutar y aprobar los tres recorridos funcionales con almacenamiento local controlado.
+5. Recién entonces completar la Fase B: OCI Object Storage, package, manifest, layout y confirmación visual.
+6. Repetir los tres recorridos con OCI activo.
 7. Completar seguridad, observabilidad, backup y documentación.
 8. Capturar evidencias finales, reconciliar Jira/GitHub y cerrar la épica.
 
@@ -127,4 +140,5 @@ Un checkbox sólo pasa a `[x]` cuando existen simultáneamente:
 
 - GitHub: [#126](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/126)
 - Jira: [COMLAB-83](https://g10-latam-equipo14.atlassian.net/browse/COMLAB-83)
-- Documentos fuente: `docs/CommunityLab_MVP.pdf` y el enunciado general del proyecto en `docs/`.
+- Ajuste de secuencia: [GitHub #129](https://github.com/No-Country-simulation/G10-ONE-equipo-14/issues/129) / [COMLAB-84](https://g10-latam-equipo14.atlassian.net/browse/COMLAB-84).
+- Documentos fuente canónicos: `docs/CommunityLab_MVP.pdf` y `docs/PROYECTO-communityLAB-Motot Inteligente de Transformación y Distribución para Comunidades Digitales.pdf`. La copia local `Detalle_proyecto.pdf` fue revisada y tiene exactamente el mismo SHA-256 que el segundo documento, por lo que no se versiona dos veces.
