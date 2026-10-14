@@ -1,8 +1,26 @@
 """HTTP client functions used by the Streamlit curation queue."""
 
 from typing import Any
+from uuid import UUID
 
 import requests
+
+
+def get_run(
+    api_url: str,
+    run_id: str,
+    *,
+    timeout: float = 10,
+    session: Any = requests,
+) -> dict:
+    """Recover one persisted pipeline execution by UUID."""
+    normalized_run_id = str(UUID(run_id.strip()))
+    response = session.get(
+        f"{api_url.rstrip('/')}/api/v1/runs/{normalized_run_id}",
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 def list_pending_assets(

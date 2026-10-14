@@ -2,7 +2,7 @@
 
 import pytest
 
-from dashboard.api_client import decide_asset, edit_asset, list_pending_assets
+from dashboard.api_client import decide_asset, edit_asset, get_run, list_pending_assets
 
 
 class FakeResponse:
@@ -46,6 +46,31 @@ def test_list_pending_assets_uses_persisted_queue_endpoint():
             {"params": {"status": "PENDING_REVIEW"}, "timeout": 10},
         )
     ]
+
+
+def test_get_run_recovers_a_persisted_execution():
+    session = FakeSession()
+    run_id = "bdc11ba4-0b40-4a15-b909-16f2e8fae50a"
+
+    result = get_run("http://api:8000/", run_id, session=session)
+
+    assert result[0]["id"] == "asset-1"
+    assert session.calls == [
+        (
+            "GET",
+            f"http://api:8000/api/v1/runs/{run_id}",
+            {"timeout": 10},
+        )
+    ]
+
+
+def test_get_run_rejects_an_invalid_uuid_without_http_call():
+    session = FakeSession()
+
+    with pytest.raises(ValueError):
+        get_run("http://api:8000", "not-a-uuid", session=session)
+
+    assert session.calls == []
 
 
 def test_edit_asset_sends_curator_changes():
