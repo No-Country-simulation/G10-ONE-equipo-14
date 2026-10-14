@@ -178,7 +178,11 @@ El resultado esperado es `Up` para los tres servicios y `healthy` para `db` y `a
 5. Confirmar el resumen de recibidas, aceptadas, duplicadas y errores.
 6. Volver a cargar el mismo archivo. La segunda carga debe informar los registros como duplicados para esa comunidad.
 
-Las pestañas permiten inspeccionar el análisis, las oportunidades y los activos generados por la ejecución.
+Las pestañas permiten inspeccionar el análisis, las oportunidades y los activos
+generados por la ejecución. **LinkedIn y FAQ** consulta su cola directamente en
+PostgreSQL mediante la API; los pendientes continúan visibles después de
+recargar el navegador o iniciar otra sesión. El botón **Actualizar cola** fuerza
+una nueva consulta.
 
 ## Endpoints de la API
 
