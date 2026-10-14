@@ -10,6 +10,7 @@ from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
 from app.db.models.manifest import ManifestRecord
 from app.db.models.run import Run
 from app.db.session import get_db
+from app.schemas.v1.analysis import Evidence
 from app.schemas.v1.asset import Asset, AssetDecisionRequest, AssetEditRequest, AssetStatus
 from app.schemas.v1.manifest import Manifest
 from app.services.object_storage import configured_storage
@@ -28,7 +29,31 @@ def _response(db: Session, asset: AssetRecord) -> Asset:
     version = _current(db, asset)
     claims = version.content.get("claims", [])
     body = claims[0].get("text", "") if claims else ""
-    return Asset(id=asset.id, opportunity_id=asset.opportunity_id, channel=asset.asset_type, title=version.title, body=body, status=asset.status, version=version.version_number)
+    sources = db.scalars(
+        select(AssetVersionSource)
+        .where(AssetVersionSource.asset_version_id == version.id)
+        .order_by(AssetVersionSource.interaction_id)
+    ).all()
+    evidence = [
+        Evidence(
+            source_interaction_id=source.interaction_id,
+            excerpt=source.excerpt,
+        )
+        for source in sources
+    ]
+    return Asset(
+        id=asset.id,
+        opportunity_id=asset.opportunity_id,
+        channel=asset.asset_type,
+        title=version.title,
+        body=body,
+        status=asset.status,
+        version=version.version_number,
+        source_interaction_ids=list(
+            dict.fromkeys(item.source_interaction_id for item in evidence)
+        ),
+        evidence=evidence,
+    )
 
 @router.get("/assets", response_model=list[Asset])
 def list_assets(status_filter: AssetStatus | None = Query(default=None, alias="status"), db: Session = Depends(get_db)) -> list[Asset]:
