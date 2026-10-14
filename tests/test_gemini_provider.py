@@ -103,7 +103,11 @@ def test_provider_factory_builds_gemini_from_settings():
 
 
 def test_gemini_requires_api_key():
-    config = Settings(_env_file=None, analysis_provider="gemini")
+    config = Settings(
+        _env_file=None,
+        analysis_provider="gemini",
+        gemini_api_key="",
+    )
     with pytest.raises(ValueError, match="GEMINI_API_KEY"):
         configured_analysis_provider(config)
 

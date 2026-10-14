@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     analysis_max_attempts: int = Field(default=2, ge=1, le=5)
     analysis_prompt_version: str = "analysis-gemini-v1"
     gemini_api_key: SecretStr | None = None
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.1-flash-lite"
 
     @field_validator("database_url", mode="before")
     @classmethod
