@@ -18,6 +18,10 @@ def build_traceable_asset(
     """Build an asset whose every claim is grounded in interaction evidence.
 
     The backend owns provenance. Claims cannot be emitted without evidence.
+
+    This function is the shared contract that COMLAB-40 (LinkedIn) and
+    COMLAB-41 (FAQ) rely on: Both channels route their generated text
+    through here so traceability is enforced once, not twice.
     """
     if not analysis.evidence:
         raise ValueError(
@@ -36,6 +40,20 @@ def build_traceable_asset(
         raise ValueError(
             "Cannot generate an asset without claims."
         )
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------
+# COMLAB-40 y COMLAB-41: Verificación final de trazabilidad.
+# Esta comprobación adicional garantiza que ningún claim llegue al pipeline sin sources ni evidence, incluso si el modelo Pydantic cambia en el futuro.
+#------------------------------------------------------------------------------------------------------------------------------------------------------    
+    for claim in claim_items:
+        if not claim.source_interaction_ids:
+            raise ValueError(
+                "Every claim must declare at least one source_interaction_id."
+            )
+        if not claim.evidence:
+            raise ValueError(
+                "Every claim must include at least one evidence."
+            )
 
     return TraceableAsset(
         opportunity_id=opportunity_id,
