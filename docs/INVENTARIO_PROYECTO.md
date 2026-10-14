@@ -58,7 +58,7 @@ Los identificadores `INV-*` son estables y deben reutilizarse en GitHub y Jira.
 
 ### Fase A - gate funcional obligatorio antes de OCI
 
-- [ ] **INV-001 - Integrar un LLM real.** Implementar al menos un proveedor configurable, conservar el mock para pruebas y registrar `model`/`prompt_version`. Cierre: recorrido real de 20 interacciones con salida estructurada y fallback probado.
+- [x] **INV-001 - Integrar un LLM real.** Proveedor Gemini configurable, mock para pruebas, salida estructurada, evidencia exacta y registro de `model`/`prompt_version`. Recorrido real: 20/20 análisis con `gemini-3.1-flash-lite`, sin errores, y fallback comprobado. Evidencia: `docs/evidence/INV-001-gemini-validation/README.md`. GitHub #133 / Jira COMLAB-85.
 - [x] **INV-006 - Integrar y revisar PR #125.** Validaciones incorporadas mediante PR #125 y liberadas a `main` mediante PR #132, con CI verde. Relacionado con COMLAB-40, COMLAB-41 y COMLAB-62.
 - [x] **INV-007 - Cola persistente de curaduría.** Streamlit consulta `GET /assets?status=PENDING_REVIEW`, permite actualizar la cola y retira los activos decididos. Validado con 110 pruebas y comprobación visual local. GitHub #136 / Jira COMLAB-86.
 - [ ] **INV-008 - Consulta visual por `run_id`.** Permitir recuperar una ejecución previa y continuar su revisión. Cierre: pegar un `run_id`, recuperar resumen, análisis, oportunidades y activos.
