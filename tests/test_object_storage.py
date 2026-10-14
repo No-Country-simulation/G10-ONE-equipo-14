@@ -20,3 +20,7 @@ def test_only_approved_assets_can_be_published(client, db_session):
     assert len(published.json()["sha256"]) == 64
     assert published.json()["etag"] == published.json()["sha256"]
     assert db_session.query(ManifestRecord).count() == 1
+    repeated = client.post(f"/api/v1/assets/{asset['id']}/publish")
+    assert repeated.status_code == 200
+    assert repeated.json() == published.json()
+    assert db_session.query(ManifestRecord).count() == 1
