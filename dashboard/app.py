@@ -6,7 +6,7 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
-from api_client import decide_asset, edit_asset, list_pending_assets
+from api_client import decide_asset, edit_asset, get_run, list_pending_assets
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
@@ -134,9 +134,47 @@ if st.button(
     except requests.RequestException as exc:
         st.error(f"No se pudo conectar con la API: {exc}")
 
+st.subheader("2. Recuperar una ejecución")
+run_input, run_action = st.columns([4, 1])
+with run_input:
+    requested_run_id = st.text_input(
+        "Run ID",
+        placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        help="Pegá el identificador mostrado después de procesar una carga.",
+    )
+with run_action:
+    st.write("")
+    st.write("")
+    load_run = st.button(
+        "Buscar ejecución",
+        disabled=not requested_run_id.strip() or health is None,
+        use_container_width=True,
+    )
+
+if load_run:
+    try:
+        with st.spinner("Recuperando la ejecución desde PostgreSQL..."):
+            st.session_state["process_result"] = get_run(
+                API_URL,
+                requested_run_id,
+            )
+        st.success("Ejecución recuperada correctamente.")
+    except ValueError:
+        st.error("El Run ID debe ser un UUID válido.")
+    except requests.HTTPError as exc:
+        if exc.response is not None and exc.response.status_code == 404:
+            st.error("No existe una ejecución con ese Run ID.")
+        elif exc.response is not None and exc.response.status_code == 409:
+            st.warning("La ejecución todavía se está procesando.")
+        else:
+            detail = exc.response.text if exc.response is not None else str(exc)
+            st.error(f"La API no pudo recuperar la ejecución: {detail}")
+    except requests.RequestException as exc:
+        st.error(f"No se pudo conectar con la API: {exc}")
+
 result = st.session_state.get("process_result")
 if result:
-    st.subheader("2. Resultado persistido")
+    st.subheader("3. Resultado persistido")
     summary = result["summary"]
     columns = st.columns(4)
     columns[0].metric("Recibidas", summary["received"])
@@ -149,7 +187,7 @@ if result:
         st.warning("Algunos registros no pudieron procesarse.")
         st.dataframe(result["record_errors"], use_container_width=True)
 
-st.subheader("3. Análisis, oportunidades y curaduría")
+st.subheader("4. Análisis, oportunidades y curaduría")
 analysis_tab, opportunities_tab, assets_tab = st.tabs(
     ["Análisis", "Oportunidades", "LinkedIn y FAQ"]
 )
