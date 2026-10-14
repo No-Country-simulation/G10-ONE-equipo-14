@@ -1,4 +1,4 @@
-""""COMLAB-62 — Three required MVP journeys across API, DB, AI and storage.
+"""COMLAB-62 — Three required MVP journeys across API, DB, AI and storage.
 
 Acceptance criteria from the roadmap:
 - achievement -> LinkedIn (approved and published)

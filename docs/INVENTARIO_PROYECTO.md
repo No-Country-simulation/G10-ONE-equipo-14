@@ -59,7 +59,7 @@ Los identificadores `INV-*` son estables y deben reutilizarse en GitHub y Jira.
 ### Fase A - gate funcional obligatorio antes de OCI
 
 - [ ] **INV-001 - Integrar un LLM real.** Implementar al menos un proveedor configurable, conservar el mock para pruebas y registrar `model`/`prompt_version`. Cierre: recorrido real de 20 interacciones con salida estructurada y fallback probado.
-- [ ] **INV-006 - Integrar y revisar PR #125.** Validar criterios de longitud/evidencia de LinkedIn y FAQ, revisar cambios y fusionar si son correctos. Relacionado con COMLAB-40, COMLAB-41 y COMLAB-62.
+- [x] **INV-006 - Integrar y revisar PR #125.** Validaciones incorporadas mediante PR #125 y liberadas a `main` mediante PR #132, con CI verde. Relacionado con COMLAB-40, COMLAB-41 y COMLAB-62.
 - [ ] **INV-007 - Cola persistente de curaduría.** Streamlit debe consultar `GET /assets?status=PENDING_REVIEW`, no depender solamente del resultado guardado en la sesión actual. Cierre: recargar el navegador y conservar la cola.
 - [ ] **INV-008 - Consulta visual por `run_id`.** Permitir recuperar una ejecución previa y continuar su revisión. Cierre: pegar un `run_id`, recuperar resumen, análisis, oportunidades y activos.
 - [ ] **INV-009 - Evidencia y fuentes visibles.** Mostrar en cada análisis/activo los excerpts y `source_interaction_ids`. Cierre: el curador puede justificar cada afirmación sin inspeccionar JSON bruto.

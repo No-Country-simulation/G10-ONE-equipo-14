@@ -4,21 +4,18 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from app.schemas.v1.analysis import Analysis
+from app.schemas.v1.traceable_asset import TraceableAsset
 from app.services.asset_generation import build_traceable_asset
 
 
 LINKEDIN_PROMPT_VERSION = "linkedin-v1"
 FAQ_PROMPT_VERSION = "faq-v1"
 
-#---------------------------------------------------------------------------------------------------------------------------------------------
-# COMLAB-40: Rangos de longitud del copy de LinkedIn. Borrador demasiado corto no se publica; borrador demasiado largo dificulta la curaduría.
-#---------------------------------------------------------------------------------------------------------------------------------------------
+# COMLAB-40: rango permitido para el borrador de LinkedIn.
 LINKEDIN_MIN_LENGTH = 80
 LINKEDIN_MAX_LENGTH = 3000
 
-#---------------------------------------------------------------------------------------------------------------------------------------------
-# COMLAB-41: Rangos de longitud de la respuesta FAQ. La pregunta va en el título; el cuerpo debe ser didáctico y acotado.
-#---------------------------------------------------------------------------------------------------------------------------------------------
+# COMLAB-41: rango permitido para una respuesta FAQ didáctica y acotada.
 FAQ_MIN_LENGTH = 40
 FAQ_MAX_LENGTH = 2000
 
@@ -38,9 +35,7 @@ def generate_content(
     opportunity_id: UUID,
     analysis: Analysis,
 ) -> GeneratedContent:
-#--------------------------
-# COMLAB-40 y COMLAB-41: Validación temprana de evidencia
-#-----------------------------------
+    # COMLAB-40/41: ambos canales requieren evidencia desde el comienzo.
     if not analysis.evidence:
         raise ValueError(
             "Cannot generate content without analysis evidence."
@@ -68,10 +63,7 @@ def generate_content(
         analysis=analysis,
     )
 
-#------------------------------------------------------------------------------------------------------------------------------------------------
-# COMLAB 40 y COMLAB 41: Validación específica por canal.
-# El contenido generado (post LinkedIn o FAQ) debe cumplir el criterio de aceptación. Si no lo cumple se rechaza antes de devolverlo al pipeline.
-#------------------------------------------------------------------------------------------------------------------------------------------------
+    # Rechazar antes de devolver al pipeline si el contenido no cumple el canal.
     _validate_channel_output(
         channel=channel,
         title=title,
@@ -88,15 +80,12 @@ def generate_content(
     )
 
 
-#---------------------------------------------------------------------------------------------------------------------------------------------
-# COMLAB 40 y COMLAB 41: Validaciones específicas por canal.
-#---------------------------------------------------------------------------------------------------------------------------------------------
 def _validate_channel_output(
     *,
     channel: str,
     title: str,
     body: str,
-    traceable,
+    traceable: TraceableAsset,
 ) -> None:
     """Verify channel-specific acceptance criteria from the roadmap.
 

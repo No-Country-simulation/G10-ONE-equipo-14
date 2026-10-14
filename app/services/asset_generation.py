@@ -41,10 +41,7 @@ def build_traceable_asset(
             "Cannot generate an asset without claims."
         )
 
-#------------------------------------------------------------------------------------------------------------------------------------------------------
-# COMLAB-40 y COMLAB-41: Verificación final de trazabilidad.
-# Esta comprobación adicional garantiza que ningún claim llegue al pipeline sin sources ni evidence, incluso si el modelo Pydantic cambia en el futuro.
-#------------------------------------------------------------------------------------------------------------------------------------------------------    
+    # Defensa adicional si el contrato Pydantic cambia en el futuro.
     for claim in claim_items:
         if not claim.source_interaction_ids:
             raise ValueError(

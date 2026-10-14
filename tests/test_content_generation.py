@@ -1,4 +1,4 @@
-f"""Acceptance tests for COMLAB-40 (LinkedIn) and COMLAB-41 (FAQ)."""
+"""Acceptance tests for COMLAB-40 (LinkedIn) and COMLAB-41 (FAQ)."""
 
 from uuid import uuid4
 

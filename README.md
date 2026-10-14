@@ -196,6 +196,15 @@ Las pestañas permiten inspeccionar el análisis, las oportunidades y los activo
 
 Todas las rutas versionadas usan el prefijo `/api/v1`.
 
+## Proveedor de análisis
+
+El proveedor se selecciona con `ANALYSIS_PROVIDER`:
+
+- `mock`: valor predeterminado para desarrollo local y pruebas reproducibles.
+- `gemini`: proveedor real con salida JSON estructurada y evidencia textual verificada.
+
+Para Gemini, configurar `GEMINI_API_KEY` como secreto del entorno y, opcionalmente, `GEMINI_MODEL`. La clave nunca debe guardarse en `.env.example`, GitHub ni imágenes. El fallback a `mock` sólo se activa explícitamente con `ANALYSIS_FALLBACK_PROVIDER=mock`; no está habilitado por defecto para evitar que una falla externa simule silenciosamente un análisis real.
+
 ## Objetos de base de datos
 
 Las migraciones se encuentran en `alembic/versions/`.

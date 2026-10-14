@@ -4,7 +4,11 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from app.ai.mock_provider import MockAnalysisProvider
+from app.ai.provider_factory import (
+    configured_analysis_provider,
+    configured_fallback_provider,
+)
+from app.core.config import settings
 from app.db.models.analysis import Analysis as AnalysisRecord
 from app.db.models.analysis import AnalysisEvidence
 from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
@@ -27,7 +31,8 @@ def analyze_and_persist(
     requested_assets: list[str],
 ) -> tuple[list[Analysis], list[Opportunity], list[Asset]]:
     """Analyze newly persisted interactions and store traceable decisions."""
-    provider = MockAnalysisProvider()
+    provider = configured_analysis_provider()
+    fallback = configured_fallback_provider()
     analyses: list[Analysis] = []
     opportunities: list[Opportunity] = []
     assets: list[Asset] = []
@@ -45,6 +50,8 @@ def analyze_and_persist(
             provider=provider,
             interaction_id=interaction.id,
             interaction=interaction_payload,
+            max_attempts=settings.analysis_max_attempts,
+            fallback=fallback,
         )
         analysis_record = AnalysisRecord(
             run_id=run_id,
