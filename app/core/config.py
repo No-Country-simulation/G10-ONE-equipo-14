@@ -1,4 +1,6 @@
-from pydantic import field_validator
+from typing import Literal
+
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -13,6 +15,12 @@ class Settings(BaseSettings):
     oci_namespace: str | None = None
     oci_region: str | None = None
     oci_use_instance_principal: bool = True
+    analysis_provider: Literal["mock", "gemini"] = "mock"
+    analysis_fallback_provider: Literal["mock", "gemini"] | None = None
+    analysis_max_attempts: int = Field(default=2, ge=1, le=5)
+    analysis_prompt_version: str = "analysis-gemini-v1"
+    gemini_api_key: SecretStr | None = None
+    gemini_model: str = "gemini-2.5-flash"
 
     @field_validator("database_url", mode="before")
     @classmethod
