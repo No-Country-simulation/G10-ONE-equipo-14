@@ -2,6 +2,8 @@ from enum import StrEnum
 from uuid import UUID
 from pydantic import BaseModel, Field
 
+from app.schemas.v1.analysis import Evidence
+
 class AssetStatus(StrEnum):
     DRAFT = "DRAFT"
     PENDING_REVIEW = "PENDING_REVIEW"
@@ -21,6 +23,8 @@ class Asset(BaseModel):
     body: str
     status: AssetStatus
     version: int = Field(ge=1)
+    source_interaction_ids: list[UUID] = Field(default_factory=list)
+    evidence: list[Evidence] = Field(default_factory=list)
 
 class AssetEditRequest(BaseModel):
     title: str = Field(min_length=1)

@@ -33,6 +33,12 @@ def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
     assert len(body["opportunities"]) == 1
     assert body["opportunities"][0]["status"] == "PENDING"
     assert {asset["channel"] for asset in body["assets"]} == {"LINKEDIN"}
+    asset = body["assets"][0]
+    analysis_evidence = body["analyses"][0]["evidence"]
+    assert asset["evidence"] == analysis_evidence
+    assert asset["source_interaction_ids"] == [
+        analysis_evidence[0]["source_interaction_id"]
+    ]
 
     assert db_session.query(Analysis).count() == 1
     assert db_session.query(AnalysisEvidence).count() == 1

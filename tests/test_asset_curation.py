@@ -13,12 +13,17 @@ def test_pending_assets_can_be_listed(client):
     response = client.get("/api/v1/assets", params={"status": "PENDING_REVIEW"})
     assert response.status_code == 200
     assert [item["id"] for item in response.json()] == [asset["id"]]
+    listed = response.json()[0]
+    assert listed["source_interaction_ids"] == asset["source_interaction_ids"]
+    assert listed["evidence"] == asset["evidence"]
 
 def test_edit_creates_a_new_version(client, db_session):
     asset = _asset(client)
     response = client.patch(f"/api/v1/assets/{asset['id']}", json={"title": "FAQ revisada", "body": "Respuesta revisada con evidencia.", "editor": "Francis"})
     assert response.status_code == 200
     assert response.json()["version"] == 2
+    assert response.json()["source_interaction_ids"] == asset["source_interaction_ids"]
+    assert response.json()["evidence"] == asset["evidence"]
     assert db_session.query(AssetVersion).count() == 2
 
 def test_approve_is_audited_and_asset_becomes_immutable(client, db_session):
