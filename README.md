@@ -177,6 +177,7 @@ El resultado esperado es `Up` para los tres servicios y `healthy` para `db` y `a
 4. Presionar **Procesar archivo**.
 5. Confirmar el resumen de recibidas, aceptadas, duplicadas y errores.
 6. Volver a cargar el mismo archivo. La segunda carga debe informar los registros como duplicados para esa comunidad.
+7. Copiar el `Run ID`, recargar el navegador y usar **Buscar ejecución** para recuperar el mismo resultado desde PostgreSQL.
 
 Las pestañas permiten inspeccionar el análisis, las oportunidades y los activos
 generados por la ejecución. **LinkedIn y FAQ** consulta su cola directamente en
