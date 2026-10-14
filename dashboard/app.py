@@ -6,6 +6,8 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
+from api_client import decide_asset, edit_asset, list_pending_assets
+
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
 
@@ -122,6 +124,7 @@ if st.button(
                 community_id,
                 reference_period,
             )
+            st.session_state.pop("pending_assets", None)
         st.success("Carga procesada correctamente.")
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         st.error(f"El archivo JSON no se pudo leer: {exc}")
@@ -161,18 +164,69 @@ with opportunities_tab:
     else:
         st.info("Procesá un archivo para ver oportunidades.")
 with assets_tab:
-    for asset in (result.get("assets", []) if result else []):
+    queue_header, queue_action = st.columns([4, 1])
+    queue_header.caption(
+        "Cola persistente: los borradores pendientes se recuperan desde PostgreSQL."
+    )
+    refresh_queue = queue_action.button("Actualizar cola", use_container_width=True)
+    if "pending_assets" not in st.session_state or refresh_queue:
+        try:
+            st.session_state["pending_assets"] = list_pending_assets(API_URL)
+        except requests.RequestException as exc:
+            st.session_state["pending_assets"] = []
+            st.error(f"No se pudo recuperar la cola de curaduría: {exc}")
+
+    pending_assets = st.session_state.get("pending_assets", [])
+    if not pending_assets:
+        st.info("No hay activos pendientes de revisión.")
+
+    for asset in pending_assets:
         with st.container(border=True):
             title = st.text_input("Título", value=asset["title"], key=f"title-{asset['id']}")
             body = st.text_area("Contenido", value=asset["body"], key=f"body-{asset['id']}")
             st.caption(f"{asset['channel']} · {asset['status']} · versión {asset['version']}")
             save, approve, reject = st.columns(3)
             if save.button("Guardar", key=f"save-{asset['id']}"):
-                response = requests.patch(f"{API_URL}/api/v1/assets/{asset['id']}", json={"title": title, "body": body, "editor": "dashboard"}, timeout=10)
-                response.raise_for_status(); asset.update(response.json()); st.success("Nueva versión guardada.")
+                try:
+                    asset.update(
+                        edit_asset(
+                            API_URL,
+                            asset["id"],
+                            title=title,
+                            body=body,
+                            editor="dashboard",
+                        )
+                    )
+                    st.success("Nueva versión guardada.")
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo guardar el activo: {exc}")
             if approve.button("Aprobar", key=f"approve-{asset['id']}"):
-                response = requests.post(f"{API_URL}/api/v1/assets/{asset['id']}/approve", json={"reviewer": "dashboard"}, timeout=10)
-                response.raise_for_status(); asset.update(response.json()); st.success("Activo aprobado.")
+                try:
+                    decide_asset(
+                        API_URL,
+                        asset["id"],
+                        decision="approve",
+                        reviewer="dashboard",
+                    )
+                    st.session_state["pending_assets"] = [
+                        item for item in pending_assets if item["id"] != asset["id"]
+                    ]
+                    st.success("Activo aprobado y retirado de la cola.")
+                    st.rerun()
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo aprobar el activo: {exc}")
             if reject.button("Rechazar", key=f"reject-{asset['id']}"):
-                response = requests.post(f"{API_URL}/api/v1/assets/{asset['id']}/reject", json={"reviewer": "dashboard"}, timeout=10)
-                response.raise_for_status(); asset.update(response.json()); st.warning("Activo rechazado.")
+                try:
+                    decide_asset(
+                        API_URL,
+                        asset["id"],
+                        decision="reject",
+                        reviewer="dashboard",
+                    )
+                    st.session_state["pending_assets"] = [
+                        item for item in pending_assets if item["id"] != asset["id"]
+                    ]
+                    st.warning("Activo rechazado y retirado de la cola.")
+                    st.rerun()
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo rechazar el activo: {exc}")
