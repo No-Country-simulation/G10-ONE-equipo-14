@@ -186,6 +186,12 @@ recargar el navegador o iniciar otra sesión. El botón **Actualizar cola** fuer
 una nueva consulta. Cada análisis y activo incluye una sección **Evidencia y
 fuentes** con los extractos originales y sus identificadores de interacción.
 
+La curaduría aplica una máquina de estados explícita: sólo un activo
+`PENDING_REVIEW` puede aprobarse o rechazarse. Editar un activo `REJECTED`
+crea una nueva versión y lo devuelve a `PENDING_REVIEW`; un activo `APPROVED`
+es inmutable. Publicar nuevamente un activo aprobado es idempotente y devuelve
+el manifest ya creado, sin generar registros duplicados.
+
 ## Endpoints de la API
 
 | Método | Ruta | Estado actual |
