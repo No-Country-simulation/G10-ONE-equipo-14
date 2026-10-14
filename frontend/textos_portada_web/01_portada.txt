@@ -1,0 +1,20 @@
+COMMUNITYLAB
+
+Título principal
+Transformamos conversaciones de comunidad en contenido útil y accionable
+
+Subtítulo
+CommunityLab analiza interacciones, identifica logros, preguntas y temas relevantes, y genera borradores de contenido listos para revisión humana.
+
+Descripción breve
+Las comunidades generan todos los días testimonios, aprendizajes, dudas y señales de mejora. CommunityLab ayuda a ordenar esa información y convertirla en publicaciones para LinkedIn, preguntas frecuentes y resúmenes que conservan la evidencia de origen.
+
+Botón principal
+Procesar interacciones
+
+Botón secundario
+Conocer cómo funciona
+
+Mensaje de confianza
+Contenido asistido por inteligencia artificial, con trazabilidad y aprobación humana antes de su uso.
+

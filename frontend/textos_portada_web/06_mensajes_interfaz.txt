@@ -1,0 +1,51 @@
+MENSAJES PARA LA INTERFAZ
+
+Estado inicial
+Carga un archivo JSON o CSV para comenzar el análisis de la comunidad.
+
+Archivo válido
+El archivo fue validado correctamente y está listo para procesarse.
+
+Archivo con errores
+Algunos registros necesitan corrección. Revisa los campos señalados antes de continuar.
+
+Procesamiento
+Estamos analizando las interacciones y buscando oportunidades de contenido.
+
+Procesamiento finalizado
+El análisis terminó. Revisa los resultados y los borradores generados.
+
+Sin oportunidades
+No encontramos interacciones con evidencia suficiente para generar contenido en este lote.
+
+Revisión requerida
+Este borrador necesita revisión humana antes de aprobarse.
+
+Privacidad
+El contenido incluye información sensible y fue bloqueado para revisión.
+
+Aprobación
+El activo fue aprobado y está listo para incorporarse al paquete final.
+
+Rechazo
+El activo fue rechazado y no se incluirá en el paquete aprobado.
+
+Almacenamiento exitoso
+El paquete fue guardado correctamente en OCI Object Storage.
+
+Error de almacenamiento
+No fue posible guardar el paquete. Los resultados permanecen disponibles para volver a intentarlo.
+
+BOTONES Y ACCIONES
+
+- Seleccionar archivo
+- Validar archivo
+- Procesar interacciones
+- Ver evidencia
+- Editar borrador
+- Aprobar
+- Rechazar
+- Volver a generar
+- Guardar en OCI
+- Descargar resultados
+

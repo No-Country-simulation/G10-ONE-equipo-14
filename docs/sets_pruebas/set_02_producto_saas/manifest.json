@@ -1,0 +1,14 @@
+{
+  "set": "set_02_producto_saas",
+  "records": 60,
+  "files": [
+    {
+      "name": "entrada_60.json",
+      "sha256": "418cb17536a38ad13858adffcd63b868c735d6e0a5e0087730c47b68bb02454d"
+    },
+    {
+      "name": "salida_esperada_60.json",
+      "sha256": "61d991d87d93da5f14e4d1c2b166c926db58490f62563ac5749a5f0989ec4efc"
+    }
+  ]
+}

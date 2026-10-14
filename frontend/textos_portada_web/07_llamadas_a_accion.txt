@@ -1,0 +1,35 @@
+LLAMADAS A LA ACCIÓN
+
+Portada
+- Procesar interacciones
+- Explorar el MVP
+- Ver demostración
+
+Sección de funcionamiento
+- Conocer el flujo
+- Ver un ejemplo de entrada
+- Revisar una salida esperada
+
+Sección de beneficios
+- Descubrir oportunidades de contenido
+- Organizar el conocimiento de la comunidad
+
+Sección de proyecto
+- Consultar la documentación
+- Visitar el repositorio
+- Ver el avance del proyecto
+
+CIERRE DE PÁGINA
+
+Título
+Convierte la actividad de tu comunidad en contenido que puede revisarse y utilizarse
+
+Texto
+Prueba CommunityLab con un archivo de interacciones y revisa cómo se transforman los mensajes en análisis, oportunidades y borradores trazables.
+
+Acción principal
+Comenzar con un archivo de ejemplo
+
+Acción secundaria
+Consultar la documentación técnica
+

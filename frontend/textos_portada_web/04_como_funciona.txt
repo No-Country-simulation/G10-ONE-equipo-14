@@ -1,0 +1,24 @@
+CÓMO FUNCIONA COMMUNITYLAB
+
+Paso 1. Carga de información
+El usuario selecciona un archivo JSON o CSV con interacciones de la comunidad. El sistema valida los campos y muestra los registros que requieren corrección.
+
+Paso 2. Preparación de los datos
+CommunityLab normaliza el contenido, identifica duplicados y asigna referencias que permiten seguir cada interacción durante todo el proceso.
+
+Paso 3. Análisis
+La solución utiliza inteligencia artificial para identificar sentimiento, temas, relevancia, confianza, evidencias y posibles oportunidades de contenido.
+
+Paso 4. Generación
+Las reglas del sistema seleccionan los casos adecuados y generan borradores para LinkedIn o preguntas frecuentes. Los mensajes sin evidencia suficiente no se transforman en contenido.
+
+Paso 5. Curaduría humana
+El equipo revisa las fuentes, edita el texto y decide si el borrador se aprueba o rechaza.
+
+Paso 6. Almacenamiento
+Los resultados aprobados se organizan en un paquete con su manifiesto, checksum y referencias de origen. El paquete se almacena en OCI Object Storage.
+
+MENSAJE RESUMIDO DEL FLUJO
+
+Cargar. Analizar. Revisar. Aprobar. Conservar.
+

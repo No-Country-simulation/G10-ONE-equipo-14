@@ -1,0 +1,38 @@
+COMMUNITYLAB
+Transformamos conversaciones de comunidad en contenido útil y accionable.
+
+CommunityLab analiza interacciones, identifica logros, preguntas y temas relevantes, y genera borradores de LinkedIn y FAQ listos para revisión humana.
+
+MISIÓN
+Ayudar a los equipos de comunidad y marketing a identificar información valiosa dentro de sus conversaciones y convertirla en contenido claro, trazable y sujeto a revisión humana.
+
+VISIÓN
+Ser una plataforma confiable para transformar la actividad de comunidades digitales en conocimiento, contenido y oportunidades de mejora, respetando la privacidad de las personas y la voz de cada organización.
+
+OBJETIVO
+Convertir interacciones de comunidades digitales en análisis estructurados y borradores que puedan ser revisados, aprobados y almacenados de forma trazable.
+
+CÓMO FUNCIONA
+1. El usuario carga un archivo JSON o CSV.
+2. El sistema valida, normaliza y deduplica las interacciones.
+3. La inteligencia artificial analiza sentimiento, temas, relevancia y evidencia.
+4. Las reglas identifican oportunidades y generan borradores.
+5. Una persona edita, aprueba o rechaza cada activo.
+6. Los resultados aprobados se almacenan en OCI Object Storage.
+
+PROPUESTA DE VALOR
+- Menos revisión manual.
+- Contenido sustentado en evidencia.
+- Aprobación humana antes del uso.
+- Protección de datos sensibles.
+- Arquitectura flexible y proveedor LLM intercambiable.
+- Persistencia mediante paquetes y manifiestos verificables.
+
+MENSAJE FINAL
+Convierte la actividad de tu comunidad en contenido que puede revisarse y utilizarse.
+
+ACCIÓN PRINCIPAL
+Procesar interacciones
+
+ACCIÓN SECUNDARIA
+Conocer cómo funciona

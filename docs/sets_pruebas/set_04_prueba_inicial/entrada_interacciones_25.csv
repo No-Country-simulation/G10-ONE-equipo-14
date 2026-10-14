@@ -1,0 +1,26 @@
+external_id,author_alias,channel,interaction_type,text,occurred_at
+INT-001,miembro_01,logros,testimonio,Conseguí mi primer empleo como desarrolladora junior. El proyecto de LangGraph y OCI fue clave en la entrevista.,01/10/2026 13:07
+INT-002,miembro_02,dudas-langgraph,pregunta_tecnica,¿Cómo puedo implementar un nodo de reintento cuando el modelo devuelve un JSON inválido?,01/10/2026 14:14
+INT-003,miembro_03,proyectos,proyecto_destacado,Terminé un asistente que clasifica consultas y guarda los resultados en OCI Object Storage.,01/10/2026 15:21
+INT-004,miembro_04,feedback,feedback_positivo,La explicación sobre prompts estructurados me ayudó a corregir los errores de formato de mi API.,01/10/2026 16:28
+INT-005,miembro_05,dudas-python,pregunta_tecnica,¿Conviene procesar un CSV completo o dividirlo en lotes antes de enviarlo al modelo?,01/10/2026 17:35
+INT-006,miembro_06,general,conversacion,"Buenos días, ¿a qué hora comienza la mentoría de hoy?",01/10/2026 12:42
+INT-007,miembro_07,logros,testimonio,Aprobé la certificación de fundamentos de nube después de practicar con los laboratorios del programa.,01/10/2026 13:49
+INT-008,miembro_08,soporte,problema,La carga del archivo falla cuando el CSV contiene tildes y caracteres especiales.,01/10/2026 14:56
+INT-009,miembro_09,dudas-oci,pregunta_tecnica,"¿Qué estructura de carpetas recomiendan para separar archivos raw, analyzed y approved en el bucket?",02/10/2026 15:03
+INT-010,miembro_10,feedback,feedback_negativo,"El ejercicio fue útil, pero faltó un ejemplo completo de principio a fin y perdí tiempo configurando variables.",02/10/2026 16:10
+INT-011,miembro_11,proyectos,proyecto_destacado,Publiqué mi portfolio con tres proyectos de IA y ya recibí una invitación a entrevista.,02/10/2026 17:17
+INT-012,miembro_12,dudas-api,pregunta_tecnica,¿Cómo utilizo una Idempotency-Key para evitar que un reintento genere activos duplicados?,02/10/2026 12:24
+INT-013,miembro_13,general,conversacion,Comparto el enlace de la grabación de la sesión para quienes no pudieron asistir.,02/10/2026 13:31
+INT-014,miembro_14,logros,testimonio,Mi equipo eligió mi prototipo como base para la demostración final del hackathon.,02/10/2026 14:38
+INT-015,miembro_15,soporte,problema,La API responde 500 cuando OCI no está configurado. Sería mejor mostrar un mensaje de configuración pendiente.,02/10/2026 15:45
+INT-016,miembro_16,dudas-llm,pregunta_tecnica,¿Cómo valido con Pydantic que la relevancia y la confianza estén entre cero y uno?,02/10/2026 16:52
+INT-017,miembro_17,feedback,feedback_positivo,El tablero de curaduría es claro y permite identificar rápidamente qué contenido requiere revisión.,03/10/2026 17:59
+INT-018,miembro_18,proyectos,proyecto_destacado,Construí un flujo que transforma preguntas frecuentes en borradores de FAQ con evidencia de origen.,03/10/2026 12:06
+INT-019,miembro_19,general,conversacion,¿Alguien tiene el documento con las fechas de entrega de esta semana?,03/10/2026 13:13
+INT-020,miembro_20,seguridad,alerta_privacidad,El mensaje de prueba contiene un correo personal y un número de teléfono. No debería publicarse sin anonimizar.,03/10/2026 14:20
+INT-021,miembro_21,dudas-docker,pregunta_tecnica,¿Cómo hago para que FastAPI espere a que PostgreSQL esté saludable en Docker Compose?,03/10/2026 15:27
+INT-022,miembro_22,feedback,feedback_mixto,"La interfaz se ve bien, aunque el botón de procesar debería indicar por qué permanece deshabilitado.",03/10/2026 16:34
+INT-023,miembro_23,logros,testimonio,Presenté el MVP a mi comunidad y tres personas se ofrecieron a probarlo con datos simulados.,03/10/2026 17:41
+INT-024,miembro_24,soporte,problema,Al repetir la carga del mismo JSON aparecen registros duplicados en la tabla de resultados.,03/10/2026 12:48
+INT-025,miembro_25,dudas-evaluacion,pregunta_tecnica,¿Qué métricas mínimas podemos usar para evaluar si los posts generados son útiles y están sustentados?,04/10/2026 13:55

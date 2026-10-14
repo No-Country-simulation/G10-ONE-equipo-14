@@ -1,0 +1,14 @@
+{
+  "set": "set_01_empleabilidad_formacion",
+  "records": 60,
+  "files": [
+    {
+      "name": "entrada_60.json",
+      "sha256": "42c1189bc0a06d3c9329abcb87b9cbaf31acc324a913e464447b2e94ab5fe0db"
+    },
+    {
+      "name": "salida_esperada_60.json",
+      "sha256": "c04e33f0683faa40c52207c1bd62a7c47dff026ff40e5d96a889c57c6df7d15c"
+    }
+  ]
+}
