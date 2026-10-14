@@ -160,6 +160,11 @@ def analyze_and_persist(
                     body=generated.body,
                     status="PENDING_REVIEW",
                     version=1,
+                    source_interaction_ids=[
+                        evidence.source_interaction_id
+                        for evidence in analysis.evidence
+                    ],
+                    evidence=analysis.evidence,
                 )
             )
 

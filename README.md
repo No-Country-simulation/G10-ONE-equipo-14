@@ -183,7 +183,8 @@ Las pestañas permiten inspeccionar el análisis, las oportunidades y los activo
 generados por la ejecución. **LinkedIn y FAQ** consulta su cola directamente en
 PostgreSQL mediante la API; los pendientes continúan visibles después de
 recargar el navegador o iniciar otra sesión. El botón **Actualizar cola** fuerza
-una nueva consulta.
+una nueva consulta. Cada análisis y activo incluye una sección **Evidencia y
+fuentes** con los extractos originales y sus identificadores de interacción.
 
 ## Endpoints de la API
 

@@ -193,7 +193,27 @@ analysis_tab, opportunities_tab, assets_tab = st.tabs(
 )
 with analysis_tab:
     if result:
-        st.dataframe(result.get("analyses", []), use_container_width=True)
+        analyses = result.get("analyses", [])
+        if not analyses:
+            st.info("La ejecución no contiene análisis.")
+        for index, analysis in enumerate(analyses, start=1):
+            label = (
+                f"{index}. {analysis.get('sentiment', 'sin sentimiento')} · "
+                f"confianza {analysis.get('confidence', 0):.2f}"
+            )
+            with st.expander(label):
+                st.write("**Temas:**", ", ".join(analysis.get("topics", [])) or "—")
+                st.write("**Entidades:**", ", ".join(analysis.get("entities", [])) or "—")
+                st.caption(
+                    f"Modelo: {analysis.get('model', '—')} · "
+                    f"Prompt: {analysis.get('prompt_version', '—')}"
+                )
+                st.write("**Evidencia y fuentes**")
+                for evidence in analysis.get("evidence", []):
+                    st.markdown(f"> {evidence['excerpt']}")
+                    st.caption(
+                        f"Interacción fuente: {evidence['source_interaction_id']}"
+                    )
     else:
         st.info("Procesá un archivo para ver análisis.")
 with opportunities_tab:
@@ -223,6 +243,17 @@ with assets_tab:
             title = st.text_input("Título", value=asset["title"], key=f"title-{asset['id']}")
             body = st.text_area("Contenido", value=asset["body"], key=f"body-{asset['id']}")
             st.caption(f"{asset['channel']} · {asset['status']} · versión {asset['version']}")
+            with st.expander("Evidencia y fuentes"):
+                source_ids = asset.get("source_interaction_ids", [])
+                if source_ids:
+                    st.caption("Interacciones fuente: " + ", ".join(source_ids))
+                for evidence in asset.get("evidence", []):
+                    st.markdown(f"> {evidence['excerpt']}")
+                    st.caption(
+                        f"Fuente: {evidence['source_interaction_id']}"
+                    )
+                if not source_ids and not asset.get("evidence"):
+                    st.warning("Este activo histórico no contiene fuentes visibles.")
             save, approve, reject = st.columns(3)
             if save.button("Guardar", key=f"save-{asset['id']}"):
                 try:
