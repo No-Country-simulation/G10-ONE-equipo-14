@@ -12,6 +12,7 @@ class ManifestRecord(Base):
     __tablename__ = "manifests"
     __table_args__ = (
         UniqueConstraint("bucket", "object_key", name="uq_manifests_bucket_object_key"),
+        UniqueConstraint("asset_id", name="uq_manifests_asset_id"),
         CheckConstraint("length(btrim(schema_version)) > 0", name="ck_manifests_schema_version_nonempty"),
         CheckConstraint("length(btrim(bucket)) > 0", name="ck_manifests_bucket_nonempty"),
         CheckConstraint("length(btrim(object_key)) > 0", name="ck_manifests_object_key_nonempty"),
