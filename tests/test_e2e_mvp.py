@@ -7,7 +7,8 @@ Acceptance criteria from the roadmap:
 """
 
 
-def _process(client, key, text, assets):
+def _process(client, key, text, assets, interaction_type="message"):
+    texts = text if isinstance(text, list) else [text]
     return client.post(
         "/api/v1/process",
         headers={"Idempotency-Key": key, "X-Request-ID": f"trace-{key}"},
@@ -20,9 +21,10 @@ def _process(client, key, text, assets):
                 {
                     "author": "Ana",
                     "channel": "community",
-                    "type": "message",
-                    "text": text,
+                    "type": interaction_type,
+                    "text": item,
                 }
+                for item in texts
             ],
         },
     )
@@ -83,8 +85,12 @@ def test_technical_question_to_approved_faq(client):
     response = _process(
         client,
         "faq",
-        "Tengo un problema y necesito saber cómo conectar FastAPI con PostgreSQL en Docker.",
+        [
+            "¿Cómo conecto FastAPI con PostgreSQL usando Docker?",
+            "¿Cómo puedo configurar FastAPI y PostgreSQL dentro de Docker?",
+        ],
         ["FAQ"],
+        interaction_type="question",
     )
 
     assert response.status_code == 202

@@ -4,7 +4,7 @@ from app.db.models.approval import ApprovalRecord
 from app.db.models.asset import AssetVersion
 
 def _asset(client):
-    response = client.post("/api/v1/process", headers={"Idempotency-Key": "curation-seed"}, json={"organization_id": "curation-org", "community_id": "curation-community", "reference_period": "2026-W41", "requested_assets": ["FAQ"], "interactions": [{"author": "Ana", "channel": "general", "type": "achievement", "text": "Gracias, conseguí usar FastAPI con PostgreSQL y Docker."}]})
+    response = client.post("/api/v1/process", headers={"Idempotency-Key": "curation-seed"}, json={"organization_id": "curation-org", "community_id": "curation-community", "reference_period": "2026-W41", "requested_assets": ["LINKEDIN"], "interactions": [{"author": "Ana", "channel": "general", "type": "achievement", "text": "Gracias, conseguí usar FastAPI con PostgreSQL y Docker."}]})
     assert response.status_code == 202
     return response.json()["assets"][0]
 

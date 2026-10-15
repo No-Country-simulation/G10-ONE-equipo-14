@@ -26,6 +26,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - Health checks de PostgreSQL y API.
 - Pipeline de análisis, detección de PII y oportunidades.
 - Generación versionada de activos LinkedIn y FAQ.
+- FAQ basada en recurrencia temática, con umbral configurable.
 - Curaduría persistente: edición, aprobación y rechazo.
 - Adaptadores de almacenamiento local y OCI con manifiestos verificables.
 - Suite de 93 pruebas aprobadas, 1 omitida y CI en GitHub Actions al cierre E8.
@@ -216,6 +217,12 @@ persistir o enviar texto al proveedor de IA. Sin consentimiento, las menciones
 del autor se sustituyen por `[PERSON]`; con `opt_out: true` se conserva la
 trazabilidad de la decisión, pero no se genera ningún activo publicable. Las
 mismas columnas pueden incluirse de forma opcional en archivos CSV.
+
+Las FAQ no se generan por una consulta aislada. El pipeline agrupa únicamente
+interacciones de tipo `question` por su tema principal y genera una sola FAQ
+cuando el grupo alcanza `FAQ_RECURRENCE_THRESHOLD` (2 por defecto). El activo
+resultante conserva la evidencia y los identificadores de todas las preguntas
+del grupo.
 
 ## Proveedor de análisis
 
