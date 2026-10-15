@@ -1,11 +1,16 @@
 """Bounded retries and fallback for interchangeable analysis providers."""
 
 from uuid import UUID
+import logging
+from time import perf_counter
 
 from app.ai.base import AnalysisProvider
 from app.schemas.v1.analysis import Analysis
 from app.schemas.v1.interaction import InteractionRequest
 from app.services.analysis import analyze_interaction
+from app.core.observability import log_event
+
+logger = logging.getLogger("communitylab.analysis")
 
 
 class AnalysisProviderUnavailable(RuntimeError):
@@ -24,17 +29,22 @@ def analyze_with_resilience(
         raise ValueError("max_attempts must be at least 1")
 
     last_error: Exception | None = None
-    for _ in range(max_attempts):
+    for attempt in range(1, max_attempts + 1):
+        started = perf_counter()
         try:
-            return analyze_interaction(provider, interaction_id, interaction)
+            result = analyze_interaction(provider, interaction_id, interaction)
+            log_event(logger, "analysis_completed", provider=type(provider).__name__, attempt=attempt, duration_ms=round((perf_counter() - started) * 1000, 2))
+            return result
         except Exception as exc:  # provider boundary: normalize external failures
             last_error = exc
+            log_event(logger, "analysis_retry", provider=type(provider).__name__, attempt=attempt, error_type=type(exc).__name__, duration_ms=round((perf_counter() - started) * 1000, 2))
 
     if fallback is not None:
         try:
             return analyze_interaction(fallback, interaction_id, interaction)
         except Exception as exc:
             last_error = exc
+            log_event(logger, "analysis_fallback_failed", provider=type(fallback).__name__, error_type=type(exc).__name__)
 
     raise AnalysisProviderUnavailable(
         "Analysis provider failed after all configured attempts."

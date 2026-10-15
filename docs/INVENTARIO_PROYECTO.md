@@ -81,7 +81,7 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 
 ### Fase C - operación, calidad y coherencia
 
-- [ ] **INV-015 - Observabilidad estructurada.** Emitir logs JSON sin texto sensible y métricas de duración, errores, reintentos y almacenamiento.
+- [x] **INV-015 - Observabilidad estructurada.** Solicitudes, análisis y almacenamiento emiten eventos JSON con duración, estado, reintentos, tipo de error y bytes, sin registrar textos de interacción ni mensajes de excepción. GitHub #165 / Jira COMLAB-95.
 - [ ] **INV-017 - Protección de la API pública.** Definir autenticación mínima o limitar las operaciones mutables del entorno público; documentar CORS y rate limiting.
 - [ ] **INV-018 - Respaldo y restauración verificados.** Ejecutar backup y restore de PostgreSQL; el script existente no prueba restauración y Render Free expira.
 - [ ] **INV-019 - Endurecer CI.** Añadir lint/format, análisis de tipos o estático, auditoría de dependencias, prueba del dashboard y smoke test desplegado.
