@@ -31,7 +31,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - FAQ basada en recurrencia temática, con umbral configurable.
 - Curaduría persistente: edición, aprobación y rechazo.
 - Adaptadores de almacenamiento local y OCI con manifiestos verificables.
-- Suite de 142 pruebas aprobadas y CI en GitHub Actions al cierre de INV-023.
+- Suite de 144 pruebas aprobadas y CI en GitHub Actions al cierre de INV-024.
 - Datos de demostración en JSON y CSV.
 
 ### Próximos pasos operativos
@@ -193,6 +193,16 @@ lote máximo con el proveedor mock reproducible:
 
 ```powershell
 docker compose exec -T api python scripts/benchmark_500.py --api-url http://localhost:8000 --count 500 --async-mode --max-seconds 1
+```
+
+### Evaluación de calidad
+
+La muestra humana, las definiciones de validez, grounding y precisión, y sus
+limitaciones están en [`docs/EVALUATION_GUIDE.md`](docs/EVALUATION_GUIDE.md).
+La línea base se reproduce sin red con:
+
+```powershell
+docker compose run --rm -T api python -m scripts.evaluate_quality
 ```
 
 ### 4. Abrir la aplicación
