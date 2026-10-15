@@ -90,7 +90,7 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 
 ### Fase D - mejoras posteriores al MVP
 
-- [ ] **INV-022 - Entrada automática.** Evaluar webhook/n8n/Discord/Slack sólo después de cerrar P0 y P1.
+- [x] **INV-022 - Entrada automática.** Webhook neutral protegido e idempotente que integra n8n/Discord/Slack con el pipeline existente; incluye contrato, mapeos, reintentos y pruebas sin credenciales externas. Evidencia: `docs/evidence/INV-022-webhook-input/README.md`.
 - [ ] **INV-023 - Procesamiento asíncrono.** Medir lotes de 500 elementos; agregar worker/cola sólo si se supera el objetivo de 30 segundos.
 - [ ] **INV-024 - Métricas de evaluación.** Medir validez de salida, grounding y precisión de oportunidades con una muestra humana.
 - [ ] **INV-025 - Canales adicionales.** X/Twitter, newsletter, highlights e informes de sentimiento quedan como alcance posterior.
