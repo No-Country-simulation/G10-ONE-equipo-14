@@ -16,6 +16,10 @@ services:
         value: local
       - key: STORAGE_BUCKET
         value: communitylab-demo
+      # The public demo is read-only. To enable curation, change this to true
+      # and configure the same API_WRITE_KEY secret in both web services.
+      - key: MUTATIONS_ENABLED
+        value: false
 
   - type: web
     name: communitylab-dashboard

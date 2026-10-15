@@ -138,6 +138,16 @@ Variables disponibles:
 | `ENVIRONMENT` | Entorno | `development` |
 | `DATABASE_URL` | Conexión interna desde la API | PostgreSQL del servicio `db` |
 | `API_URL` | Conexión interna desde Streamlit | `http://api:8000` |
+| `MUTATIONS_ENABLED` | Habilita carga, edición, aprobación y publicación | `true` sólo en entornos controlados |
+| `API_WRITE_KEY` | Secreto compartido enviado como `X-API-Key` | Sin valor en desarrollo local |
+| `MUTATION_RATE_LIMIT` | Máximo de mutaciones por cliente y ventana | `60` |
+| `MUTATION_RATE_WINDOW_SECONDS` | Duración de la ventana del límite | `60` |
+
+### Protección de la API pública
+
+Las rutas de lectura (`health`, ejecuciones, activos y alertas) permanecen públicas. Las rutas que cambian datos pasan por tres controles: el interruptor `MUTATIONS_ENABLED`, una clave opcional `API_WRITE_KEY` comparada de forma segura y un límite por IP para cada ventana. El Blueprint de Render deja la demo pública en modo sólo lectura. Para habilitar curaduría en un entorno compartido, configure el mismo `API_WRITE_KEY` como secreto en la API y el dashboard y cambie `MUTATIONS_ENABLED=true`.
+
+CORS acepta únicamente los orígenes definidos en `CORS_ORIGINS`; por defecto son las dos variantes locales de Streamlit. En un despliegue se debe agregar explícitamente el dominio real del dashboard. El limitador incluido vive en memoria y cubre el despliegue gratuito de una instancia; al escalar a varias réplicas debe reemplazarse por un contador compartido (por ejemplo Redis o el gateway de la plataforma).
 | `POSTGRES_DB` | Base de datos local | `communitylab` |
 | `POSTGRES_USER` | Usuario local | `communitylab` |
 | `POSTGRES_PASSWORD` | Contraseña local | `communitylab` |

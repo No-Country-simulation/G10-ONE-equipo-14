@@ -6,10 +6,11 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
-from api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
+from api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets, mutation_headers
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
+API_WRITE_KEY = os.getenv("API_WRITE_KEY")
 
 st.set_page_config(page_title="CommunityLab", page_icon="🧪", layout="wide")
 st.title("CommunityLab")
@@ -32,7 +33,7 @@ def process_upload(
     reference_period: str,
 ) -> dict:
     idempotency_key = f"dashboard-{uuid4()}"
-    headers = {"Idempotency-Key": idempotency_key}
+    headers = {"Idempotency-Key": idempotency_key, **mutation_headers(API_WRITE_KEY)}
     content = uploaded_file.getvalue()
 
     if uploaded_file.name.lower().endswith(".csv"):
@@ -287,6 +288,7 @@ with assets_tab:
                             title=title,
                             body=body,
                             editor="dashboard",
+                            api_write_key=API_WRITE_KEY,
                         )
                     )
                     st.success("Nueva versión guardada.")
@@ -299,6 +301,7 @@ with assets_tab:
                         asset["id"],
                         decision="approve",
                         reviewer="dashboard",
+                        api_write_key=API_WRITE_KEY,
                     )
                     st.session_state["pending_assets"] = [
                         item for item in pending_assets if item["id"] != asset["id"]
@@ -314,6 +317,7 @@ with assets_tab:
                         asset["id"],
                         decision="reject",
                         reviewer="dashboard",
+                        api_write_key=API_WRITE_KEY,
                     )
                     st.session_state["pending_assets"] = [
                         item for item in pending_assets if item["id"] != asset["id"]
