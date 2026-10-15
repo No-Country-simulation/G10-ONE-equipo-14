@@ -6,11 +6,13 @@ Esta carpeta contiene capturas y resultados que demuestran el cierre de cada eta
 
 | Etapa | Capturas disponibles |
 | --- | --- |
-| E1–E6 | No se generaron capturas específicas |
+| E1–E6 | `INV-021-visual-evidence/` contiene seis capturas verificadas del recorrido local |
 | E7 | `E7-cierre-mvp/02-swagger.png`, `E7-cierre-mvp/03-health.png` |
 | E8 | `E8-render-deployment/01-dashboard-publico.png`, `E8-render-deployment/02-api-swagger.png` |
 
 El detalle técnico y el procedimiento de reproducción están en [`../ENTREGABLE_IMPLEMENTACION_E1_E8.md`](../ENTREGABLE_IMPLEMENTACION_E1_E8.md).
+
+El índice y los identificadores del recorrido E1-E6 están en [`INV-021-visual-evidence/README.md`](INV-021-visual-evidence/README.md).
 
 ## Reglas
 
