@@ -205,6 +205,10 @@ La línea base se reproduce sin red con:
 docker compose run --rm -T api python -m scripts.evaluate_quality
 ```
 
+Los canales posteriores al MVP y su orden de implementación están definidos en
+[`docs/CHANNEL_ROADMAP.md`](docs/CHANNEL_ROADMAP.md). Esa decisión no implica que
+X/Twitter, newsletter, highlights o informes de sentimiento ya estén activos.
+
 ### 4. Abrir la aplicación
 
 - Dashboard: [http://localhost:8501](http://localhost:8501)

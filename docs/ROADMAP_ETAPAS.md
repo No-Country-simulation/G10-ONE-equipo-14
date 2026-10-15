@@ -193,7 +193,7 @@ E2 a E5 ya no son trabajo futuro. El orden vigente, excluyendo temporalmente OCI
 2. **INV-022:** documentar y, si aporta valor, implementar una entrada automática mínima.
 3. **INV-023:** medir un lote de 500 interacciones y agregar una cola sólo si supera el objetivo de 30 segundos.
 4. **INV-024:** ejecutar la evaluación de validez, grounding y precisión con una muestra revisable.
-5. **INV-025:** decidir y documentar los canales adicionales posteriores al MVP.
+5. **INV-025 (completado):** decisión y criterios de canales posteriores al MVP documentados en `docs/CHANNEL_ROADMAP.md`; su implementación permanece fuera del MVP actual.
 6. Ejecutar una auditoría final del inventario, issues, Jira y evidencias.
 7. Recién entonces retomar **INV-002 a INV-005** para OCI Object Storage y el despliegue final.
 
