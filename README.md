@@ -295,6 +295,19 @@ docker compose exec db psql -U communitylab -d communitylab -c "SELECT id, statu
 
 No ejecutar `alembic downgrade` sobre una base con información importante sin respaldo.
 
+### Respaldo y restauración de PostgreSQL
+
+Con la base local activa, genere un dump autocontenido y compruébelo en una base temporal aislada:
+
+```bash
+backup_path="$(sh deploy/backup.sh)"
+sh deploy/verify-backup.sh "$backup_path"
+```
+
+`backup.sh` produce un archivo en formato custom de PostgreSQL, comprueba que su catálogo sea legible y aplica una retención de siete días. `verify-backup.sh` crea una base con nombre único, restaura con `--exit-on-error`, verifica la revisión Alembic, las tablas principales y los conteos de registros, y siempre elimina la base temporal. No apunta la restauración a la base original.
+
+Para producción, configure `BACKUP_DIR` en un volumen persistente o copie el resultado cifrado a almacenamiento externo. La base gratuita de Render no constituye una estrategia de retención: programe el backup fuera del servicio antes de su vencimiento. Puede ajustar `COMPOSE_FILE_PATH`, `POSTGRES_USER`, `POSTGRES_DB` y `BACKUP_RETENTION_DAYS` sin modificar los scripts.
+
 ## Pruebas
 
 El CI utiliza una base PostgreSQL aislada llamada `communitylab_test` y verifica migraciones y pruebas.
