@@ -6,6 +6,11 @@ from uuid import UUID
 import requests
 
 
+def mutation_headers(api_write_key: str | None) -> dict[str, str]:
+    """Build authentication headers without logging or persisting the secret."""
+    return {"X-API-Key": api_write_key} if api_write_key else {}
+
+
 def api_error_message(error: requests.RequestException) -> str:
     """Return a safe, human-readable API error without exposing raw HTML."""
     response = getattr(error, "response", None)
@@ -88,12 +93,14 @@ def edit_asset(
     title: str,
     body: str,
     editor: str,
+    api_write_key: str | None = None,
     timeout: float = 10,
     session: Any = requests,
 ) -> dict:
     response = session.patch(
         f"{api_url.rstrip('/')}/api/v1/assets/{asset_id}",
         json={"title": title, "body": body, "editor": editor},
+        headers=mutation_headers(api_write_key),
         timeout=timeout,
     )
     response.raise_for_status()
@@ -107,6 +114,7 @@ def decide_asset(
     decision: str,
     reviewer: str,
     comment: str | None = None,
+    api_write_key: str | None = None,
     timeout: float = 10,
     session: Any = requests,
 ) -> dict:
@@ -115,6 +123,7 @@ def decide_asset(
     response = session.post(
         f"{api_url.rstrip('/')}/api/v1/assets/{asset_id}/{decision}",
         json={"reviewer": reviewer, "comment": comment},
+        headers=mutation_headers(api_write_key),
         timeout=timeout,
     )
     response.raise_for_status()

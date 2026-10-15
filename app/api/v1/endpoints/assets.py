@@ -10,6 +10,7 @@ from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
 from app.db.models.manifest import ManifestRecord
 from app.db.models.run import Run
 from app.db.session import get_db
+from app.api.security import require_mutation_access
 from app.schemas.v1.analysis import Evidence
 from app.schemas.v1.asset import Asset, AssetDecisionRequest, AssetEditRequest, AssetStatus
 from app.schemas.v1.manifest import Manifest
@@ -67,7 +68,7 @@ def list_assets(status_filter: AssetStatus | None = Query(default=None, alias="s
         statement = statement.where(AssetRecord.status == status_filter.value)
     return [_response(db, asset) for asset in db.scalars(statement).all()]
 
-@router.patch("/assets/{asset_id}", response_model=Asset)
+@router.patch("/assets/{asset_id}", response_model=Asset, dependencies=[Depends(require_mutation_access)])
 def edit_asset(asset_id: UUID, payload: AssetEditRequest, db: Session = Depends(get_db)) -> Asset:
     asset = db.get(AssetRecord, asset_id)
     if asset is None:
@@ -106,15 +107,15 @@ def _decide(asset_id: UUID, payload: AssetDecisionRequest, decision: str, db: Se
     db.refresh(asset)
     return _response(db, asset)
 
-@router.post("/assets/{asset_id}/approve", response_model=Asset)
+@router.post("/assets/{asset_id}/approve", response_model=Asset, dependencies=[Depends(require_mutation_access)])
 def approve_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)) -> Asset:
     return _decide(asset_id, payload, "APPROVED", db)
 
-@router.post("/assets/{asset_id}/reject", response_model=Asset)
+@router.post("/assets/{asset_id}/reject", response_model=Asset, dependencies=[Depends(require_mutation_access)])
 def reject_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)) -> Asset:
     return _decide(asset_id, payload, "REJECTED", db)
 
-@router.post("/assets/{asset_id}/publish", response_model=Manifest)
+@router.post("/assets/{asset_id}/publish", response_model=Manifest, dependencies=[Depends(require_mutation_access)])
 def publish_asset(asset_id: UUID, db: Session = Depends(get_db)) -> Manifest:
     asset = db.scalar(
         select(AssetRecord).where(AssetRecord.id == asset_id).with_for_update()

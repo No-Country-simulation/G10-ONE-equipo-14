@@ -13,6 +13,7 @@ from time import perf_counter
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
+from app.api.security import require_mutation_access
 from app.schemas.v1.process import (
     ProcessRequest,
     ProcessResponse,
@@ -29,7 +30,7 @@ from app.services.idempotency import (
 from app.services.ingestion import ingest_interactions
 from app.services.pipeline import analyze_and_persist
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_mutation_access)])
 
 
 def _response(

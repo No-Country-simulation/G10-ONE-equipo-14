@@ -105,6 +105,21 @@ def test_edit_asset_sends_curator_changes():
         "http://api:8000/api/v1/assets/asset-1",
     )
     assert session.calls[0][2]["json"]["editor"] == "Francis"
+    assert session.calls[0][2]["headers"] == {}
+
+
+def test_edit_asset_sends_api_key_only_when_configured():
+    session = FakeSession()
+    edit_asset(
+        "http://api:8000",
+        "asset-1",
+        title="Título",
+        body="Contenido",
+        editor="Francis",
+        api_write_key="shared-secret",
+        session=session,
+    )
+    assert session.calls[0][2]["headers"] == {"X-API-Key": "shared-secret"}
 
 
 def test_decide_asset_rejects_unknown_decision_without_http_call():
@@ -139,6 +154,7 @@ def test_decide_asset_posts_review_decision():
         "http://api:8000/api/v1/assets/asset-1/approve",
         {
             "json": {"reviewer": "Francis", "comment": "Listo"},
+            "headers": {},
             "timeout": 10,
         },
     )
