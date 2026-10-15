@@ -202,6 +202,7 @@ el manifest ya creado, sin generar registros duplicados.
 | `POST` | `/api/v1/process/csv` | Ingesta CSV implementada |
 | `GET` | `/api/v1/runs/{run_id}` | Implementado |
 | `GET` | `/api/v1/assets` | Implementado |
+| `GET` | `/api/v1/alerts` | Alertas internas abiertas |
 | `PATCH` | `/api/v1/assets/{asset_id}` | Implementado |
 | `POST` | `/api/v1/assets/{asset_id}/approve` | Implementado |
 | `POST` | `/api/v1/assets/{asset_id}/reject` | Implementado |
@@ -223,6 +224,11 @@ interacciones de tipo `question` por su tema principal y genera una sola FAQ
 cuando el grupo alcanza `FAQ_RECURRENCE_THRESHOLD` (2 por defecto). El activo
 resultante conserva la evidencia y los identificadores de todas las preguntas
 del grupo.
+
+Las interacciones con sentimiento negativo o frustración siguen una ruta
+interna: crean una alerta persistente, dejan la oportunidad bloqueada y no
+generan activos públicos. El dashboard las presenta en **Alertas internas**, de
+forma separada de oportunidades y de la cola de curaduría.
 
 ## Proveedor de análisis
 

@@ -7,6 +7,7 @@ from app.schemas.v1.opportunity import Opportunity
 from app.schemas.v1.asset import Asset
 from app.schemas.v1.approval import Approval
 from app.schemas.v1.manifest import Manifest
+from app.schemas.v1.alert import Alert
 
 class RequestedAsset(StrEnum):
     LINKEDIN = "LINKEDIN"
@@ -43,3 +44,4 @@ class ProcessResponse(BaseModel):
     assets: list[Asset] = Field(default_factory=list)
     approvals: list[Approval] = Field(default_factory=list)
     manifest: Manifest | None = None
+    alerts: list[Alert] = Field(default_factory=list)

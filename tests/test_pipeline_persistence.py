@@ -4,6 +4,7 @@ from app.db.models.analysis import Analysis, AnalysisEvidence
 from app.db.models.opportunity import Opportunity, OpportunitySource
 from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
 from app.db.models.interaction import Interaction
+from app.db.models.alert import AlertRecord
 
 
 def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
@@ -111,3 +112,35 @@ def test_author_without_consent_is_anonymized_and_opt_out_blocks_publication(cli
     assert stored.text == "[PERSON] consiguió usar FastAPI con PostgreSQL."
     assert stored.publication_consent is False
     assert stored.opt_out is True
+
+
+def test_negative_sentiment_creates_internal_alert_and_never_public_content(client, db_session):
+    response = client.post(
+        "/api/v1/process",
+        headers={"Idempotency-Key": "pipeline-negative-alert"},
+        json={
+            "organization_id": "pipeline-org",
+            "community_id": "pipeline-community",
+            "reference_period": "2026-W41",
+            "requested_assets": ["LINKEDIN", "FAQ"],
+            "interactions": [{
+                "author": "Ana",
+                "channel": "soporte",
+                "type": "question",
+                "text": "Tengo problemas con FastAPI y PostgreSQL; Docker falla con un error.",
+            }],
+        },
+    )
+
+    assert response.status_code == 202
+    body = response.json()
+    assert body["analyses"][0]["sentiment"] == "negative"
+    assert body["opportunities"][0]["status"] == "BLOCKED"
+    assert body["assets"] == []
+    assert len(body["alerts"]) == 1
+    assert body["alerts"][0]["status"] == "OPEN"
+    assert db_session.query(AlertRecord).count() == 1
+
+    listed = client.get("/api/v1/alerts", params={"status": "OPEN"})
+    assert listed.status_code == 200
+    assert listed.json()[0]["id"] == body["alerts"][0]["id"]

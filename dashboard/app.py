@@ -6,7 +6,7 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
-from api_client import decide_asset, edit_asset, get_run, list_pending_assets
+from api_client import decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
@@ -188,8 +188,8 @@ if result:
         st.dataframe(result["record_errors"], use_container_width=True)
 
 st.subheader("4. Análisis, oportunidades y curaduría")
-analysis_tab, opportunities_tab, assets_tab = st.tabs(
-    ["Análisis", "Oportunidades", "LinkedIn y FAQ"]
+analysis_tab, opportunities_tab, alerts_tab, assets_tab = st.tabs(
+    ["Análisis", "Oportunidades", "Alertas internas", "LinkedIn y FAQ"]
 )
 with analysis_tab:
     if result:
@@ -221,6 +221,16 @@ with opportunities_tab:
         st.dataframe(result.get("opportunities", []), use_container_width=True)
     else:
         st.info("Procesá un archivo para ver oportunidades.")
+with alerts_tab:
+    try:
+        open_alerts = list_open_alerts(API_URL) if health else []
+        if open_alerts:
+            st.warning(f"{len(open_alerts)} alerta(s) interna(s) abierta(s).")
+            st.dataframe(open_alerts, use_container_width=True)
+        else:
+            st.info("No hay alertas internas abiertas.")
+    except requests.RequestException as exc:
+        st.error(f"No se pudieron recuperar las alertas internas: {exc}")
 with assets_tab:
     queue_header, queue_action = st.columns([4, 1])
     queue_header.caption(
