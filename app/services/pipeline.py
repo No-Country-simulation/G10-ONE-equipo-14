@@ -37,6 +37,7 @@ def analyze_and_persist(
     analyses: list[Analysis] = []
     opportunities: list[Opportunity] = []
     assets: list[Asset] = []
+    faq_candidates: dict[str, list[tuple[OpportunityRecord, Analysis]]] = {}
 
     for interaction in interactions:
         interaction_payload = InteractionRequest(
@@ -129,56 +130,91 @@ def analyze_and_persist(
             continue
 
         for channel in requested_assets:
-            generated = generate_content(
-                channel=channel,
-                opportunity_id=opportunity_record.id,
-                analysis=analysis,
-            )
-            asset_record = AssetRecord(
-                run_id=run_id,
-                opportunity_id=opportunity_record.id,
-                schema_version="v1",
-                asset_type=channel,
-                status="PENDING_REVIEW",
-            )
-            db.add(asset_record)
-            db.flush()
-            version = AssetVersion(
-                asset_id=asset_record.id,
-                version_number=1,
-                title=generated.title,
-                content=generated.content,
-                model=analysis.model,
-                prompt_version=generated.prompt_version,
-                created_by="pipeline",
-            )
-            db.add(version)
-            db.flush()
-            for evidence in analysis.evidence:
-                db.add(
-                    AssetVersionSource(
-                        asset_version_id=version.id,
-                        interaction_id=evidence.source_interaction_id,
-                        excerpt=evidence.excerpt,
+            if channel == "FAQ":
+                if interaction.type == "question":
+                    topic = analysis.topics[0] if analysis.topics else "general"
+                    faq_candidates.setdefault(topic, []).append(
+                        (opportunity_record, analysis)
                     )
-                )
-            asset_record.current_version_id = version.id
+                continue
             assets.append(
-                Asset(
-                    id=asset_record.id,
-                    opportunity_id=opportunity_record.id,
-                    channel=channel,
-                    title=generated.title,
-                    body=generated.body,
-                    status="PENDING_REVIEW",
-                    version=1,
-                    source_interaction_ids=[
-                        evidence.source_interaction_id
-                        for evidence in analysis.evidence
-                    ],
-                    evidence=analysis.evidence,
+                _persist_asset(db, run_id, opportunity_record, analysis, channel)
+            )
+
+    if "FAQ" in requested_assets:
+        for candidates in faq_candidates.values():
+            if len(candidates) < settings.faq_recurrence_threshold:
+                continue
+            opportunity_record, representative = candidates[0]
+            merged_evidence = list({
+                (evidence.source_interaction_id, evidence.excerpt): evidence
+                for _, candidate in candidates
+                for evidence in candidate.evidence
+            }.values())
+            recurring_analysis = representative.model_copy(
+                update={"evidence": merged_evidence}
+            )
+            assets.append(
+                _persist_asset(
+                    db, run_id, opportunity_record, recurring_analysis, "FAQ"
                 )
             )
 
     db.commit()
     return analyses, opportunities, assets
+
+
+def _persist_asset(
+    db: Session,
+    run_id: UUID,
+    opportunity_record: OpportunityRecord,
+    analysis: Analysis,
+    channel: str,
+) -> Asset:
+    generated = generate_content(
+        channel=channel,
+        opportunity_id=opportunity_record.id,
+        analysis=analysis,
+    )
+    asset_record = AssetRecord(
+        run_id=run_id,
+        opportunity_id=opportunity_record.id,
+        schema_version="v1",
+        asset_type=channel,
+        status="PENDING_REVIEW",
+    )
+    db.add(asset_record)
+    db.flush()
+    version = AssetVersion(
+        asset_id=asset_record.id,
+        version_number=1,
+        title=generated.title,
+        content=generated.content,
+        model=analysis.model,
+        prompt_version=generated.prompt_version,
+        created_by="pipeline",
+    )
+    db.add(version)
+    db.flush()
+    for evidence in analysis.evidence:
+        db.add(
+            AssetVersionSource(
+                asset_version_id=version.id,
+                interaction_id=evidence.source_interaction_id,
+                excerpt=evidence.excerpt,
+            )
+        )
+    asset_record.current_version_id = version.id
+    return Asset(
+        id=asset_record.id,
+        opportunity_id=opportunity_record.id,
+        channel=channel,
+        title=generated.title,
+        body=generated.body,
+        status="PENDING_REVIEW",
+        version=1,
+        source_interaction_ids=[
+            evidence.source_interaction_id for evidence in analysis.evidence
+        ],
+        evidence=analysis.evidence,
+    )

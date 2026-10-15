@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     analysis_fallback_provider: Literal["mock", "gemini"] | None = None
     analysis_max_attempts: int = Field(default=2, ge=1, le=5)
     analysis_prompt_version: str = "analysis-gemini-v1"
+    faq_recurrence_threshold: int = Field(default=2, ge=2, le=20)
     gemini_api_key: SecretStr | None = None
     gemini_model: str = "gemini-3.1-flash-lite"
 
