@@ -85,7 +85,7 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 - [x] **INV-017 - Protección de la API pública.** Las mutaciones tienen interruptor por entorno, clave API opcional y rate limiting; la demo pública queda en modo sólo lectura y CORS está documentado. Evidencia: `docs/evidence/INV-017-api-protection/README.md`.
 - [x] **INV-018 - Respaldo y restauración verificados.** El backup genera un dump custom validado y la restauración se prueba en una base temporal, comparando revisión Alembic, tablas y conteos antes de eliminarla. Evidencia: `docs/evidence/INV-018-backup-restore/README.md`.
 - [x] **INV-019 - Endurecer CI.** CI ejecuta Ruff, formato incremental, auditoría de dependencias, compilación del dashboard, pruebas/migraciones y smoke tests de API/dashboard en `main`. Evidencia: `docs/evidence/INV-019-ci-hardening/README.md`.
-- [ ] **INV-020 - Corregir documentación obsoleta.** Actualizar `docs/INTERACTION_TABLE.md`, `docs/audits/CL-001_BASELINE_AUDIT.md` y la sección “Próxima etapa” del roadmap.
+- [x] **INV-020 - Corregir documentación obsoleta.** `INTERACTION_TABLE` refleja la consulta real de runs, CL-001 se identifica como auditoría histórica con matriz de resolución y el roadmap muestra el estado y orden vigentes. Evidencia: `docs/evidence/INV-020-documentation/README.md`.
 - [ ] **INV-021 - Completar evidencias visuales.** Crear capturas para E1-E6 y una evidencia final que muestre curaduría y publicación real.
 
 ### Fase D - mejoras posteriores al MVP

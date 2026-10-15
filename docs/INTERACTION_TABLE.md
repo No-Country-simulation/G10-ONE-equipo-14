@@ -26,8 +26,8 @@ Do not run `alembic downgrade` on databases containing data without a backup. CI
 - `created_at` defaults to database server time; `occurred_at` is optional timezone-aware timestamp.
 - Index on organization/community/created_at for scoped retrieval.
 
-`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions, calculate fingerprints, ignore duplicates and store idempotent run responses. `GET /api/v1/runs/{run_id}` is still a declared contract that returns HTTP 501 until the run-query implementation is completed.
+`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions, calculate fingerprints, ignore duplicates and store idempotent run responses. `GET /api/v1/runs/{run_id}` retrieves that persisted response: it returns HTTP 404 for an unknown UUID and HTTP 409 only while an existing run has no completed response. The dashboard exposes this lookup through its **Run ID** field.
 
 ## Validation
 
-`pytest -q` checks model metadata. Optional PostgreSQL integration test requires `TEST_DATABASE_URL` pointing to an isolated test database. The database must be running to execute migrations.
+`python -m pytest -q tests` checks model metadata and the complete application flow. PostgreSQL tests require `TEST_DATABASE_URL` pointing to an isolated database; Docker and CI create/use `communitylab_test` for that purpose. CI also exercises every Alembic upgrade and downgrade against the isolated database.
