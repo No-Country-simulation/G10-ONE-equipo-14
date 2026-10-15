@@ -6,12 +6,22 @@ from app.services.pii_detection import contains_pii
 MIN_RELEVANCE = 0.80
 REVIEW_CONFIDENCE_THRESHOLD = 0.70
 
-def detect_content_opportunity(analysis_id: UUID, analysis: Analysis) -> ContentOpportunity | None:
+def detect_content_opportunity(
+    analysis_id: UUID,
+    analysis: Analysis,
+    *,
+    opt_out: bool = False,
+    pii_detected: bool = False,
+) -> ContentOpportunity | None:
     source_ids = [e.source_interaction_id for e in analysis.evidence]
     if not source_ids:
         return None
 
-    if any(contains_pii(e.excerpt) for e in analysis.evidence):
+    if opt_out:
+        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
+                      "Blocked because the author opted out of publication.")
+
+    if pii_detected or any(contains_pii(e.excerpt) for e in analysis.evidence):
         return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
                       "Blocked because PII was detected.")
 

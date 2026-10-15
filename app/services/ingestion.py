@@ -8,6 +8,7 @@ from app.db.models.interaction import Interaction
 from app.domain.fingerprint import interaction_fingerprint
 from app.schemas.v1.interaction import InteractionRequest
 from app.services.normalization import normalize_interaction
+from app.services.pii_detection import contains_pii, redact_pii
 
 
 @dataclass
@@ -46,6 +47,13 @@ def ingest_interactions(
         # normalization.py returns a dictionary, so use model_dump first and
         # access the normalized values by key.
         normalized = normalize_interaction(raw.model_dump())
+        consent = bool(normalized.get("publication_consent", False))
+        opt_out = bool(normalized.get("opt_out", False))
+        original_author = normalized["author"]
+        pii_detected = contains_pii(normalized["text"])
+        normalized["text"] = redact_pii(
+            normalized["text"], original_author, redact_author=not consent
+        )
 
         fingerprint = interaction_fingerprint(
             community_id,
@@ -95,6 +103,9 @@ def ingest_interactions(
                         text=normalized["text"],
                         fingerprint=fingerprint,
                         occurred_at=normalized.get("occurred_at"),
+                        publication_consent=consent,
+                        opt_out=opt_out,
+                        pii_detected=pii_detected,
                     )
                 db.add(interaction)
                 db.flush()

@@ -8,3 +8,5 @@ class InteractionRequest(BaseModel):
     type: str = Field(min_length=1, max_length=100)
     text: str = Field(min_length=1, max_length=10000)
     occurred_at: datetime | None = None
+    publication_consent: bool = False
+    opt_out: bool = False

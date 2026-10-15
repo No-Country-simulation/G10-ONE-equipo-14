@@ -20,6 +20,7 @@ from app.schemas.v1.asset import Asset
 from app.schemas.v1.interaction import InteractionRequest
 from app.schemas.v1.opportunity import Opportunity
 from app.services.opportunity_detection import detect_content_opportunity
+from app.services.pii_detection import REDACTED_PERSON
 from app.services.resilient_analysis import analyze_with_resilience
 from app.services.content_generation import generate_content
 
@@ -40,11 +41,17 @@ def analyze_and_persist(
     for interaction in interactions:
         interaction_payload = InteractionRequest(
             external_id=interaction.external_id,
-            author=interaction.author,
+            author=(
+                interaction.author
+                if interaction.publication_consent
+                else REDACTED_PERSON
+            ),
             channel=interaction.channel,
             type=interaction.type,
             text=interaction.text,
             occurred_at=interaction.occurred_at,
+            publication_consent=interaction.publication_consent,
+            opt_out=interaction.opt_out,
         )
         analysis = analyze_with_resilience(
             provider=provider,
@@ -77,7 +84,12 @@ def analyze_and_persist(
                 )
             )
 
-        decision = detect_content_opportunity(analysis_record.id, analysis)
+        decision = detect_content_opportunity(
+            analysis_record.id,
+            analysis,
+            opt_out=interaction.opt_out,
+            pii_detected=interaction.pii_detected,
+        )
         analyses.append(analysis)
         if decision is None:
             continue
