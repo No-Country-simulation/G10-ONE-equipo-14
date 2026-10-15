@@ -3,6 +3,7 @@
 from app.db.models.analysis import Analysis, AnalysisEvidence
 from app.db.models.opportunity import Opportunity, OpportunitySource
 from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
+from app.db.models.interaction import Interaction
 
 
 def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
@@ -49,7 +50,7 @@ def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
     assert db_session.query(AssetVersionSource).count() == 1
 
 
-def test_pipeline_blocks_pii_and_persists_the_decision(client, db_session):
+def test_pipeline_redacts_pii_before_analysis_and_persistence(client, db_session):
     response = client.post(
         "/api/v1/process",
         headers={"Idempotency-Key": "pipeline-pii-block"},
@@ -70,6 +71,43 @@ def test_pipeline_blocks_pii_and_persists_the_decision(client, db_session):
     )
 
     assert response.status_code == 202
-    assert response.json()["opportunities"][0]["status"] == "BLOCKED"
-    assert response.json()["assets"] == []
-    assert db_session.query(Opportunity).one().status == "BLOCKED"
+    body = response.json()
+    assert body["opportunities"][0]["status"] == "BLOCKED"
+    assert body["assets"] == []
+    stored = db_session.query(Interaction).one()
+    assert stored.text == "Mi correo [EMAIL] tiene problemas con FastAPI y PostgreSQL."
+    assert stored.pii_detected is True
+    assert "ana@example.com" not in str(body)
+
+
+def test_author_without_consent_is_anonymized_and_opt_out_blocks_publication(client, db_session):
+    response = client.post(
+        "/api/v1/process",
+        headers={"Idempotency-Key": "pipeline-opt-out"},
+        json={
+            "organization_id": "pipeline-org",
+            "community_id": "pipeline-community",
+            "reference_period": "2026-W41",
+            "requested_assets": ["LINKEDIN"],
+            "interactions": [{
+                "author": "Ana Pérez",
+                "channel": "logros",
+                "type": "achievement",
+                "text": "Ana Pérez consiguió usar FastAPI con PostgreSQL.",
+                "publication_consent": False,
+                "opt_out": True,
+            }],
+        },
+    )
+
+    assert response.status_code == 202
+    body = response.json()
+    assert body["opportunities"][0]["status"] == "BLOCKED"
+    assert "opted out" in body["opportunities"][0]["reason"]
+    assert body["assets"] == []
+    assert "Ana Pérez" not in str(body)
+    stored = db_session.query(Interaction).one()
+    assert stored.author == "Ana Pérez"
+    assert stored.text == "[PERSON] consiguió usar FastAPI con PostgreSQL."
+    assert stored.publication_consent is False
+    assert stored.opt_out is True

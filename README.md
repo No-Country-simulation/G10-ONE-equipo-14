@@ -208,6 +208,15 @@ el manifest ya creado, sin generar registros duplicados.
 
 Todas las rutas versionadas usan el prefijo `/api/v1`.
 
+### Privacidad de las interacciones
+
+Cada interacción admite `publication_consent` y `opt_out` (ambos `false` por
+defecto). Correos y teléfonos se sustituyen por `[EMAIL]` y `[PHONE]` antes de
+persistir o enviar texto al proveedor de IA. Sin consentimiento, las menciones
+del autor se sustituyen por `[PERSON]`; con `opt_out: true` se conserva la
+trazabilidad de la decisión, pero no se genera ningún activo publicable. Las
+mismas columnas pueden incluirse de forma opcional en archivos CSV.
+
 ## Proveedor de análisis
 
 El proveedor se selecciona con `ANALYSIS_PROVIDER`:
