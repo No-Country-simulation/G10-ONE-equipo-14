@@ -295,6 +295,17 @@ docker compose exec db psql -U communitylab -d communitylab -c "SELECT id, statu
 
 No ejecutar `alembic downgrade` sobre una base con información importante sin respaldo.
 
+### Controles de calidad en CI
+
+Cada PR y push ejecuta pruebas, migraciones, validación Terraform, Ruff como lint/análisis estático, formato de los archivos Python modificados, `pip-audit` y compilación de los módulos del dashboard. Los pushes a `main` agregan un smoke test sobre el health de la API y el dashboard público de Render. Para reproducir los controles de calidad:
+
+```bash
+python -m pip install -r requirements-dev.txt
+ruff check app dashboard tests
+pip-audit -r requirements.txt
+python -m py_compile dashboard/app.py dashboard/api_client.py
+```
+
 ### Respaldo y restauración de PostgreSQL
 
 Con la base local activa, genere un dump autocontenido y compruébelo en una base temporal aislada:
