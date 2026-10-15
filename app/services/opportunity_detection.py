@@ -25,6 +25,10 @@ def detect_content_opportunity(
         return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
                       "Blocked because PII was detected.")
 
+    if analysis.sentiment == "negative":
+        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
+                      "Blocked from public content and routed to an internal alert.")
+
     if analysis.confidence < REVIEW_CONFIDENCE_THRESHOLD:
         return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.REVIEW_REQUIRED,
                       "Human review required because confidence is below 0.70.")

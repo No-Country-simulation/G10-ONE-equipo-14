@@ -75,7 +75,7 @@ def _response(
         )
 
         all_errors = list(pre_errors or []) + result.errors
-        analyses, opportunities, assets = analyze_and_persist(
+        analyses, opportunities, assets, alerts = analyze_and_persist(
             db,
             run.id,
             result.persisted,
@@ -103,6 +103,7 @@ def _response(
             analyses=analyses,
             opportunities=opportunities,
             assets=assets,
+            alerts=alerts,
         )
 
         save_run_response(

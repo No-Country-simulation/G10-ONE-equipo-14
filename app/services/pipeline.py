@@ -11,11 +11,13 @@ from app.ai.provider_factory import (
 from app.core.config import settings
 from app.db.models.analysis import Analysis as AnalysisRecord
 from app.db.models.analysis import AnalysisEvidence
+from app.db.models.alert import AlertRecord
 from app.db.models.asset import AssetRecord, AssetVersion, AssetVersionSource
 from app.db.models.interaction import Interaction
 from app.db.models.opportunity import Opportunity as OpportunityRecord
 from app.db.models.opportunity import OpportunitySource
 from app.schemas.v1.analysis import Analysis
+from app.schemas.v1.alert import Alert
 from app.schemas.v1.asset import Asset
 from app.schemas.v1.interaction import InteractionRequest
 from app.schemas.v1.opportunity import Opportunity
@@ -30,13 +32,14 @@ def analyze_and_persist(
     run_id: UUID,
     interactions: list[Interaction],
     requested_assets: list[str],
-) -> tuple[list[Analysis], list[Opportunity], list[Asset]]:
+) -> tuple[list[Analysis], list[Opportunity], list[Asset], list[Alert]]:
     """Analyze newly persisted interactions and store traceable decisions."""
     provider = configured_analysis_provider()
     fallback = configured_fallback_provider()
     analyses: list[Analysis] = []
     opportunities: list[Opportunity] = []
     assets: list[Asset] = []
+    alerts: list[Alert] = []
     faq_candidates: dict[str, list[tuple[OpportunityRecord, Analysis]]] = {}
 
     for interaction in interactions:
@@ -85,6 +88,30 @@ def analyze_and_persist(
                 )
             )
 
+        internal_alert = analysis.sentiment == "negative"
+        if internal_alert:
+            alert_record = AlertRecord(
+                run_id=run_id,
+                interaction_id=interaction.id,
+                severity="HIGH",
+                status="OPEN",
+                message="Negative sentiment or frustration requires internal attention.",
+                excerpt=analysis.evidence[0].excerpt if analysis.evidence else interaction.text[:240],
+            )
+            db.add(alert_record)
+            db.flush()
+            alerts.append(
+                Alert(
+                    id=alert_record.id,
+                    run_id=alert_record.run_id,
+                    interaction_id=alert_record.interaction_id,
+                    severity=alert_record.severity,
+                    status=alert_record.status,
+                    message=alert_record.message,
+                    excerpt=alert_record.excerpt,
+                    created_at=alert_record.created_at,
+                )
+            )
         decision = detect_content_opportunity(
             analysis_record.id,
             analysis,
@@ -126,6 +153,9 @@ def analyze_and_persist(
             )
         )
 
+        if internal_alert:
+            continue
+
         if decision.status.value != "PENDING":
             continue
 
@@ -161,7 +191,7 @@ def analyze_and_persist(
             )
 
     db.commit()
-    return analyses, opportunities, assets
+    return analyses, opportunities, assets, alerts
 
 
 def _persist_asset(

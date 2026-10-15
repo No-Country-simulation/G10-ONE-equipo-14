@@ -39,6 +39,21 @@ def list_pending_assets(
     return response.json()
 
 
+def list_open_alerts(
+    api_url: str,
+    *,
+    timeout: float = 10,
+    session: Any = requests,
+) -> list[dict]:
+    response = session.get(
+        f"{api_url.rstrip('/')}/api/v1/alerts",
+        params={"status": "OPEN"},
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
 def edit_asset(
     api_url: str,
     asset_id: str,
