@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str = "postgresql+psycopg://communitylab:communitylab@db:5432/communitylab"
     cors_origins: list[str] = ["http://localhost:8501", "http://127.0.0.1:8501"]
+    mutations_enabled: bool = True
+    api_write_key: SecretStr | None = None
+    mutation_rate_limit: int = Field(default=60, ge=1, le=10000)
+    mutation_rate_window_seconds: int = Field(default=60, ge=1, le=3600)
     storage_backend: str = "local"
     storage_bucket: str = "communitylab-local"
     local_storage_path: str = "/tmp/communitylab-storage"
