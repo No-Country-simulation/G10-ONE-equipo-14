@@ -12,10 +12,20 @@ from app.db.models.run import Run
 from app.db.session import get_db
 from app.api.security import require_mutation_access
 from app.schemas.v1.analysis import Evidence
-from app.schemas.v1.asset import Asset, AssetDecisionRequest, AssetEditRequest, AssetStatus
+from app.schemas.v1.asset import (
+    Asset,
+    AssetDecisionRequest,
+    AssetEditRequest,
+    AssetStatus,
+)
 from app.schemas.v1.manifest import Manifest
 from app.services.object_storage import configured_storage
-from app.services.asset_state import InvalidAssetTransition, decide, require_publishable, state_after_edit
+from app.services.asset_state import (
+    InvalidAssetTransition,
+    decide,
+    require_publishable,
+    state_after_edit,
+)
 import hashlib
 import json
 
@@ -25,11 +35,17 @@ router = APIRouter()
 def _transition_conflict(error: InvalidAssetTransition) -> HTTPException:
     return HTTPException(status.HTTP_409_CONFLICT, str(error))
 
+
 def _current(db: Session, asset: AssetRecord) -> AssetVersion:
-    version = db.get(AssetVersion, asset.current_version_id) if asset.current_version_id else None
+    version = (
+        db.get(AssetVersion, asset.current_version_id)
+        if asset.current_version_id
+        else None
+    )
     if version is None:
         raise HTTPException(status.HTTP_409_CONFLICT, "Asset has no current version.")
     return version
+
 
 def _response(db: Session, asset: AssetRecord) -> Asset:
     version = _current(db, asset)
@@ -61,15 +77,26 @@ def _response(db: Session, asset: AssetRecord) -> Asset:
         evidence=evidence,
     )
 
+
 @router.get("/assets", response_model=list[Asset])
-def list_assets(status_filter: AssetStatus | None = Query(default=None, alias="status"), db: Session = Depends(get_db)) -> list[Asset]:
+def list_assets(
+    status_filter: AssetStatus | None = Query(default=None, alias="status"),
+    db: Session = Depends(get_db),
+) -> list[Asset]:
     statement = select(AssetRecord).order_by(AssetRecord.created_at.desc())
     if status_filter is not None:
         statement = statement.where(AssetRecord.status == status_filter.value)
     return [_response(db, asset) for asset in db.scalars(statement).all()]
 
-@router.patch("/assets/{asset_id}", response_model=Asset, dependencies=[Depends(require_mutation_access)])
-def edit_asset(asset_id: UUID, payload: AssetEditRequest, db: Session = Depends(get_db)) -> Asset:
+
+@router.patch(
+    "/assets/{asset_id}",
+    response_model=Asset,
+    dependencies=[Depends(require_mutation_access)],
+)
+def edit_asset(
+    asset_id: UUID, payload: AssetEditRequest, db: Session = Depends(get_db)
+) -> Asset:
     asset = db.get(AssetRecord, asset_id)
     if asset is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Asset not found.")
@@ -81,18 +108,39 @@ def edit_asset(asset_id: UUID, payload: AssetEditRequest, db: Session = Depends(
     content = deepcopy(current.content)
     content["title"] = payload.title
     content["claims"][0]["text"] = payload.body
-    version = AssetVersion(asset_id=asset.id, version_number=current.version_number + 1, title=payload.title, content=content, model=current.model, prompt_version=current.prompt_version, created_by=payload.editor)
+    version = AssetVersion(
+        asset_id=asset.id,
+        version_number=current.version_number + 1,
+        title=payload.title,
+        content=content,
+        model=current.model,
+        prompt_version=current.prompt_version,
+        created_by=payload.editor,
+    )
     db.add(version)
     db.flush()
-    for source in db.scalars(select(AssetVersionSource).where(AssetVersionSource.asset_version_id == current.id)).all():
-        db.add(AssetVersionSource(asset_version_id=version.id, interaction_id=source.interaction_id, excerpt=source.excerpt))
+    for source in db.scalars(
+        select(AssetVersionSource).where(
+            AssetVersionSource.asset_version_id == current.id
+        )
+    ).all():
+        db.add(
+            AssetVersionSource(
+                asset_version_id=version.id,
+                interaction_id=source.interaction_id,
+                excerpt=source.excerpt,
+            )
+        )
     asset.current_version_id = version.id
     asset.status = next_status
     db.commit()
     db.refresh(asset)
     return _response(db, asset)
 
-def _decide(asset_id: UUID, payload: AssetDecisionRequest, decision: str, db: Session) -> Asset:
+
+def _decide(
+    asset_id: UUID, payload: AssetDecisionRequest, decision: str, db: Session
+) -> Asset:
     asset = db.get(AssetRecord, asset_id)
     if asset is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Asset not found.")
@@ -101,21 +149,48 @@ def _decide(asset_id: UUID, payload: AssetDecisionRequest, decision: str, db: Se
     except InvalidAssetTransition as error:
         raise _transition_conflict(error) from error
     version = _current(db, asset)
-    db.add(ApprovalRecord(asset_id=asset.id, asset_version_id=version.id, reviewer=payload.reviewer, decision=decision, comment=payload.comment))
+    db.add(
+        ApprovalRecord(
+            asset_id=asset.id,
+            asset_version_id=version.id,
+            reviewer=payload.reviewer,
+            decision=decision,
+            comment=payload.comment,
+        )
+    )
     asset.status = next_status
     db.commit()
     db.refresh(asset)
     return _response(db, asset)
 
-@router.post("/assets/{asset_id}/approve", response_model=Asset, dependencies=[Depends(require_mutation_access)])
-def approve_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)) -> Asset:
+
+@router.post(
+    "/assets/{asset_id}/approve",
+    response_model=Asset,
+    dependencies=[Depends(require_mutation_access)],
+)
+def approve_asset(
+    asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)
+) -> Asset:
     return _decide(asset_id, payload, "APPROVED", db)
 
-@router.post("/assets/{asset_id}/reject", response_model=Asset, dependencies=[Depends(require_mutation_access)])
-def reject_asset(asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)) -> Asset:
+
+@router.post(
+    "/assets/{asset_id}/reject",
+    response_model=Asset,
+    dependencies=[Depends(require_mutation_access)],
+)
+def reject_asset(
+    asset_id: UUID, payload: AssetDecisionRequest, db: Session = Depends(get_db)
+) -> Asset:
     return _decide(asset_id, payload, "REJECTED", db)
 
-@router.post("/assets/{asset_id}/publish", response_model=Manifest, dependencies=[Depends(require_mutation_access)])
+
+@router.post(
+    "/assets/{asset_id}/publish",
+    response_model=Manifest,
+    dependencies=[Depends(require_mutation_access)],
+)
 def publish_asset(asset_id: UUID, db: Session = Depends(get_db)) -> Manifest:
     asset = db.scalar(
         select(AssetRecord).where(AssetRecord.id == asset_id).with_for_update()
@@ -126,22 +201,53 @@ def publish_asset(asset_id: UUID, db: Session = Depends(get_db)) -> Manifest:
         require_publishable(asset.status)
     except InvalidAssetTransition as error:
         raise _transition_conflict(error) from error
-    existing = db.scalar(select(ManifestRecord).where(ManifestRecord.asset_id == asset.id))
+    existing = db.scalar(
+        select(ManifestRecord).where(ManifestRecord.asset_id == asset.id)
+    )
     if existing is not None:
         return _manifest_response(existing)
     version = _current(db, asset)
     run = db.get(Run, asset.run_id)
-    package = {"schema_version": asset.schema_version, "asset_id": str(asset.id), "version": version.version_number, "channel": asset.asset_type, "title": version.title, "content": version.content}
-    content = json.dumps(package, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    package = {
+        "schema_version": asset.schema_version,
+        "asset_id": str(asset.id),
+        "version": version.version_number,
+        "channel": asset.asset_type,
+        "title": version.title,
+        "content": version.content,
+    }
+    content = json.dumps(
+        package, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
     object_key = f"{run.organization_id}/{run.community_id}/{asset.asset_type.lower()}/{asset.id}/v{version.version_number}.json"
     stored = configured_storage().put(object_key, content, "application/json")
     digest = hashlib.sha256(content).hexdigest()
     if stored.sha256 != digest:
-        raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Storage checksum verification failed.")
-    record = ManifestRecord(run_id=asset.run_id, asset_id=asset.id, schema_version="v1", bucket=stored.bucket, object_key=stored.object_key, content_type="application/json", sha256=digest, etag=stored.etag)
-    db.add(record); db.commit(); db.refresh(record)
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY, "Storage checksum verification failed."
+        )
+    record = ManifestRecord(
+        run_id=asset.run_id,
+        asset_id=asset.id,
+        schema_version="v1",
+        bucket=stored.bucket,
+        object_key=stored.object_key,
+        content_type="application/json",
+        sha256=digest,
+        etag=stored.etag,
+    )
+    db.add(record)
+    db.commit()
+    db.refresh(record)
     return _manifest_response(record)
 
 
 def _manifest_response(record: ManifestRecord) -> Manifest:
-    return Manifest(run_id=record.run_id, object_key=record.object_key, content_type=record.content_type, sha256=record.sha256, etag=record.etag, created_at=record.created_at)
+    return Manifest(
+        run_id=record.run_id,
+        object_key=record.object_key,
+        content_type=record.content_type,
+        sha256=record.sha256,
+        etag=record.etag,
+        created_at=record.created_at,
+    )
