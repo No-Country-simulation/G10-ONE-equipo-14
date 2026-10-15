@@ -181,6 +181,19 @@ if result:
     columns[1].metric("Aceptadas", summary["accepted"])
     columns[2].metric("Duplicadas", summary["duplicates"])
     columns[3].metric("Con errores", summary["errors"])
+    insight_columns = st.columns(3)
+    insight_columns[0].metric(
+        "Sentimiento predominante",
+        summary.get("predominant_sentiment") or "Sin datos",
+    )
+    insight_columns[1].metric(
+        "Temas principales",
+        ", ".join(summary.get("top_topics", [])) or "Sin datos",
+    )
+    insight_columns[2].metric(
+        "Tiempo de procesamiento",
+        f"{summary.get('processing_time_ms', 0):.2f} ms",
+    )
     st.caption(f"Run ID: `{result['run_id']}` · Estado: `{result['status']}`")
 
     if result.get("record_errors"):

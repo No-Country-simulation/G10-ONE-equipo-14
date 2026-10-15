@@ -186,6 +186,8 @@ PostgreSQL mediante la API; los pendientes continúan visibles después de
 recargar el navegador o iniciar otra sesión. El botón **Actualizar cola** fuerza
 una nueva consulta. Cada análisis y activo incluye una sección **Evidencia y
 fuentes** con los extractos originales y sus identificadores de interacción.
+El resumen de cada ejecución incluye además el sentimiento predominante, los
+tres temas más frecuentes y el tiempo total de procesamiento en milisegundos.
 
 La curaduría aplica una máquina de estados explícita: sólo un activo
 `PENDING_REVIEW` puede aprobarse o rechazarse. Editar un activo `REJECTED`

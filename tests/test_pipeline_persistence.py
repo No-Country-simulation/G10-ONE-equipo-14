@@ -32,6 +32,9 @@ def test_process_persists_analysis_evidence_and_opportunity(client, db_session):
     body = response.json()
     assert len(body["analyses"]) == 1
     assert body["analyses"][0]["model"] == "mock-analysis-v1"
+    assert body["summary"]["predominant_sentiment"] == "positive"
+    assert body["summary"]["top_topics"] == ["docker", "postgresql", "fastapi"]
+    assert body["summary"]["processing_time_ms"] >= 0
     assert len(body["opportunities"]) == 1
     assert body["opportunities"][0]["status"] == "PENDING"
     assert {asset["channel"] for asset in body["assets"]} == {"LINKEDIN"}

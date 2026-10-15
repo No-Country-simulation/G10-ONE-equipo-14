@@ -32,6 +32,9 @@ class RunSummary(BaseModel):
     accepted: int = Field(ge=0)
     duplicates: int = Field(ge=0)
     errors: int = Field(ge=0)
+    predominant_sentiment: str | None = None
+    top_topics: list[str] = Field(default_factory=list)
+    processing_time_ms: float = Field(default=0, ge=0)
 
 class ProcessResponse(BaseModel):
     schema_version: str = "v1"
