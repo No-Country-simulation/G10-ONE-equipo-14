@@ -86,7 +86,7 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 - [x] **INV-018 - Respaldo y restauración verificados.** El backup genera un dump custom validado y la restauración se prueba en una base temporal, comparando revisión Alembic, tablas y conteos antes de eliminarla. Evidencia: `docs/evidence/INV-018-backup-restore/README.md`.
 - [x] **INV-019 - Endurecer CI.** CI ejecuta Ruff, formato incremental, auditoría de dependencias, compilación del dashboard, pruebas/migraciones y smoke tests de API/dashboard en `main`. Evidencia: `docs/evidence/INV-019-ci-hardening/README.md`.
 - [x] **INV-020 - Corregir documentación obsoleta.** `INTERACTION_TABLE` refleja la consulta real de runs, CL-001 se identifica como auditoría histórica con matriz de resolución y el roadmap muestra el estado y orden vigentes. Evidencia: `docs/evidence/INV-020-documentation/README.md`.
-- [ ] **INV-021 - Completar evidencias visuales.** Crear capturas para E1-E6 y una evidencia final que muestre curaduría y publicación real.
+- [x] **INV-021 - Completar evidencias visuales.** Se versionaron capturas reales de E1-E6: health, contrato OpenAPI, análisis Gemini con fuentes, oportunidades, cola persistente y recibo de publicación local con object key/ETag/SHA-256. Evidencia: `docs/evidence/INV-021-visual-evidence/README.md`.
 
 ### Fase D - mejoras posteriores al MVP
 
