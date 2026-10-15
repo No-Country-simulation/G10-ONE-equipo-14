@@ -5,6 +5,27 @@ Rama base: `develop`
 Commit auditado: `b5a6bbe`  
 Alcance: `app/`, `dashboard/`, `alembic/`, `tests/`, Docker, CI y documentación operativa.
 
+> **Documento histórico.** Los hallazgos siguientes describen exactamente el estado del commit `b5a6bbe`; no representan el estado actual de la aplicación. Se conservan para trazabilidad. La revisión de vigencia del 15 de octubre de 2026 se resume a continuación y el inventario operativo actual está en [`docs/INVENTARIO_PROYECTO.md`](../INVENTARIO_PROYECTO.md).
+
+## Estado de resolución al 15 de octubre de 2026
+
+Verificado sobre `main` en el commit `13a0511`:
+
+| Hallazgo original | Estado actual verificable |
+| --- | --- |
+| Import de `interaction` roto | Resuelto: el modelo vive en `app/db/models/interaction.py` y API, Alembic y pruebas lo importan correctamente. |
+| CI sin import path ni PostgreSQL | Resuelto: CI usa `python -m pytest`, PostgreSQL 16 aislado, migraciones, Ruff, auditoría de dependencias y smoke público. |
+| Falta de `.gitignore` | Resuelto: `.gitignore` excluye secretos, estado Terraform, temporales, entornos y backups. |
+| Base `communitylab_test` no reproducible | Resuelto: Docker/CI ejecutan las pruebas contra una base dedicada protegida por un guard de seguridad. |
+| Arranque sin migraciones | Resuelto: API ejecuta `alembic upgrade head` antes de Uvicorn. |
+| Metadata Alembic incompleta | Resuelto: están registradas las entidades de interacciones, ejecuciones, análisis, oportunidades, activos, aprobaciones, manifiestos y alertas. |
+| `mock_pipeline.py` roto | Resuelto: se retiró el módulo obsoleto; el proveedor mock actual implementa la misma interfaz que Gemini y se reserva para pruebas/desarrollo determinístico. |
+| `GET /runs/{run_id}` en 501 | Resuelto: recupera respuestas persistidas, con 404 para inexistentes y 409 para ejecuciones aún incompletas. |
+| Validación por registro desigual | Documentado como diferencia contractual: CSV puede informar errores por fila; JSON se valida como un único contrato Pydantic y rechaza el lote inválido con detalle estructurado. Ambos comportamientos están cubiertos por pruebas y no deben describirse como equivalentes. |
+| Triggers sin caso aprobado | Resuelto: la migración `004_add_updated_at_triggers.py` mantiene `updated_at` en las tablas definidas y tiene downgrade/pruebas. |
+
+La suite vigente contiene 130 pruebas aprobadas. La integración OCI continúa deliberadamente aplazada hasta terminar los puntos funcionales no OCI; esta postergación no cambia el alcance final.
+
 ## Resultado ejecutivo
 
 El repositorio contiene más que un esqueleto: hay contratos v1, ingesta JSON/CSV, normalización, deduplicación, persistencia de interacciones e idempotencia. Sin embargo, la aplicación no puede importarse ni ejecutar su suite de pruebas en el estado auditado. La prioridad antes de desarrollar nuevas funcionalidades es estabilizar la base.

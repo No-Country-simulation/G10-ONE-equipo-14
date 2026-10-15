@@ -91,6 +91,21 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 
 ## Roadmap
 
+### Estado consolidado al 15 de octubre de 2026
+
+| Etapa | Estado actual |
+| --- | --- |
+| E1 | Completa: base técnica, Docker, PostgreSQL y CI reproducible. |
+| E2 | Completa: modelo, migraciones, constraints, triggers y consulta de ejecuciones. |
+| E3 | Completa para el alcance funcional: Gemini configurable, fallback mock, persistencia, PII y decisiones. |
+| E4 | Completa: activos LinkedIn/FAQ trazables, recurrencia y consentimiento. |
+| E5 | Completa para curaduría: cola persistente, edición, decisión, fuentes y manejo de errores. |
+| E6 | Parcial por decisión: publicación local funciona; OCI Object Storage (INV-002 a INV-005) queda para el despliegue final. |
+| E7 | Funcionalmente completa; resta consolidar todas las capturas y métricas finales del inventario. |
+| E8 | Operativa en Render Free; OCI se abordará sólo al finalizar al 100% los puntos de desarrollo. |
+
+La fuente de verdad para brechas abiertas es [`INVENTARIO_PROYECTO.md`](INVENTARIO_PROYECTO.md), no el estado histórico de las épicas.
+
 ### E2 — Modelo de datos y persistencia completa
 
 - Jira: [COMLAB-11](https://g10-latam-equipo14.atlassian.net/browse/COMLAB-11)
@@ -172,16 +187,17 @@ Objetivo: desplegar el MVP estable sin activar servicios pagos sin autorización
 
 ## Próxima etapa
 
-El siguiente trabajo es **E2 — Modelo de datos y persistencia completa**. El orden recomendado es:
+E2 a E5 ya no son trabajo futuro. El orden vigente, excluyendo temporalmente OCI, es:
 
-1. Completar CL-002 / COMLAB-67: diseño y decisiones del modelo.
-2. Crear las migraciones y modelos SQLAlchemy.
-3. Completar CL-005 / COMLAB-68: triggers justificados y pruebas PostgreSQL.
-4. Implementar la consulta por `run_id`.
-5. Actualizar Swagger y dashboard.
-6. Ejecutar la demostración y adjuntar evidencias.
+1. **INV-021:** consolidar evidencias visuales E1-E6 y el recorrido final de curaduría/publicación local.
+2. **INV-022:** documentar y, si aporta valor, implementar una entrada automática mínima.
+3. **INV-023:** medir un lote de 500 interacciones y agregar una cola sólo si supera el objetivo de 30 segundos.
+4. **INV-024:** ejecutar la evaluación de validez, grounding y precisión con una muestra revisable.
+5. **INV-025:** decidir y documentar los canales adicionales posteriores al MVP.
+6. Ejecutar una auditoría final del inventario, issues, Jira y evidencias.
+7. Recién entonces retomar **INV-002 a INV-005** para OCI Object Storage y el despliegue final.
 
-E3 no debe conectarse a producción ni persistir resultados hasta que las entidades de E2 estén aprobadas.
+Esta secuencia aplica la decisión del equipo: terminar primero la funcionalidad y dejar OCI para el cierre al 100%, sin eliminarlo del alcance obligatorio.
 
 ## Cierre de una épica
 
