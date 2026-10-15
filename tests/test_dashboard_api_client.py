@@ -1,8 +1,9 @@
 """Unit tests for the dashboard's persistent curation client."""
 
 import pytest
+import requests
 
-from dashboard.api_client import decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
+from dashboard.api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
 
 
 class FakeResponse:
@@ -132,7 +133,6 @@ def test_decide_asset_posts_review_decision():
         comment="Listo",
         session=session,
     )
-
     assert result["status"] == "APPROVED"
     assert session.calls[0] == (
         "POST",
@@ -142,3 +142,20 @@ def test_decide_asset_posts_review_decision():
             "timeout": 10,
         },
     )
+
+
+def test_api_error_message_extracts_fastapi_detail():
+    response = requests.Response()
+    response.status_code = 409
+    response._content = b'{"detail":"Approved assets are immutable."}'
+    error = requests.HTTPError(response=response)
+    assert api_error_message(error) == "Approved assets are immutable."
+
+
+def test_api_error_message_handles_validation_and_network_failures():
+    response = requests.Response()
+    response.status_code = 422
+    response._content = b'{"detail":[{"msg":"Field required"}]}'
+    assert api_error_message(requests.HTTPError(response=response)) == "Field required"
+    assert api_error_message(requests.Timeout()) == "La solicitud excedió el tiempo de espera."
+    assert api_error_message(requests.ConnectionError()) == "No se pudo conectar con la API."

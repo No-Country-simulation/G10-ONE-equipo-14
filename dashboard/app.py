@@ -6,7 +6,7 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
-from api_client import decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
+from api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
@@ -129,10 +129,10 @@ if st.button(
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         st.error(f"El archivo JSON no se pudo leer: {exc}")
     except requests.HTTPError as exc:
-        detail = exc.response.text if exc.response is not None else str(exc)
+        detail = api_error_message(exc)
         st.error(f"La API rechazó la carga: {detail}")
     except requests.RequestException as exc:
-        st.error(f"No se pudo conectar con la API: {exc}")
+        st.error(api_error_message(exc))
 
 st.subheader("2. Recuperar una ejecución")
 run_input, run_action = st.columns([4, 1])
@@ -167,10 +167,10 @@ if load_run:
         elif exc.response is not None and exc.response.status_code == 409:
             st.warning("La ejecución todavía se está procesando.")
         else:
-            detail = exc.response.text if exc.response is not None else str(exc)
+            detail = api_error_message(exc)
             st.error(f"La API no pudo recuperar la ejecución: {detail}")
     except requests.RequestException as exc:
-        st.error(f"No se pudo conectar con la API: {exc}")
+        st.error(api_error_message(exc))
 
 result = st.session_state.get("process_result")
 if result:
@@ -243,7 +243,7 @@ with alerts_tab:
         else:
             st.info("No hay alertas internas abiertas.")
     except requests.RequestException as exc:
-        st.error(f"No se pudieron recuperar las alertas internas: {exc}")
+        st.error(f"No se pudieron recuperar las alertas internas: {api_error_message(exc)}")
 with assets_tab:
     queue_header, queue_action = st.columns([4, 1])
     queue_header.caption(
@@ -255,7 +255,7 @@ with assets_tab:
             st.session_state["pending_assets"] = list_pending_assets(API_URL)
         except requests.RequestException as exc:
             st.session_state["pending_assets"] = []
-            st.error(f"No se pudo recuperar la cola de curaduría: {exc}")
+            st.error(f"No se pudo recuperar la cola de curaduría: {api_error_message(exc)}")
 
     pending_assets = st.session_state.get("pending_assets", [])
     if not pending_assets:
@@ -291,7 +291,7 @@ with assets_tab:
                     )
                     st.success("Nueva versión guardada.")
                 except requests.RequestException as exc:
-                    st.error(f"No se pudo guardar el activo: {exc}")
+                    st.error(f"No se pudo guardar el activo: {api_error_message(exc)}")
             if approve.button("Aprobar", key=f"approve-{asset['id']}"):
                 try:
                     decide_asset(
@@ -306,7 +306,7 @@ with assets_tab:
                     st.success("Activo aprobado y retirado de la cola.")
                     st.rerun()
                 except requests.RequestException as exc:
-                    st.error(f"No se pudo aprobar el activo: {exc}")
+                    st.error(f"No se pudo aprobar el activo: {api_error_message(exc)}")
             if reject.button("Rechazar", key=f"reject-{asset['id']}"):
                 try:
                     decide_asset(
@@ -321,4 +321,4 @@ with assets_tab:
                     st.warning("Activo rechazado y retirado de la cola.")
                     st.rerun()
                 except requests.RequestException as exc:
-                    st.error(f"No se pudo rechazar el activo: {exc}")
+                    st.error(f"No se pudo rechazar el activo: {api_error_message(exc)}")

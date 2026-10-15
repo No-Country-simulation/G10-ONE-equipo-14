@@ -6,6 +6,33 @@ from uuid import UUID
 import requests
 
 
+def api_error_message(error: requests.RequestException) -> str:
+    """Return a safe, human-readable API error without exposing raw HTML."""
+    response = getattr(error, "response", None)
+    if response is not None:
+        try:
+            payload = response.json()
+            detail = payload.get("detail") if isinstance(payload, dict) else None
+            if isinstance(detail, str) and detail.strip():
+                return detail.strip()
+            if isinstance(detail, list):
+                messages = [
+                    str(item.get("msg", item)) if isinstance(item, dict) else str(item)
+                    for item in detail
+                ]
+                return "; ".join(messages)
+        except (ValueError, TypeError):
+            pass
+        status_code = getattr(response, "status_code", None)
+        if status_code:
+            return f"La API respondió con estado {status_code}."
+    if isinstance(error, requests.Timeout):
+        return "La solicitud excedió el tiempo de espera."
+    if isinstance(error, requests.ConnectionError):
+        return "No se pudo conectar con la API."
+    return "Ocurrió un error al comunicarse con la API."
+
+
 def get_run(
     api_url: str,
     run_id: str,
