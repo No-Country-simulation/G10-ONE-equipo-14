@@ -28,6 +28,7 @@ terraform.tfvars
 *.sqlite3
 /data/
 /tmp/
+/backups/
 
 # --- Testing / coverage ---
 .pytest_cache/
