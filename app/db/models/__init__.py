@@ -5,6 +5,7 @@ from app.db.models.interaction import Interaction
 from app.db.models.alert import AlertRecord
 from app.db.models.manifest import ManifestRecord
 from app.db.models.opportunity import Opportunity, OpportunitySource
+from app.db.models.processing_job import ProcessingJob
 from app.db.models.run import Run
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     "ManifestRecord",
     "Opportunity",
     "OpportunitySource",
+    "ProcessingJob",
     "Run",
 ]
