@@ -68,7 +68,7 @@ Los identificadores `INV-*` son estables y deben reutilizarse en GitHub y Jira.
 - [x] **INV-012 - FAQ por recurrencia.** El pipeline agrupa preguntas por tema dentro de la ejecución y genera una sola FAQ al alcanzar `FAQ_RECURRENCE_THRESHOLD` (2 por defecto), conservando todas las fuentes. Preguntas aisladas y mensajes que no son preguntas no generan FAQ. GitHub #153 / Jira COMLAB-91.
 - [x] **INV-013 - Alertas internas.** El sentimiento negativo/frustración crea una alerta persistente `OPEN`, bloquea la oportunidad pública y nunca genera activos. Las alertas se consultan en `GET /api/v1/alerts` y se muestran en una pestaña separada del dashboard. GitHub #156 / Jira COMLAB-92.
 - [x] **INV-014 - Resumen funcional completo.** La respuesta y el dashboard muestran sentimiento predominante, los tres temas más frecuentes y tiempo de procesamiento en milisegundos, además de cantidades. La respuesta idempotente conserva los mismos valores. GitHub #159 / Jira COMLAB-93.
-- [ ] **INV-016 - Manejo de errores del dashboard.** Capturar errores de editar/aprobar/rechazar y presentar mensajes sin romper la ejecución Streamlit.
+- [x] **INV-016 - Manejo de errores del dashboard.** Carga, consulta, alertas, cola, edición, aprobación y rechazo capturan errores de red/HTTP y muestran el `detail` útil de FastAPI sin exponer HTML ni interrumpir Streamlit. GitHub #162 / Jira COMLAB-94.
 
 El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV-014 e INV-016 están cerrados, las pruebas están verdes y los tres recorridos se pueden demostrar sin OCI usando almacenamiento local controlado.
 

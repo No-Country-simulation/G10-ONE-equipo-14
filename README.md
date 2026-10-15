@@ -232,6 +232,11 @@ interna: crean una alerta persistente, dejan la oportunidad bloqueada y no
 generan activos públicos. El dashboard las presenta en **Alertas internas**, de
 forma separada de oportunidades y de la cola de curaduría.
 
+Los errores del dashboard se presentan como mensajes controlados. Cuando la
+API devuelve un `detail` de FastAPI se muestra ese texto; timeouts, problemas
+de conexión y respuestas no JSON reciben mensajes seguros sin detener la
+sesión de Streamlit.
+
 ## Proveedor de análisis
 
 El proveedor se selecciona con `ANALYSIS_PROVIDER`:
