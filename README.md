@@ -21,6 +21,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - Carga de interacciones JSON y CSV.
 - Normalización, fingerprint SHA-256 y deduplicación por comunidad.
 - Idempotencia persistida mediante el encabezado `Idempotency-Key`.
+- Cola asíncrona durable en PostgreSQL y worker independiente para lotes grandes.
 - PostgreSQL 16 con migraciones Alembic automáticas.
 - Dashboard Streamlit para cargar archivos y visualizar el resultado.
 - Health checks de PostgreSQL y API.
@@ -30,7 +31,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - FAQ basada en recurrencia temática, con umbral configurable.
 - Curaduría persistente: edición, aprobación y rechazo.
 - Adaptadores de almacenamiento local y OCI con manifiestos verificables.
-- Suite de 93 pruebas aprobadas, 1 omitida y CI en GitHub Actions al cierre E8.
+- Suite de 142 pruebas aprobadas y CI en GitHub Actions al cierre de INV-023.
 - Datos de demostración en JSON y CSV.
 
 ### Próximos pasos operativos
@@ -62,6 +63,7 @@ Servicios Docker:
 | `db` | PostgreSQL 16 | red interna de Docker | Interacciones, ejecuciones e idempotencia |
 | `api` | FastAPI | `http://localhost:8000` | Contratos, ingesta y persistencia |
 | `dashboard` | Streamlit | `http://localhost:8501` | Demostración visual y carga de archivos |
+| `worker` | Python/FastAPI services | red interna de Docker | Procesamiento asíncrono durable de lotes |
 
 ## Estructura del repositorio
 
@@ -169,7 +171,7 @@ El inicio ocurre en este orden:
 1. PostgreSQL inicia y pasa su health check.
 2. La API ejecuta `python -m alembic upgrade head`.
 3. FastAPI inicia solamente si las migraciones finalizan correctamente.
-4. Streamlit inicia cuando la API está saludable.
+4. Streamlit y el worker inician cuando la API está saludable.
 
 Verificar los servicios:
 
@@ -177,7 +179,21 @@ Verificar los servicios:
 docker compose ps
 ```
 
-El resultado esperado es `Up` para los tres servicios y `healthy` para `db` y `api`.
+El resultado esperado es `Up` para los cuatro servicios y `healthy` para `db` y `api`.
+
+### Procesamiento asíncrono de lotes
+
+`POST /api/v1/process/async` acepta el mismo contrato que `/process`, exige
+`Idempotency-Key` y responde inmediatamente con `job_id` y `status_url`. El
+worker reclama los trabajos mediante bloqueo PostgreSQL `SKIP LOCKED`; el estado
+se consulta en `GET /api/v1/jobs/{job_id}` hasta `SUCCEEDED` o `FAILED`.
+
+El endpoint síncrono se conserva para integraciones compatibles. Para medir el
+lote máximo con el proveedor mock reproducible:
+
+```powershell
+docker compose exec -T api python scripts/benchmark_500.py --api-url http://localhost:8000 --count 500 --async-mode --max-seconds 1
+```
 
 ### 4. Abrir la aplicación
 
