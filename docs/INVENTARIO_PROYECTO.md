@@ -91,7 +91,7 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 ### Fase D - mejoras posteriores al MVP
 
 - [x] **INV-022 - Entrada automática.** Webhook neutral protegido e idempotente que integra n8n/Discord/Slack con el pipeline existente; incluye contrato, mapeos, reintentos y pruebas sin credenciales externas. Evidencia: `docs/evidence/INV-022-webhook-input/README.md`.
-- [ ] **INV-023 - Procesamiento asíncrono.** Medir lotes de 500 elementos; agregar worker/cola sólo si se supera el objetivo de 30 segundos.
+- [x] **INV-023 - Procesamiento asíncrono.** Tres mediciones síncronas de 500 elementos dieron 15,105 s, 64,337 s y 47,762 s; al no cumplir de forma estable el objetivo de 30 segundos se agregó una cola durable PostgreSQL, endpoint consultable y worker separado. La prueba final encoló 500 elementos en 0,062 s y terminó en 19,841 s con proveedor mock. Evidencia: `docs/evidence/INV-023-async-benchmark/README.md`. GitHub #186 / Jira COMLAB-102.
 - [ ] **INV-024 - Métricas de evaluación.** Medir validez de salida, grounding y precisión de oportunidades con una muestra humana.
 - [ ] **INV-025 - Canales adicionales.** X/Twitter, newsletter, highlights e informes de sentimiento quedan como alcance posterior.
 

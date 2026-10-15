@@ -38,6 +38,7 @@ def test_expected_updated_at_triggers_are_installed(db_session: Session):
     assert set(rows) == {
         ("assets", "trg_assets_set_updated_at"),
         ("opportunities", "trg_opportunities_set_updated_at"),
+        ("processing_jobs", "trg_processing_jobs_set_updated_at"),
         ("runs", "trg_runs_set_updated_at"),
     }
 

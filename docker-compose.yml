@@ -41,5 +41,13 @@ services:
       api:
         condition: service_healthy
 
+  worker:
+    build: .
+    command: python -m app.workers.processing_worker
+    env_file: .env
+    depends_on:
+      api:
+        condition: service_healthy
+
 volumes:
   postgres_data:
