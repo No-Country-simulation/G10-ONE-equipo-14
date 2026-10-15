@@ -1,0 +1,136 @@
+{
+  "schema_version": "v1",
+  "sample_size": 20,
+  "output_validity": 1.0,
+  "grounding_rate": 1.0,
+  "opportunity_precision": 1.0,
+  "opportunity_recall": 0.9091,
+  "confusion": {
+    "true_positive": 10,
+    "false_positive": 0,
+    "false_negative": 1,
+    "true_negative": 9
+  },
+  "items": [
+    {
+      "id": "eval-001",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-002",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-003",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-004",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-005",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-006",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-007",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-008",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-009",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-010",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    },
+    {
+      "id": "eval-011",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-012",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-013",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-014",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-015",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-016",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-017",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-018",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-019",
+      "expected_public_opportunity": false,
+      "predicted_public_opportunity": false,
+      "grounded": true
+    },
+    {
+      "id": "eval-020",
+      "expected_public_opportunity": true,
+      "predicted_public_opportunity": true,
+      "grounded": true
+    }
+  ]
+}

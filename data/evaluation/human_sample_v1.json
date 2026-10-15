@@ -1,0 +1,28 @@
+{
+  "schema_version": "v1",
+  "annotated_at": "2026-10-15",
+  "reviewer_role": "product_owner",
+  "guideline_version": "v1",
+  "items": [
+    {"id":"eval-001","text":"Conseguí mi primer empleo usando FastAPI y PostgreSQL.","type":"achievement","expected_public_opportunity":true,"rationale":"Logro concreto, positivo y publicable."},
+    {"id":"eval-002","text":"Terminé con éxito un proyecto de Docker Compose.","type":"achievement","expected_public_opportunity":true,"rationale":"Proyecto técnico terminado con resultado positivo."},
+    {"id":"eval-003","text":"Gracias a la comunidad aprendí FastAPI y conseguí empleo.","type":"testimonial","expected_public_opportunity":true,"rationale":"Testimonio positivo con tema técnico."},
+    {"id":"eval-004","text":"Logré desplegar PostgreSQL con Docker.","type":"achievement","expected_public_opportunity":true,"rationale":"Logro técnico explícito."},
+    {"id":"eval-005","text":"Excelente taller de LangGraph, terminé mi primer agente.","type":"testimonial","expected_public_opportunity":true,"rationale":"Experiencia positiva y logro técnico."},
+    {"id":"eval-006","text":"¿Cómo conecto FastAPI con PostgreSQL?","type":"question","expected_public_opportunity":true,"rationale":"Pregunta técnica útil para contenido educativo."},
+    {"id":"eval-007","text":"¿Qué diferencia hay entre un contenedor Docker y una imagen?","type":"question","expected_public_opportunity":true,"rationale":"Pregunta técnica reutilizable."},
+    {"id":"eval-008","text":"Mi proyecto con inteligencia artificial ayudó al equipo.","type":"achievement","expected_public_opportunity":true,"rationale":"Caso de impacto con tema de IA."},
+    {"id":"eval-009","text":"Conseguí automatizar la API con FastAPI.","type":"achievement","expected_public_opportunity":true,"rationale":"Logro técnico publicable."},
+    {"id":"eval-010","text":"Terminé la migración de la base PostgreSQL con éxito.","type":"achievement","expected_public_opportunity":true,"rationale":"Resultado técnico verificable."},
+    {"id":"eval-011","text":"Nos vemos mañana a las nueve.","type":"conversation","expected_public_opportunity":false,"rationale":"Coordinación cotidiana sin valor editorial."},
+    {"id":"eval-012","text":"¿Quién trae café para la reunión?","type":"conversation","expected_public_opportunity":false,"rationale":"Conversación social fuera del alcance."},
+    {"id":"eval-013","text":"Estoy leyendo un libro esta tarde.","type":"conversation","expected_public_opportunity":false,"rationale":"No contiene tema ni logro relevante."},
+    {"id":"eval-014","text":"El clima está agradable hoy.","type":"conversation","expected_public_opportunity":false,"rationale":"Mensaje irrelevante para contenido comunitario."},
+    {"id":"eval-015","text":"Confirmo asistencia a la reunión semanal.","type":"conversation","expected_public_opportunity":false,"rationale":"Mensaje operativo sin oportunidad editorial."},
+    {"id":"eval-016","text":"Docker falla y este problema me bloquea completamente.","type":"support","expected_public_opportunity":false,"rationale":"Debe generar alerta interna, no contenido público."},
+    {"id":"eval-017","text":"La API de FastAPI da error y estoy frustrado.","type":"support","expected_public_opportunity":false,"rationale":"Sentimiento negativo que requiere atención interna."},
+    {"id":"eval-018","text":"PostgreSQL falló y perdimos acceso a la base.","type":"support","expected_public_opportunity":false,"rationale":"Incidente técnico no publicable."},
+    {"id":"eval-019","text":"Conseguí empleo gracias a mi proyecto FastAPI.","type":"achievement","opt_out":true,"expected_public_opportunity":false,"rationale":"El opt-out prevalece sobre el valor editorial."},
+    {"id":"eval-020","text":"Terminé con éxito una aplicación Docker.","type":"achievement","publication_consent":false,"expected_public_opportunity":true,"rationale":"Puede generar borrador anonimizado; no autoriza identificar al autor."}
+  ]
+}
