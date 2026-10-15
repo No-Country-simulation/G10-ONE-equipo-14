@@ -8,6 +8,8 @@ from fastapi import (
     UploadFile,
     status,
 )
+from collections import Counter
+from time import perf_counter
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -67,6 +69,7 @@ def _response(
         )
 
     try:
+        processing_started = perf_counter()
         result = ingest_interactions(
             db,
             payload.organization_id,
@@ -81,6 +84,13 @@ def _response(
             result.persisted,
             [asset.value for asset in payload.requested_assets],
         )
+        sentiment_counts = Counter(item.sentiment for item in analyses)
+        topic_counts = Counter(topic for item in analyses for topic in item.topics)
+        predominant_sentiment = (
+            sentiment_counts.most_common(1)[0][0] if sentiment_counts else None
+        )
+        top_topics = [topic for topic, _ in topic_counts.most_common(3)]
+        processing_time_ms = round((perf_counter() - processing_started) * 1000, 2)
 
         response = ProcessResponse(
             schema_version="v1",
@@ -95,6 +105,9 @@ def _response(
                 accepted=result.accepted,
                 duplicates=result.duplicates,
                 errors=len(all_errors),
+                predominant_sentiment=predominant_sentiment,
+                top_topics=top_topics,
+                processing_time_ms=processing_time_ms,
             ),
             record_errors=[
                 RecordErrorResponse(**vars(error))

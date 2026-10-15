@@ -35,6 +35,10 @@ def test_contract_returns_202(client):
 
     assert response.status_code == 202
     assert response.json()["schema_version"] == "v1"
+    summary = response.json()["summary"]
+    assert summary["predominant_sentiment"] == "positive"
+    assert "" not in summary["top_topics"]
+    assert summary["processing_time_ms"] >= 0
 
 
 def test_same_key_same_run_id(client):
