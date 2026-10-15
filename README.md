@@ -148,6 +148,12 @@ Variables disponibles:
 Las rutas de lectura (`health`, ejecuciones, activos y alertas) permanecen públicas. Las rutas que cambian datos pasan por tres controles: el interruptor `MUTATIONS_ENABLED`, una clave opcional `API_WRITE_KEY` comparada de forma segura y un límite por IP para cada ventana. El Blueprint de Render deja la demo pública en modo sólo lectura. Para habilitar curaduría en un entorno compartido, configure el mismo `API_WRITE_KEY` como secreto en la API y el dashboard y cambie `MUTATIONS_ENABLED=true`.
 
 CORS acepta únicamente los orígenes definidos en `CORS_ORIGINS`; por defecto son las dos variantes locales de Streamlit. En un despliegue se debe agregar explícitamente el dominio real del dashboard. El limitador incluido vive en memoria y cubre el despliegue gratuito de una instancia; al escalar a varias réplicas debe reemplazarse por un contador compartido (por ejemplo Redis o el gateway de la plataforma).
+
+### Entrada automática por webhook
+
+`POST /api/v1/webhooks/interactions` recibe un evento normalizado desde n8n, Discord, Slack u otra fuente. `source + event_id` forma la clave idempotente: un reintento devuelve el mismo run y reutilizar el identificador con otro contenido devuelve HTTP 409. El endpoint pasa por los mismos controles de mutación (`MUTATIONS_ENABLED`, `X-API-Key` y rate limiting) y ejecuta exactamente el pipeline de la carga manual.
+
+El contrato, ejemplo `curl` y los mapeos recomendados están en [`docs/WEBHOOK_INTEGRATION.md`](docs/WEBHOOK_INTEGRATION.md). Ningún token de Discord/Slack/n8n se guarda en CommunityLab.
 | `POSTGRES_DB` | Base de datos local | `communitylab` |
 | `POSTGRES_USER` | Usuario local | `communitylab` |
 | `POSTGRES_PASSWORD` | Contraseña local | `communitylab` |
