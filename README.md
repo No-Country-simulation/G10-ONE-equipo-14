@@ -24,6 +24,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - PostgreSQL 16 con migraciones Alembic automáticas.
 - Dashboard Streamlit para cargar archivos y visualizar el resultado.
 - Health checks de PostgreSQL y API.
+- Logs JSON para solicitudes, análisis/reintentos y almacenamiento, sin contenido sensible.
 - Pipeline de análisis, detección de PII y oportunidades.
 - Generación versionada de activos LinkedIn y FAQ.
 - FAQ basada en recurrencia temática, con umbral configurable.
