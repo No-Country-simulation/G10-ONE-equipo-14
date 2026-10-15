@@ -2,7 +2,7 @@
 
 import pytest
 
-from dashboard.api_client import decide_asset, edit_asset, get_run, list_pending_assets
+from dashboard.api_client import decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
 
 
 class FakeResponse:
@@ -44,6 +44,19 @@ def test_list_pending_assets_uses_persisted_queue_endpoint():
             "GET",
             "http://api:8000/api/v1/assets",
             {"params": {"status": "PENDING_REVIEW"}, "timeout": 10},
+        )
+    ]
+
+
+def test_list_open_alerts_uses_separate_internal_endpoint():
+    session = FakeSession()
+    alerts = list_open_alerts("http://api:8000/", session=session)
+    assert alerts
+    assert session.calls == [
+        (
+            "GET",
+            "http://api:8000/api/v1/alerts",
+            {"params": {"status": "OPEN"}, "timeout": 10},
         )
     ]
 
