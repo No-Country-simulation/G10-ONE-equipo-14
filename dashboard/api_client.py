@@ -73,13 +73,17 @@ def get_run(
 def list_pending_assets(
     api_url: str,
     *,
+    run_id: str | None = None,
     timeout: float = 10,
     session: Any = requests,
 ) -> list[dict]:
     """Return the persisted review queue from the backend."""
+    params = {"status": "PENDING_REVIEW"}
+    if run_id:
+        params["run_id"] = str(UUID(run_id.strip()))
     response = session.get(
         f"{api_url.rstrip('/')}/api/v1/assets",
-        params={"status": "PENDING_REVIEW"},
+        params=params,
         timeout=timeout,
     )
     response.raise_for_status()

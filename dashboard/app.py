@@ -261,14 +261,20 @@ with alerts_tab:
             f"No se pudieron recuperar las alertas internas: {api_error_message(exc)}"
         )
 with assets_tab:
+    queue_run_id = result.get("run_id") if result else None
     queue_header, queue_action = st.columns([4, 1])
     queue_header.caption(
-        "Cola persistente: los borradores pendientes se recuperan desde PostgreSQL."
+        "Cola persistente: se muestran los borradores de la ejecución actual."
     )
     refresh_queue = queue_action.button("Actualizar cola", use_container_width=True)
-    if "pending_assets" not in st.session_state or refresh_queue:
+    queue_changed = st.session_state.get("pending_assets_run_id") != queue_run_id
+    if "pending_assets" not in st.session_state or refresh_queue or queue_changed:
         try:
-            st.session_state["pending_assets"] = list_pending_assets(API_URL)
+            st.session_state["pending_assets"] = list_pending_assets(
+                API_URL,
+                run_id=queue_run_id,
+            )
+            st.session_state["pending_assets_run_id"] = queue_run_id
         except requests.RequestException as exc:
             st.session_state["pending_assets"] = []
             st.error(

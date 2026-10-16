@@ -57,6 +57,24 @@ def test_list_pending_assets_uses_persisted_queue_endpoint():
     ]
 
 
+def test_list_pending_assets_filters_the_current_run():
+    session = FakeSession()
+    run_id = "bdc11ba4-0b40-4a15-b909-16f2e8fae50a"
+
+    list_pending_assets("http://api:8000", run_id=run_id, session=session)
+
+    assert session.calls == [
+        (
+            "GET",
+            "http://api:8000/api/v1/assets",
+            {
+                "params": {"status": "PENDING_REVIEW", "run_id": run_id},
+                "timeout": 10,
+            },
+        )
+    ]
+
+
 def test_health_allows_render_free_cold_start():
     session = FakeSession()
 
