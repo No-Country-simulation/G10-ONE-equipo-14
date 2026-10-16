@@ -3,7 +3,7 @@
 Esta carpeta contiene cuatro conjuntos independientes. Los archivos originales de `communitylab_ejemplos` no fueron modificados.
 
 Para saber exactamente qué archivos cargar, en qué orden y qué verificar,
-consultar la [guía paso a paso de prueba funcional](../GUIA_PRUEBA_FUNCIONAL.md).
+consultar la [guía paso a paso de prueba funcional](GUIA_PRUEBA_FUNCIONAL.md).
 Los archivos `salida_*` y `manifest*` sirven como referencia y no deben cargarse
 en el dashboard.
 
