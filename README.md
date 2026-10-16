@@ -482,6 +482,8 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - Documentación funcional: carpeta [`docs`](docs)
 - Roadmap y proceso por etapas: [docs/ROADMAP_ETAPAS.md](docs/ROADMAP_ETAPAS.md)
 - Guion de demo y cierre: [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
+- Prueba funcional paso a paso: [docs/GUIA_PRUEBA_FUNCIONAL.md](docs/GUIA_PRUEBA_FUNCIONAL.md)
+- Manual de usuario: [docs/MANUAL_USUARIO.md](docs/MANUAL_USUARIO.md)
 - Evidencias visuales: [docs/evidence](docs/evidence)
 - Entregable técnico E1–E8: [docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md](docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md)
 - Inventario auditado y brechas pendientes: [docs/INVENTARIO_PROYECTO.md](docs/INVENTARIO_PROYECTO.md)

@@ -1,14 +1,22 @@
 # Sets de prueba adicionales de CommunityLab
 
-Esta carpeta contiene tres conjuntos independientes. Los archivos originales de `communitylab_ejemplos` no fueron modificados.
+Esta carpeta contiene cuatro conjuntos independientes. Los archivos originales de `communitylab_ejemplos` no fueron modificados.
+
+Para saber exactamente qué archivos cargar, en qué orden y qué verificar,
+consultar la [guía paso a paso de prueba funcional](../GUIA_PRUEBA_FUNCIONAL.md).
+Los archivos `salida_*` y `manifest*` sirven como referencia y no deben cargarse
+en el dashboard.
 
 | Set | Tema | Registros | Análisis esperados | Oportunidades | Activos |
 |---|---|---:|---:|---:|---:|
 | 01 | Empleabilidad y formación tecnológica | 60 | 60 | 40 | 12 |
 | 02 | Producto SaaS y comunidad de desarrolladores | 60 | 60 | 40 | 12 |
 | 03 | Sostenibilidad e impacto social | 60 | 60 | 40 | 12 |
+| 04 | Prueba funcional inicial multiescenario | 25 | Variable | Variable | Variable |
 
-Cada set incluye `entrada_60.json`, `salida_esperada_60.json` y `manifest.json`.
+Los sets 01–03 incluyen `entrada_60.json`, `salida_esperada_60.json` y
+`manifest.json`. El set 04 incluye la misma entrada en JSON y CSV, una salida
+procesada ilustrativa, un manifest de ejemplo y su propio README.
 
 ## Distribución de casos por set
 
