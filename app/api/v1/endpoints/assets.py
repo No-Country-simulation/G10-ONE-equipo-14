@@ -81,11 +81,14 @@ def _response(db: Session, asset: AssetRecord) -> Asset:
 @router.get("/assets", response_model=list[Asset])
 def list_assets(
     status_filter: AssetStatus | None = Query(default=None, alias="status"),
+    run_id: UUID | None = Query(default=None),
     db: Session = Depends(get_db),
 ) -> list[Asset]:
     statement = select(AssetRecord).order_by(AssetRecord.created_at.desc())
     if status_filter is not None:
         statement = statement.where(AssetRecord.status == status_filter.value)
+    if run_id is not None:
+        statement = statement.where(AssetRecord.run_id == run_id)
     return [_response(db, asset) for asset in db.scalars(statement).all()]
 
 

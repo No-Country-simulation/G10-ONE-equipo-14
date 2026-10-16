@@ -58,3 +58,46 @@ Esta compatibilidad está cubierta por pruebas automáticas que validan los cuat
 archivos JSON de entrada y las 25 filas del CSV del set 04. Las salidas esperadas
 son referencias funcionales: los valores de relevancia, confianza y cantidades
 de oportunidades o activos pueden variar cuando se utiliza un modelo LLM real.
+
+### Evidencia paso a paso
+
+La prueba funcional se ejecutó el 16 de octubre de 2026 con
+`set_04_prueba_inicial/entrada_interacciones_25.json` y el proveedor Gemini. La
+ejecución persistida fue `36c28c96-0997-438c-bcb8-ef4babcfe677`.
+
+Resultado consolidado:
+
+- Estado `ACCEPTED`.
+- 25 interacciones recibidas y aceptadas.
+- 0 duplicados y 0 errores.
+- 25 análisis y 25 oportunidades detectadas.
+- 15 activos generados para revisión.
+- 4 alertas internas.
+- Tiempo total aproximado: 76 segundos.
+
+#### 1. API y PostgreSQL disponibles
+
+![API y PostgreSQL disponibles](evidencia_compatibilidad/01-sistema-disponible.png)
+
+#### 2. Ejecución recuperada y resumen persistido
+
+![Resumen de la ejecución](evidencia_compatibilidad/02-resumen-ejecucion.png)
+
+#### 3. Análisis de las 25 interacciones
+
+![Análisis generados](evidencia_compatibilidad/03-analisis-gemini.png)
+
+#### 4. Oportunidades detectadas
+
+![Oportunidades detectadas](evidencia_compatibilidad/04-oportunidades.png)
+
+#### 5. Alertas internas por sentimiento negativo
+
+![Alertas internas](evidencia_compatibilidad/05-alertas-internas.png)
+
+#### 6. Activos de LinkedIn y FAQ listos para curaduría
+
+La cola se filtra por el `run_id` actual para evitar mezclar los borradores de
+otras pruebas almacenadas en PostgreSQL.
+
+![Activos generados](evidencia_compatibilidad/06-activos-generados.png)
