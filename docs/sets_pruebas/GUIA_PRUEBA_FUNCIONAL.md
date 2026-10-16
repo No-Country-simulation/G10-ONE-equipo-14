@@ -2,7 +2,7 @@
 
 Esta guía permite repetir la prueba funcional desde el dashboard sin necesidad
 de usar Swagger ni comandos de API. Para conocer cada pantalla y operación,
-consultar también el [manual de usuario](MANUAL_USUARIO.md).
+consultar también el [manual de usuario](../MANUAL_USUARIO.md).
 
 ## 1. Qué archivos se cargan
 

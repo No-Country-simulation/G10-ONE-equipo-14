@@ -170,4 +170,5 @@ error. Nunca enviar `.env`, claves API ni credenciales.
 ## 12. Prueba guiada
 
 Para ejecutar una validación completa con los archivos incluidos en el
-repositorio, seguir la [guía de prueba funcional](GUIA_PRUEBA_FUNCIONAL.md).
+repositorio, seguir la
+[guía de prueba funcional](sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md).
