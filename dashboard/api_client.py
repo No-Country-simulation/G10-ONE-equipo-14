@@ -38,6 +38,21 @@ def api_error_message(error: requests.RequestException) -> str:
     return "Ocurrió un error al comunicarse con la API."
 
 
+def get_health(
+    api_url: str,
+    *,
+    timeout: float = 60,
+    session: Any = requests,
+) -> dict:
+    """Wait long enough for a Render Free API cold start and return its health."""
+    response = session.get(
+        f"{api_url.rstrip('/')}/api/v1/health",
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
 def get_run(
     api_url: str,
     run_id: str,
