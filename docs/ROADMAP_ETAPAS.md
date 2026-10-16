@@ -91,7 +91,7 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 
 ## Roadmap
 
-### Estado consolidado al 15 de octubre de 2026
+### Estado consolidado al 16 de octubre de 2026
 
 | Etapa | Estado actual |
 | --- | --- |
@@ -101,7 +101,7 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 | E4 | Completa: activos LinkedIn/FAQ trazables, recurrencia y consentimiento. |
 | E5 | Completa para curaduría: cola persistente, edición, decisión, fuentes y manejo de errores. |
 | E6 | Parcial por decisión: publicación local funciona; OCI Object Storage (INV-002 a INV-005) queda para el despliegue final. |
-| E7 | Funcionalmente completa; resta consolidar todas las capturas y métricas finales del inventario. |
+| E7 | Completa en alcance no OCI: recorridos, capturas, benchmark y evaluación de calidad consolidados. |
 | E8 | Operativa en Render Free; OCI se abordará sólo al finalizar al 100% los puntos de desarrollo. |
 
 La fuente de verdad para brechas abiertas es [`INVENTARIO_PROYECTO.md`](INVENTARIO_PROYECTO.md), no el estado histórico de las épicas.
@@ -187,17 +187,17 @@ Objetivo: desplegar el MVP estable sin activar servicios pagos sin autorización
 
 ## Próxima etapa
 
-E2 a E5 ya no son trabajo futuro. El orden vigente, excluyendo temporalmente OCI, es:
+INV-001 e INV-006 a INV-025 están completados. El único trabajo futuro del
+inventario vigente es el bloque OCI del despliegue final:
 
-1. **INV-021:** consolidar evidencias visuales E1-E6 y el recorrido final de curaduría/publicación local.
-2. **INV-022:** documentar y, si aporta valor, implementar una entrada automática mínima.
-3. **INV-023:** medir un lote de 500 interacciones y agregar una cola sólo si supera el objetivo de 30 segundos.
-4. **INV-024:** ejecutar la evaluación de validez, grounding y precisión con una muestra revisable.
-5. **INV-025 (completado):** decisión y criterios de canales posteriores al MVP documentados en `docs/CHANNEL_ROADMAP.md`; su implementación permanece fuera del MVP actual.
-6. Ejecutar una auditoría final del inventario, issues, Jira y evidencias.
-7. Recién entonces retomar **INV-002 a INV-005** para OCI Object Storage y el despliegue final.
+1. **INV-002 / GitHub #195 / COMLAB-105:** activar OCI Object Storage.
+2. **INV-003 / GitHub #196 / COMLAB-106:** completar y probar el layout.
+3. **INV-004 / GitHub #197 / COMLAB-107:** persistir y verificar `manifest.json`.
+4. **INV-005 / GitHub #198 / COMLAB-108:** completar publicación y evidencia visual en Streamlit.
 
-Esta secuencia aplica la decisión del equipo: terminar primero la funcionalidad y dejar OCI para el cierre al 100%, sin eliminarlo del alcance obligatorio.
+Los cuatro tickets permanecen Por hacer, abiertos y sin asignar. Esta secuencia
+mantiene OCI como alcance obligatorio, pero respeta la decisión del equipo de
+abordarlo únicamente después del cierre funcional al 100%.
 
 ## Cierre de una épica
 
