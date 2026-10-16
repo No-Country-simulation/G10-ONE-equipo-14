@@ -1,22 +1,24 @@
 # Inventario integral de CommunityLab
 
-Fecha de corte: 14 de octubre de 2026.
+Fecha de corte: 16 de octubre de 2026.
 
 Este documento contrasta el alcance original del hackathon, el MVP técnico, el código de `main`, las pruebas, el despliegue público y la trazabilidad en GitHub/Jira. Su finalidad es evitar que una épica o ticket cerrado oculte una funcionalidad todavía parcial.
 
 ## 1. Resumen ejecutivo
 
-CommunityLab cuenta con una base funcional y reproducible: ingesta JSON/CSV, PostgreSQL, deduplicación, idempotencia, análisis determinístico, oportunidades, activos LinkedIn/FAQ, curaduría por API, publicación mediante adaptador, pruebas y despliegue público en Render.
+CommunityLab tiene completa la funcionalidad no OCI inventariada: ingesta manual y
+webhook, PostgreSQL, deduplicación e idempotencia, Gemini con fallback, privacidad,
+oportunidades, activos LinkedIn/FAQ, curaduría, alertas, procesamiento asíncrono,
+evaluación de calidad, observabilidad, backup, CI, evidencias y despliegue público
+en Render.
 
-Sin embargo, el MVP no cumple todavía todos los requisitos obligatorios originales. Las brechas principales son:
+El único bloque pendiente del alcance obligatorio es la integración OCI final:
+activar el bucket, completar su layout, persistir el manifest como objeto y
+mostrar la confirmación de publicación desde Streamlit. Corresponde exactamente a
+INV-002 a INV-005 y está proyectado en issues abiertos y sin asignar.
 
-1. El pipeline activo usa `MockAnalysisProvider`; no existe conexión a un LLM real.
-2. Render usa almacenamiento local efímero; la publicación activa no llega a OCI Object Storage.
-3. El layout completo `raw/analyzed/generated/approved/manifests` no está implementado y el manifest no se guarda como objeto.
-4. Streamlit no ofrece cola persistente, fuentes visibles completas ni acción/confirmación de publicación.
-5. Las reglas funcionales de recurrencia, consentimiento y alertas internas no están completas.
-
-Por eso, el estado global correcto es **MVP demostrable, pero parcialmente completo frente al enunciado original**.
+Por eso, el estado global correcto es **desarrollo funcional no OCI completo;
+despliegue final con OCI pendiente**.
 
 ### Secuencia acordada de implementación
 
@@ -26,31 +28,34 @@ Esta decisión cambia el orden, no el alcance final:
 
 - **OCI Object Storage continúa siendo obligatorio** para la entrega final del MVP según `Detalle_proyecto.pdf`.
 - **OCI Compute es opcional**; la aplicación puede continuar desplegada en Render.
-- No se configurarán credenciales, publicación ni pruebas OCI mientras el gate funcional esté abierto.
-- La fase OCI comienza sólo cuando el flujo local/Render con LLM, reglas, activos y curaduría esté aprobado.
+- El gate funcional está aprobado; no quedan brechas no OCI abiertas.
+- La próxima fase permitida es INV-002 a INV-005 cuando el equipo retome el
+  despliegue final y disponga de credenciales/permisos OCI.
 
 ## 2. Evidencia de verificación
 
-- Rama revisada: `main`, commit `95c2e11`.
-- Ejecución local: API, PostgreSQL y dashboard iniciaron correctamente con Docker Compose.
-- Pruebas en `main`: **94 aprobadas**, con 1 advertencia de deprecación.
-- Health local y público: API y PostgreSQL en estado `ok`.
-- Pull request pendiente: [#125](https://github.com/No-Country-simulation/G10-ONE-equipo-14/pull/125), CI verde, todavía sin integrar.
-- GitHub: las épicas E2-E8 están cerradas.
-- Jira: existen épicas y tareas reabiertas, en desarrollo, en revisión o canceladas que contradicen ese cierre.
+- Rama revisada: `main`, commit `b9f4db6` antes de esta auditoría de cierre.
+- Pruebas locales al cierre de INV-024: **144 aprobadas**, con 1 advertencia de deprecación.
+- CI de `main`: ejecución [38778356140](https://github.com/No-Country-simulation/G10-ONE-equipo-14/actions/runs/38778356140) verde para quality, pruebas y Terraform.
+- GitHub: no había PR abierto; INV-001 e INV-006 a INV-025 estaban cerrados.
+- Jira: COMLAB-103 y COMLAB-104 estaban Finalizados y sin asignar; los cuatro
+  pendientes OCI quedaron creados como COMLAB-105 a COMLAB-108, estado Por hacer
+  y sin asignar.
+- Los únicos archivos locales ajenos al cierre son las copias no versionadas
+  `docs/Detalle_proyecto.pdf` y `docs/Prueba.csv`; se conservaron sin modificar.
 
 ## 3. Inventario por etapa
 
 | Etapa | Estado auditado | Implementado | Falta o requiere corrección |
 | --- | --- | --- | --- |
-| E1 - Base técnica | Completa para MVP | FastAPI, Pydantic, PostgreSQL, Docker Compose, Streamlit, CI y dataset | Añadir controles de calidad adicionales al CI |
-| E2 - Persistencia | Completa | Tablas, relaciones, índices, migraciones, downgrade y triggers `updated_at` | Actualizar documentación antigua que aún menciona respuestas 501 |
-| E3 - Pipeline de IA | Parcial | Interfaz de proveedor, análisis determinístico, persistencia, reintento, PII y routing | Proveedor LLM real, configuración segura y validación real de salida; decidir si se incorpora LangGraph |
-| E4 - Contenido | Parcial | LinkedIn/FAQ determinísticos, prompts versionados y trazabilidad | Integrar PR #125; hoy no hay copywriting generado por LLM ni consentimiento del autor |
-| E5 - Curaduría | Parcial | API de listado, edición, aprobación/rechazo y auditoría; botones básicos en Streamlit | Cola global persistente, carga por `run_id`, fuentes visibles, comentarios/revisor editables, manejo de errores y estados válidos |
+| E1 - Base técnica | Completa | FastAPI, Pydantic, PostgreSQL, Docker Compose, Streamlit, CI y datasets | Sin brecha no OCI abierta |
+| E2 - Persistencia | Completa | Tablas, relaciones, índices, migraciones, downgrade, triggers y cola durable | Sin brecha abierta |
+| E3 - Pipeline de IA | Completa | Gemini configurable, fallback mock, salida validada, grounding, PII, reintento y routing | Sin brecha abierta |
+| E4 - Contenido | Completa | LinkedIn/FAQ, prompts versionados, trazabilidad, recurrencia y consentimiento | Sin brecha abierta |
+| E5 - Curaduría | Completa | Cola persistente, consulta por run, fuentes, edición, estados, aprobación/rechazo y errores visuales | Sin brecha abierta |
 | E6 - OCI y manifests | Parcial | Adapter OCI/local, paquete JSON, SHA-256, ETag y registro de manifest en PostgreSQL | OCI activo, layout obligatorio completo, upload del manifest y confirmación visual en Streamlit |
-| E7 - Cierre MVP | Parcial | 94 pruebas, tres recorridos E2E básicos, request ID, README y demo | Pruebas con LLM/OCI reales, logs JSON, métricas de calidad/tiempo y evidencias visuales E1-E6 |
-| E8 - Despliegue | Parcial operativo | Render HTTPS, PostgreSQL y health público | Persistencia duradera, backup ejecutado/restaurado, almacenamiento OCI activo y plan por vencimiento de la base Free |
+| E7 - Cierre MVP | Completa salvo OCI | 144 pruebas, E2E, logs JSON, métricas, benchmark, backup y evidencias visuales | Repetir validación final con OCI activo |
+| E8 - Despliegue | Operativa en Render; OCI pendiente | Render HTTPS, PostgreSQL, health, protección pública y backup/restauración | Activar almacenamiento OCI mediante INV-002 a INV-005 |
 
 ## 4. Lista maestra de brechas
 
@@ -74,10 +79,10 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 
 ### Fase B - integración OCI obligatoria después del gate funcional
 
-- [ ] **INV-002 - Activar OCI Object Storage.** Configurar el entorno de demostración para que un activo aprobado se guarde en el bucket OCI sin versionar secretos. Cierre: objeto comprobable en OCI con recibo, ETag y SHA-256.
-- [ ] **INV-003 - Completar el layout del bucket.** Guardar objetos bajo `raw/`, `analyzed/`, `generated/`, `approved/` y `manifests/` con fecha, comunidad y `run_id`. Cierre: prueba de integración que valide todas las keys.
-- [ ] **INV-004 - Persistir el manifest como objeto.** Además del registro PostgreSQL, cargar `manifest.json` con `schema_version`, `run_id`, object keys, content types, SHA-256 y fecha. Cierre: lectura y verificación del manifest desde OCI.
-- [ ] **INV-005 - Completar publicación en Streamlit.** Agregar acción Publicar sólo para aprobados y mostrar bucket, object key, ETag y checksum. Cierre: demostración visual de aprobación a objeto OCI.
+- [ ] **INV-002 - Activar OCI Object Storage.** Configurar el entorno de demostración para que un activo aprobado se guarde en el bucket OCI sin versionar secretos. Cierre: objeto comprobable en OCI con recibo, ETag y SHA-256. GitHub #195 / Jira COMLAB-105 (Por hacer, sin asignar).
+- [ ] **INV-003 - Completar el layout del bucket.** Guardar objetos bajo `raw/`, `analyzed/`, `generated/`, `approved/` y `manifests/` con fecha, comunidad y `run_id`. Cierre: prueba de integración que valide todas las keys. GitHub #196 / Jira COMLAB-106 (Por hacer, sin asignar).
+- [ ] **INV-004 - Persistir el manifest como objeto.** Además del registro PostgreSQL, cargar `manifest.json` con `schema_version`, `run_id`, object keys, content types, SHA-256 y fecha. Cierre: lectura y verificación del manifest desde OCI. GitHub #197 / Jira COMLAB-107 (Por hacer, sin asignar).
+- [ ] **INV-005 - Completar publicación en Streamlit.** Agregar acción Publicar sólo para aprobados y mostrar bucket, object key, ETag y checksum. Cierre: demostración visual de aprobación a objeto OCI. GitHub #198 / Jira COMLAB-108 (Por hacer, sin asignar).
 
 ### Fase C - operación, calidad y coherencia
 
@@ -95,36 +100,24 @@ El gate funcional queda aprobado cuando INV-001 y todos los puntos INV-006 a INV
 - [x] **INV-024 - Métricas de evaluación.** Muestra humana versionada de 20 casos, guía de anotación y evaluación reproducible: 100% de validez, 100% de grounding, 100% de precisión y 90,91% de recall en la línea base determinística. Se documentan un falso negativo y los límites de tamaño y revisor único. Evidencia: `docs/evidence/INV-024-quality-evaluation/README.md`. GitHub #189 / Jira COMLAB-103.
 - [x] **INV-025 - Canales adicionales.** Se decidió y documentó el alcance posterior: highlights semanales, informe interno de sentimiento, newsletter y X/Twitter, en ese orden recomendado. Cada incremento tiene contrato, límites de privacidad, criterios de aceptación y gate de inicio; no se declara implementado. Evidencia: `docs/evidence/INV-025-channel-roadmap/README.md`. GitHub #192 / Jira COMLAB-104.
 
-## 5. Inconsistencias de seguimiento
+## 5. Seguimiento reconciliado
 
-### GitHub
+- Los tickets históricos no se usan para afirmar cierre de una brecha nueva; cada
+  INV tiene evidencia específica y, cuando corresponde, GitHub/Jira enlazados.
+- Los cuatro criterios OCI que seguían abiertos tienen ahora seguimiento propio:
+  GitHub #195–#198 y Jira COMLAB-105–COMLAB-108.
+- No hay PR pendiente al inicio de esta auditoría de cierre.
+- Los puntos no OCI INV-001 e INV-006–INV-025 están marcados `[x]`; no se encontró
+  otro checkbox abierto fuera de INV-002–INV-005.
 
-- Las épicas E2-E8 figuran cerradas, aunque las brechas P0/P1 anteriores permanecen.
-- El PR #125 está abierto y con CI verde; sus cambios no forman parte de `main`.
-- No deben cerrarse los nuevos puntos por la existencia de clases o mocks: el criterio es un recorrido verificable.
+## 6. Próximo orden de cierre
 
-### Jira
-
-Estado observado el 14 de octubre de 2026:
-
-- COMLAB-14 (Curaduría) y COMLAB-16 (Cierre MVP): **En Desarrollo**.
-- COMLAB-40, COMLAB-41 y COMLAB-62: **En revisión** y vinculados al PR #125.
-- COMLAB-43, COMLAB-44, COMLAB-45, COMLAB-49, COMLAB-50, COMLAB-51 y COMLAB-64: **Reabierto**.
-- COMLAB-52, COMLAB-55, COMLAB-56, COMLAB-57 y COMLAB-58: **Cancelado**, aunque cubren publicación/manifest/OCI solicitados por el alcance original.
-- COMLAB-63 y COMLAB-65: **En Desarrollo**.
-
-Antes de declarar terminado el MVP se debe reconciliar Jira con esta lista y evitar que una épica “Finalizada” contenga obligaciones canceladas o reabiertas.
-
-## 6. Orden recomendado de cierre
-
-1. Revisar y resolver PR #125.
-2. Crear una épica de cierre de brechas y tickets separados para INV-001 a INV-021, sin asignarlos inicialmente.
-3. Completar la Fase A: LLM real, reglas, dos activos y curaduría persistente en Streamlit.
-4. Ejecutar y aprobar los tres recorridos funcionales con almacenamiento local controlado.
-5. Recién entonces completar la Fase B: OCI Object Storage, package, manifest, layout y confirmación visual.
-6. Repetir los tres recorridos con OCI activo.
-7. Completar seguridad, observabilidad, backup y documentación.
-8. Capturar evidencias finales, reconciliar Jira/GitHub y cerrar la épica.
+1. Retomar INV-002 cuando exista ventana de despliegue y acceso OCI válido.
+2. Completar INV-003 e INV-004 sobre el mismo entorno y bucket.
+3. Completar INV-005 y capturar la confirmación visual real.
+4. Repetir los tres recorridos finales con OCI activo.
+5. Ejecutar nuevamente suite, smoke tests, backup y auditoría de seguridad.
+6. Cerrar los cuatro pares GitHub/Jira y declarar completa la entrega con OCI.
 
 ## 7. Regla para marcar un punto
 
