@@ -10,18 +10,6 @@ Esta carpeta contiene tres conjuntos independientes. Los archivos originales de 
 
 Cada set incluye `entrada_60.json`, `salida_esperada_60.json` y `manifest.json`.
 
-## Compatibilidad del contrato de entrada
-
-La API mantiene `author`, `channel`, `type` y `text` como nombres canónicos, y
-acepta además los nombres presentes en estos sets (`author_alias` e
-`interaction_type`) y en el documento original (`autor`, `canal`, `tipo` y
-`texto`). Los tipos documentados en español se normalizan antes del análisis;
-por ejemplo, `pregunta_tecnica` se procesa como `question` y `testimonio` como
-`achievement`.
-
-La carga CSV admite UTF-8 (recomendado) y Windows-1252 por compatibilidad con
-archivos exportados por herramientas de escritorio.
-
 ## Distribución de casos por set
 
 - 10 logros o testimonios.
@@ -38,3 +26,35 @@ archivos exportados por herramientas de escritorio.
 - Los casos sensibles quedan bloqueados.
 - Todos los activos contienen `source_interaction_ids`.
 - Las salidas incluyen resumen, oportunidades, activos y rutas esperadas de OCI.
+
+## Mejora implementada: compatibilidad del contrato de entrada
+
+La API mantiene los siguientes nombres como contrato canónico:
+
+| Dato | Nombre canónico | Alternativas admitidas |
+|---|---|---|
+| Autor | `author` | `author_alias`, `autor` |
+| Canal | `channel` | `canal` |
+| Tipo de interacción | `type` | `interaction_type`, `tipo` |
+| Contenido | `text` | `texto` |
+
+Los tipos documentados en español se normalizan antes del análisis. Algunos
+ejemplos son:
+
+| Valor recibido | Valor normalizado |
+|---|---|
+| `pregunta_tecnica` | `question` |
+| `testimonio` | `achievement` |
+| `proyecto_destacado` | `achievement` |
+| `conversacion` | `message` |
+| `problema` o `feedback_negativo` | `problem` |
+| `alerta_privacidad` | `privacy_alert` |
+
+La carga CSV admite UTF-8, que continúa siendo la codificación recomendada, y
+Windows-1252 para archivos exportados por herramientas de escritorio. También
+acepta fechas con formato ISO 8601 o `DD/MM/YYYY HH:MM`.
+
+Esta compatibilidad está cubierta por pruebas automáticas que validan los cuatro
+archivos JSON de entrada y las 25 filas del CSV del set 04. Las salidas esperadas
+son referencias funcionales: los valores de relevancia, confianza y cantidades
+de oportunidades o activos pueden variar cuando se utiliza un modelo LLM real.
