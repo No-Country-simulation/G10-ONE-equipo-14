@@ -6,7 +6,16 @@ from uuid import uuid4
 import requests
 import streamlit as st
 
-from api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets, mutation_headers
+from api_client import (
+    api_error_message,
+    decide_asset,
+    edit_asset,
+    get_health,
+    get_run,
+    list_open_alerts,
+    list_pending_assets,
+    mutation_headers,
+)
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
@@ -15,15 +24,6 @@ API_WRITE_KEY = os.getenv("API_WRITE_KEY")
 st.set_page_config(page_title="CommunityLab", page_icon="🧪", layout="wide")
 st.title("CommunityLab")
 st.caption("Carga y trazabilidad del MVP para comunidades digitales")
-
-
-def api_health() -> dict | None:
-    try:
-        response = requests.get(f"{API_URL}/api/v1/health", timeout=3)
-        response.raise_for_status()
-        return response.json()
-    except requests.RequestException:
-        return None
 
 
 def process_upload(
@@ -80,7 +80,13 @@ def process_upload(
     return response.json()
 
 
-health = api_health()
+health = None
+health_error = None
+try:
+    health = get_health(API_URL)
+except requests.RequestException as error:
+    health_error = api_error_message(error)
+
 with st.sidebar:
     st.header("Estado del sistema")
     if health:
@@ -88,8 +94,13 @@ with st.sidebar:
         st.write(f"PostgreSQL: **{health.get('database', 'desconocido')}**")
         st.caption(API_URL)
     else:
-        st.error("API no disponible")
-        st.caption("Comprobá que la API esté iniciada y recargá la página.")
+        st.warning("API iniciando o temporalmente no disponible")
+        st.caption(
+            "Render Free puede tardar cerca de un minuto en despertar. "
+            "Esperá unos segundos y recargá la página."
+        )
+        if health_error:
+            st.caption(health_error)
 
     st.divider()
     st.write("**Disponible ahora**")
@@ -217,7 +228,9 @@ with analysis_tab:
             )
             with st.expander(label):
                 st.write("**Temas:**", ", ".join(analysis.get("topics", [])) or "—")
-                st.write("**Entidades:**", ", ".join(analysis.get("entities", [])) or "—")
+                st.write(
+                    "**Entidades:**", ", ".join(analysis.get("entities", [])) or "—"
+                )
                 st.caption(
                     f"Modelo: {analysis.get('model', '—')} · "
                     f"Prompt: {analysis.get('prompt_version', '—')}"
@@ -244,7 +257,9 @@ with alerts_tab:
         else:
             st.info("No hay alertas internas abiertas.")
     except requests.RequestException as exc:
-        st.error(f"No se pudieron recuperar las alertas internas: {api_error_message(exc)}")
+        st.error(
+            f"No se pudieron recuperar las alertas internas: {api_error_message(exc)}"
+        )
 with assets_tab:
     queue_header, queue_action = st.columns([4, 1])
     queue_header.caption(
@@ -256,7 +271,9 @@ with assets_tab:
             st.session_state["pending_assets"] = list_pending_assets(API_URL)
         except requests.RequestException as exc:
             st.session_state["pending_assets"] = []
-            st.error(f"No se pudo recuperar la cola de curaduría: {api_error_message(exc)}")
+            st.error(
+                f"No se pudo recuperar la cola de curaduría: {api_error_message(exc)}"
+            )
 
     pending_assets = st.session_state.get("pending_assets", [])
     if not pending_assets:
@@ -264,18 +281,22 @@ with assets_tab:
 
     for asset in pending_assets:
         with st.container(border=True):
-            title = st.text_input("Título", value=asset["title"], key=f"title-{asset['id']}")
-            body = st.text_area("Contenido", value=asset["body"], key=f"body-{asset['id']}")
-            st.caption(f"{asset['channel']} · {asset['status']} · versión {asset['version']}")
+            title = st.text_input(
+                "Título", value=asset["title"], key=f"title-{asset['id']}"
+            )
+            body = st.text_area(
+                "Contenido", value=asset["body"], key=f"body-{asset['id']}"
+            )
+            st.caption(
+                f"{asset['channel']} · {asset['status']} · versión {asset['version']}"
+            )
             with st.expander("Evidencia y fuentes"):
                 source_ids = asset.get("source_interaction_ids", [])
                 if source_ids:
                     st.caption("Interacciones fuente: " + ", ".join(source_ids))
                 for evidence in asset.get("evidence", []):
                     st.markdown(f"> {evidence['excerpt']}")
-                    st.caption(
-                        f"Fuente: {evidence['source_interaction_id']}"
-                    )
+                    st.caption(f"Fuente: {evidence['source_interaction_id']}")
                 if not source_ids and not asset.get("evidence"):
                     st.warning("Este activo histórico no contiene fuentes visibles.")
             save, approve, reject = st.columns(3)
