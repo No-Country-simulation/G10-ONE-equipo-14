@@ -31,7 +31,7 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - FAQ basada en recurrencia temática, con umbral configurable.
 - Curaduría persistente: edición, aprobación y rechazo.
 - Adaptadores de almacenamiento local y OCI con manifiestos verificables.
-- Suite de 144 pruebas aprobadas y CI en GitHub Actions al cierre de INV-024.
+- Suite de 145 pruebas aprobadas y CI en GitHub Actions después de corregir el cold start público.
 - Datos de demostración en JSON y CSV.
 
 ### Próximos pasos operativos

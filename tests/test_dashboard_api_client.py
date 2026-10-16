@@ -3,7 +3,15 @@
 import pytest
 import requests
 
-from dashboard.api_client import api_error_message, decide_asset, edit_asset, get_run, list_open_alerts, list_pending_assets
+from dashboard.api_client import (
+    api_error_message,
+    decide_asset,
+    edit_asset,
+    get_health,
+    get_run,
+    list_open_alerts,
+    list_pending_assets,
+)
 
 
 class FakeResponse:
@@ -45,6 +53,20 @@ def test_list_pending_assets_uses_persisted_queue_endpoint():
             "GET",
             "http://api:8000/api/v1/assets",
             {"params": {"status": "PENDING_REVIEW"}, "timeout": 10},
+        )
+    ]
+
+
+def test_health_allows_render_free_cold_start():
+    session = FakeSession()
+
+    get_health("https://communitylab-api.onrender.com/", session=session)
+
+    assert session.calls == [
+        (
+            "GET",
+            "https://communitylab-api.onrender.com/api/v1/health",
+            {"timeout": 60},
         )
     ]
 
@@ -173,5 +195,11 @@ def test_api_error_message_handles_validation_and_network_failures():
     response.status_code = 422
     response._content = b'{"detail":[{"msg":"Field required"}]}'
     assert api_error_message(requests.HTTPError(response=response)) == "Field required"
-    assert api_error_message(requests.Timeout()) == "La solicitud excedió el tiempo de espera."
-    assert api_error_message(requests.ConnectionError()) == "No se pudo conectar con la API."
+    assert (
+        api_error_message(requests.Timeout())
+        == "La solicitud excedió el tiempo de espera."
+    )
+    assert (
+        api_error_message(requests.ConnectionError())
+        == "No se pudo conectar con la API."
+    )
