@@ -37,8 +37,13 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 ### Próximos pasos operativos
 
 - Migrar o recrear PostgreSQL antes del vencimiento del plan gratuito de Render.
-- Configurar credenciales OCI sólo en el entorno que deba publicar objetos de forma persistente.
-- Capturar retrospectivamente evidencias visuales de E1–E6 si el proceso académico exige una imagen por etapa.
+- Ejecutar INV-002 a INV-005 durante el despliegue final: activar OCI, completar
+  layout y manifest, y mostrar el recibo de publicación en Streamlit.
+- Configurar credenciales OCI únicamente en ese entorno; nunca en el repositorio.
+
+Todos los puntos no OCI del inventario están completados. La trazabilidad del
+cierre y los cuatro pendientes deliberados se detallan en
+[`docs/INVENTARIO_PROYECTO.md`](docs/INVENTARIO_PROYECTO.md).
 
 ## Arquitectura
 
