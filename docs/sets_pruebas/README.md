@@ -10,6 +10,18 @@ Esta carpeta contiene tres conjuntos independientes. Los archivos originales de 
 
 Cada set incluye `entrada_60.json`, `salida_esperada_60.json` y `manifest.json`.
 
+## Compatibilidad del contrato de entrada
+
+La API mantiene `author`, `channel`, `type` y `text` como nombres canónicos, y
+acepta además los nombres presentes en estos sets (`author_alias` e
+`interaction_type`) y en el documento original (`autor`, `canal`, `tipo` y
+`texto`). Los tipos documentados en español se normalizan antes del análisis;
+por ejemplo, `pregunta_tecnica` se procesa como `question` y `testimonio` como
+`achievement`.
+
+La carga CSV admite UTF-8 (recomendado) y Windows-1252 por compatibilidad con
+archivos exportados por herramientas de escritorio.
+
 ## Distribución de casos por set
 
 - 10 logros o testimonios.
