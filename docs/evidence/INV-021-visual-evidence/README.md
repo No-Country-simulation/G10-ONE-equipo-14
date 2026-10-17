@@ -1,6 +1,10 @@
 # INV-021 — Evidencias visuales E1-E6
 
-Capturas obtenidas el 15 de octubre de 2026 desde la aplicación local iniciada con Docker Compose. No contienen credenciales ni datos personales reales.
+Capturas obtenidas desde la aplicación local iniciada con Docker Compose. Las
+evidencias E1, E3, E4 y E5 se actualizaron el 17 de octubre de 2026 después de
+renovar el dashboard y su ayuda contextual. E2 y E6 se conservaron porque sus
+interfaces técnicas no cambiaron. No contienen credenciales ni datos personales
+reales.
 
 ## Índice
 
@@ -33,3 +37,7 @@ El recibo E6 se generó desde la respuesta efectiva de `POST /api/v1/assets/{ass
 5. Verificar object key, SHA-256 y ETag contra el objeto local antes de capturar el recibo.
 
 Trazabilidad: GitHub #180 · Jira COMLAB-100.
+
+El recorrido visual ampliado, con las imágenes incrustadas paso a paso y la
+distinción entre entradas funcionales y datos de solo lectura, está en
+[`../COMLAB-115-dashboard-ux/README.md`](../COMLAB-115-dashboard-ux/README.md).
