@@ -1,6 +1,8 @@
 import json
 import os
 from datetime import date
+from html import escape
+from pathlib import Path
 from uuid import uuid4
 
 import requests
@@ -20,10 +22,143 @@ from api_client import (
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
 API_WRITE_KEY = os.getenv("API_WRITE_KEY")
+PUBLIC_API_URL = os.getenv(
+    "PUBLIC_API_URL",
+    "http://localhost:8000" if API_URL == "http://api:8000" else API_URL,
+).rstrip("/")
+REPOSITORY_URL = "https://github.com/No-Country-simulation/G10-ONE-equipo-14"
+MANUAL_URL = f"{REPOSITORY_URL}/blob/main/docs/MANUAL_USUARIO.md"
+TEST_GUIDE_URL = (
+    f"{REPOSITORY_URL}/blob/main/docs/sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md"
+)
+TEST_SETS_URL = f"{REPOSITORY_URL}/tree/main/docs/sets_pruebas"
+LOGO_PATH = Path(__file__).parent / "assets" / "communitylab-logo.svg"
 
-st.set_page_config(page_title="CommunityLab", page_icon="🧪", layout="wide")
-st.title("CommunityLab")
-st.caption("Carga y trazabilidad del MVP para comunidades digitales")
+st.set_page_config(
+    page_title="CommunityLab · Inteligencia para comunidades",
+    page_icon="💬",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+st.markdown(
+    """
+    <style>
+    :root {
+        --cl-navy: #0f172a;
+        --cl-slate: #475569;
+        --cl-border: #dbe4ee;
+        --cl-teal: #0f766e;
+        --cl-teal-soft: #ecfdf5;
+        --cl-blue: #2563eb;
+        --cl-surface: #f8fafc;
+    }
+    .stApp {
+        background:
+            radial-gradient(circle at 88% 5%, rgba(37, 99, 235, .08), transparent 24rem),
+            linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #f8fafc 0%, #eef6f6 100%);
+        border-right: 1px solid var(--cl-border);
+    }
+    [data-testid="stSidebar"] [data-testid="stImage"] img {
+        max-width: 240px;
+    }
+    .block-container {
+        max-width: 1280px;
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+    }
+    .cl-hero {
+        padding: 2.1rem 2.25rem;
+        margin-bottom: 1.6rem;
+        border: 1px solid rgba(15, 118, 110, .18);
+        border-radius: 24px;
+        background: linear-gradient(115deg, #f0fdfa 0%, #eff6ff 58%, #ffffff 100%);
+        box-shadow: 0 18px 45px rgba(15, 23, 42, .07);
+    }
+    .cl-eyebrow {
+        color: var(--cl-teal);
+        font-size: .78rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: .55rem;
+    }
+    .cl-hero h1 {
+        color: var(--cl-navy);
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.03;
+        margin: 0 0 .7rem 0;
+        letter-spacing: -.04em;
+    }
+    .cl-hero p {
+        color: var(--cl-slate);
+        font-size: 1.03rem;
+        max-width: 760px;
+        margin: 0;
+    }
+    .cl-status {
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        padding: .75rem .9rem;
+        border-radius: 12px;
+        font-weight: 700;
+        margin: .35rem 0 .65rem 0;
+    }
+    .cl-status--ok { color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; }
+    .cl-status--wait { color: #92400e; background: #fef3c7; border: 1px solid #fde68a; }
+    .cl-dot { width: .58rem; height: .58rem; border-radius: 50%; background: currentColor; }
+    .cl-readonly {
+        padding: .75rem .85rem;
+        margin: .4rem 0;
+        border: 1px solid var(--cl-border);
+        border-radius: 12px;
+        background: rgba(255,255,255,.82);
+    }
+    .cl-readonly small { display: block; color: #64748b; margin-bottom: .2rem; }
+    .cl-readonly strong { color: var(--cl-navy); overflow-wrap: anywhere; }
+    div[data-testid="stMetric"] {
+        border: 1px solid var(--cl-border);
+        background: rgba(255, 255, 255, .86);
+        padding: 1rem;
+        border-radius: 16px;
+        box-shadow: 0 7px 20px rgba(15, 23, 42, .04);
+    }
+    div[data-testid="stExpander"], div[data-testid="stFileUploader"] section {
+        border-color: var(--cl-border);
+        border-radius: 14px;
+    }
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(90deg, var(--cl-teal), var(--cl-blue));
+        border: none;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, .18);
+    }
+    .stTabs [data-baseweb="tab-list"] { gap: .45rem; }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px 10px 0 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    h2, h3 { color: var(--cl-navy); letter-spacing: -.02em; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <section class="cl-hero">
+      <div class="cl-eyebrow">Inteligencia para comunidades digitales</div>
+      <h1>Convertí conversaciones en acciones útiles.</h1>
+      <p>Centralizá interacciones, detectá oportunidades y prepará contenido
+      trazable con revisión humana antes de su publicación.</p>
+    </section>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 def process_upload(
@@ -88,13 +223,31 @@ except requests.RequestException as error:
     health_error = api_error_message(error)
 
 with st.sidebar:
-    st.header("Estado del sistema")
+    st.image(str(LOGO_PATH), use_container_width=True)
+    st.caption("Centro de operación y ayuda")
+
+    st.subheader("Estado del sistema")
     if health:
-        st.success("API disponible")
-        st.write(f"PostgreSQL: **{health.get('database', 'desconocido')}**")
-        st.caption(API_URL)
+        st.markdown(
+            '<div class="cl-status cl-status--ok"><span class="cl-dot"></span>'
+            "Servicios disponibles</div>",
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            '<div class="cl-readonly"><small>API</small><strong>Operativa</strong></div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            '<div class="cl-readonly"><small>PostgreSQL</small>'
+            f"<strong>{escape(str(health.get('database', 'desconocido')))}</strong></div>",
+            unsafe_allow_html=True,
+        )
     else:
-        st.warning("API iniciando o temporalmente no disponible")
+        st.markdown(
+            '<div class="cl-status cl-status--wait"><span class="cl-dot"></span>'
+            "Servicios iniciando</div>",
+            unsafe_allow_html=True,
+        )
         st.caption(
             "Render Free puede tardar cerca de un minuto en despertar. "
             "Esperá unos segundos y recargá la página."
@@ -102,20 +255,68 @@ with st.sidebar:
         if health_error:
             st.caption(health_error)
 
-    st.divider()
-    st.write("**Disponible ahora**")
-    st.caption("Ingesta, IA, oportunidades, generación y curaduría persistente.")
+    with st.expander("¿Cómo empezar?", expanded=False):
+        st.markdown(
+            "1. Identificá la organización, la comunidad y el período.\n"
+            "2. Seleccioná el archivo JSON o CSV con las interacciones.\n"
+            "3. Procesá la carga y guardá el Run ID para consultarla luego.\n"
+            "4. Revisá los análisis, oportunidades, alertas y borradores."
+        )
 
-st.subheader("1. Cargar interacciones")
+    with st.expander("¿Para qué sirven los datos de la carga?", expanded=True):
+        st.markdown(
+            "**Organización** identifica a quién pertenecen los datos y permite "
+            "separarlos de los de otras organizaciones. Ejemplo: `one`.\n\n"
+            "**Comunidad** identifica el grupo que se analiza. También delimita la "
+            "detección de duplicados: una interacción repetida se compara dentro de "
+            "la misma comunidad. Ejemplo: `g10-equipo-14`.\n\n"
+            "**Período de referencia** indica a qué semana o ciclo corresponde la "
+            "carga y facilita su seguimiento en el tiempo. Ejemplo: `2026-W42`.\n\n"
+            "Estos valores no se obtienen del archivo: el usuario los completa para "
+            "dar contexto y trazabilidad al procesamiento."
+        )
+
+    st.subheader("Ayuda y documentación")
+    st.link_button("📘 Manual de usuario", MANUAL_URL, use_container_width=True)
+    st.link_button("🧪 Guía de prueba", TEST_GUIDE_URL, use_container_width=True)
+    st.link_button("📂 Archivos de prueba", TEST_SETS_URL, use_container_width=True)
+
+    st.subheader("Accesos rápidos")
+    st.link_button(
+        "⚙️ API y documentación técnica",
+        f"{PUBLIC_API_URL}/docs",
+        use_container_width=True,
+    )
+    st.link_button("💻 Repositorio GitHub", REPOSITORY_URL, use_container_width=True)
+    st.markdown("[Ir a cargar interacciones](#1-cargar-interacciones)")
+    st.markdown("[Ir a análisis y curaduría](#4-analisis-oportunidades-y-curaduria)")
+
+st.subheader("1. Cargar interacciones", anchor="1-cargar-interacciones")
+st.caption(
+    "Identifican a quién pertenecen las interacciones, qué comunidad se analiza "
+    "y a qué período corresponden. Abrí la ayuda lateral para ver ejemplos."
+)
 left, middle, right = st.columns(3)
 with left:
-    organization_id = st.text_input("Organización", value="one")
+    organization_id = st.text_input(
+        "Organización",
+        value="one",
+        help="Agrupa las comunidades y forma parte de la trazabilidad.",
+    )
 with middle:
-    community_id = st.text_input("Comunidad", value="g10-equipo-14")
+    community_id = st.text_input(
+        "Comunidad",
+        value="g10-equipo-14",
+        help="La deduplicación se aplica dentro de esta comunidad.",
+    )
 with right:
     today = date.today().isocalendar()
     default_period = f"{today.year}-W{today.week:02d}"
-    reference_period = st.text_input("Período de referencia", value=default_period)
+    reference_period = st.text_input(
+        "Período de referencia",
+        value=default_period,
+        help="Etiqueta temporal del lote, por ejemplo 2026-W42.",
+    )
 
 uploaded_file = st.file_uploader(
     "Archivo de interacciones",
@@ -146,7 +347,8 @@ if st.button(
     except requests.RequestException as exc:
         st.error(api_error_message(exc))
 
-st.subheader("2. Recuperar una ejecución")
+st.subheader("2. Recuperar una ejecución", anchor="2-recuperar-una-ejecucion")
+st.caption("Ingresá un Run ID sólo cuando necesites recuperar un resultado anterior.")
 run_input, run_action = st.columns([4, 1])
 with run_input:
     requested_run_id = st.text_input(
@@ -186,7 +388,7 @@ if load_run:
 
 result = st.session_state.get("process_result")
 if result:
-    st.subheader("3. Resultado persistido")
+    st.subheader("3. Resultado persistido", anchor="3-resultado-persistido")
     summary = result["summary"]
     columns = st.columns(4)
     columns[0].metric("Recibidas", summary["received"])
@@ -206,13 +408,30 @@ if result:
         "Tiempo de procesamiento",
         f"{summary.get('processing_time_ms', 0):.2f} ms",
     )
-    st.caption(f"Run ID: `{result['run_id']}` · Estado: `{result['status']}`")
+    run_meta, status_meta = st.columns([3, 1])
+    run_meta.markdown(
+        '<div class="cl-readonly"><small>Run ID · sólo lectura</small>'
+        f"<strong>{escape(str(result['run_id']))}</strong></div>",
+        unsafe_allow_html=True,
+    )
+    status_meta.markdown(
+        '<div class="cl-readonly"><small>Estado · sólo lectura</small>'
+        f"<strong>{escape(str(result['status']))}</strong></div>",
+        unsafe_allow_html=True,
+    )
 
     if result.get("record_errors"):
         st.warning("Algunos registros no pudieron procesarse.")
         st.dataframe(result["record_errors"], use_container_width=True)
 
-st.subheader("4. Análisis, oportunidades y curaduría")
+st.subheader(
+    "4. Análisis, oportunidades y curaduría",
+    anchor="4-analisis-oportunidades-y-curaduria",
+)
+st.caption(
+    "Análisis, oportunidades, alertas y evidencias son de consulta. "
+    "Sólo el título y contenido de un borrador pendiente pueden editarse."
+)
 analysis_tab, opportunities_tab, alerts_tab, assets_tab = st.tabs(
     ["Análisis", "Oportunidades", "Alertas internas", "LinkedIn y FAQ"]
 )
