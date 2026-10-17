@@ -73,6 +73,12 @@ La prueba funcional se ejecutó el 16 de octubre de 2026 con
 `set_04_prueba_inicial/entrada_interacciones_25.json` y el proveedor Gemini. La
 ejecución persistida fue `36c28c96-0997-438c-bcb8-ef4babcfe677`.
 
+Las seis capturas se renovaron el 17 de octubre de 2026 con la interfaz actual
+del dashboard. Organización, Comunidad y Período de referencia son entradas
+funcionales de la carga; las métricas, el Run ID, el estado, los análisis, las
+oportunidades y las alertas son datos de consulta. En curaduría sólo se pueden
+editar el título y el contenido de cada borrador pendiente.
+
 Resultado consolidado:
 
 - Estado `ACCEPTED`.
@@ -109,3 +115,12 @@ La cola se filtra por el `run_id` actual para evitar mezclar los borradores de
 otras pruebas almacenadas en PostgreSQL.
 
 ![Activos generados](evidencia_compatibilidad/06-activos-generados.png)
+
+#### Regenerar estas evidencias
+
+Con Docker Compose, Microsoft Edge y Node.js disponibles:
+
+```powershell
+npm install --no-save --no-package-lock @playwright/test@1.56.1
+npx playwright test scripts/capture_test_set_evidence.spec.js --workers=1 --reporter=line
+```
