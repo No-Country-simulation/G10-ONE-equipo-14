@@ -19,6 +19,7 @@ def test_dashboard_brand_asset_is_packaged_in_the_container():
 def test_sidebar_exposes_contextual_help_and_project_links():
     expected_labels = (
         "¿Cómo empezar?",
+        "¿Para qué sirven los datos de la carga?",
         "Manual de usuario",
         "Guía de prueba",
         "Archivos de prueba",
@@ -28,6 +29,14 @@ def test_sidebar_exposes_contextual_help_and_project_links():
 
     for label in expected_labels:
         assert label in DASHBOARD_SOURCE
+
+    for explanation in (
+        "identifica a quién pertenecen los datos",
+        "detección de duplicados",
+        "facilita su seguimiento en el tiempo",
+        "Estos valores no se obtienen del archivo",
+    ):
+        assert explanation in DASHBOARD_SOURCE
 
 
 def test_operational_metadata_is_rendered_as_read_only_content():

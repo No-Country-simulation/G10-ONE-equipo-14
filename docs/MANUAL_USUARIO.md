@@ -26,10 +26,20 @@ son campos de entrada y no admiten escritura.
 La cabecera presenta el propósito de CommunityLab. Antes de procesar un archivo,
 completar únicamente los campos funcionales:
 
-- **Organización:** agrupador general de las comunidades.
-- **Comunidad:** espacio dentro del cual se aplica la deduplicación.
-- **Período de referencia:** etiqueta temporal del lote.
+- **Organización:** identifica a quién pertenecen los datos y permite separarlos
+  de los de otras organizaciones. Por ejemplo, `one`.
+- **Comunidad:** identifica el grupo que se analiza. También delimita la
+  detección de duplicados: una interacción repetida se compara dentro de la misma
+  comunidad. Por ejemplo, `g10-equipo-14`.
+- **Período de referencia:** indica a qué semana o ciclo corresponde la carga y
+  facilita su seguimiento en el tiempo. Por ejemplo, `2026-W42` representa la
+  semana 42 de 2026.
 - **Archivo:** JSON o CSV con las interacciones.
+
+Los tres primeros valores no se deducen del archivo de interacciones. El usuario
+debe completarlos para aportar contexto, separar correctamente los datos y
+conservar la trazabilidad de cada ejecución. La misma explicación está disponible
+en la ayuda lateral del dashboard.
 
 Usar nombres de comunidad estables para datos reales. Para pruebas aisladas,
 usar nombres diferentes evita que cargas anteriores sean contabilizadas como

@@ -257,10 +257,23 @@ with st.sidebar:
 
     with st.expander("¿Cómo empezar?", expanded=False):
         st.markdown(
-            "1. Completá los datos de la carga.\n"
-            "2. Seleccioná un JSON o CSV.\n"
-            "3. Procesá y guardá el Run ID.\n"
-            "4. Revisá análisis, alertas y borradores."
+            "1. Identificá la organización, la comunidad y el período.\n"
+            "2. Seleccioná el archivo JSON o CSV con las interacciones.\n"
+            "3. Procesá la carga y guardá el Run ID para consultarla luego.\n"
+            "4. Revisá los análisis, oportunidades, alertas y borradores."
+        )
+
+    with st.expander("¿Para qué sirven los datos de la carga?", expanded=True):
+        st.markdown(
+            "**Organización** identifica a quién pertenecen los datos y permite "
+            "separarlos de los de otras organizaciones. Ejemplo: `one`.\n\n"
+            "**Comunidad** identifica el grupo que se analiza. También delimita la "
+            "detección de duplicados: una interacción repetida se compara dentro de "
+            "la misma comunidad. Ejemplo: `g10-equipo-14`.\n\n"
+            "**Período de referencia** indica a qué semana o ciclo corresponde la "
+            "carga y facilita su seguimiento en el tiempo. Ejemplo: `2026-W42`.\n\n"
+            "Estos valores no se obtienen del archivo: el usuario los completa para "
+            "dar contexto y trazabilidad al procesamiento."
         )
 
     st.subheader("Ayuda y documentación")
@@ -280,8 +293,8 @@ with st.sidebar:
 
 st.subheader("1. Cargar interacciones", anchor="1-cargar-interacciones")
 st.caption(
-    "Estos tres campos sí afectan el procesamiento y por eso son editables. "
-    "Los resultados y estados posteriores son únicamente informativos."
+    "Identifican a quién pertenecen las interacciones, qué comunidad se analiza "
+    "y a qué período corresponden. Abrí la ayuda lateral para ver ejemplos."
 )
 left, middle, right = st.columns(3)
 with left:
