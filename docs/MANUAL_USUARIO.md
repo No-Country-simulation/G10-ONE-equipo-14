@@ -18,8 +18,13 @@ o en un entorno compartido autorizado.
 
 ## 3. Pantalla principal
 
-La cabecera informa si la API y PostgreSQL están disponibles. Antes de procesar
-un archivo, completar:
+La barra lateral concentra el estado de la API y PostgreSQL en indicadores de
+solo lectura. También incluye una ayuda de inicio, enlaces a este manual, la
+guía de prueba, los archivos de ejemplo, Swagger y el repositorio. Esos datos no
+son campos de entrada y no admiten escritura.
+
+La cabecera presenta el propósito de CommunityLab. Antes de procesar un archivo,
+completar únicamente los campos funcionales:
 
 - **Organización:** agrupador general de las comunidades.
 - **Comunidad:** espacio dentro del cual se aplica la deduplicación.
@@ -29,6 +34,11 @@ un archivo, completar:
 Usar nombres de comunidad estables para datos reales. Para pruebas aisladas,
 usar nombres diferentes evita que cargas anteriores sean contabilizadas como
 duplicados.
+
+Los resúmenes, métricas, Run ID, estados, análisis, oportunidades, alertas y
+evidencias son elementos de visualización. En la cola de curaduría, únicamente
+el título y el contenido del borrador pendiente son editables porque el botón
+**Guardar** persiste esos cambios.
 
 ## 4. Formato de entrada
 
