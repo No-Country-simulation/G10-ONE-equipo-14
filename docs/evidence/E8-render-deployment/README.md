@@ -18,6 +18,19 @@ Fecha de validación: 2026-10-07.
 - Resultado: 20 análisis, 15 oportunidades, 20 activos y 0 errores.
 - Suite automatizada: 93 pruebas aprobadas y 1 omitida.
 
+## Revalidación del 17 de octubre de 2026
+
+- Release de producción: PR #221, commit `3496f4c`.
+- CI [#38999088448](https://github.com/No-Country-simulation/G10-ONE-equipo-14/actions/runs/38999088448):
+  calidad, **159 pruebas**, Terraform y smoke público aprobados.
+- Dashboard comprobado en navegador con la nueva identidad visual y la ayuda
+  contextual de Organización, Comunidad y Período de referencia.
+- API y PostgreSQL mostraron estado operativo y no se registraron errores de
+  consola en la comprobación.
+
+La cifra de 93 pruebas anterior se conserva como evidencia histórica del cierre
+original E8; 159 es la cifra vigente de la entrega actual.
+
 ## Evidencias
 
 - `01-dashboard-publico.png`: dashboard HTTPS conectado a la API y PostgreSQL.

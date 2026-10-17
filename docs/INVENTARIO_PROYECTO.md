@@ -1,6 +1,6 @@
 # Inventario integral de CommunityLab
 
-Fecha de corte: 16 de octubre de 2026.
+Fecha de corte actualizada: 17 de octubre de 2026.
 
 Este documento contrasta el alcance original del hackathon, el MVP técnico, el código de `main`, las pruebas, el despliegue público y la trazabilidad en GitHub/Jira. Su finalidad es evitar que una épica o ticket cerrado oculte una funcionalidad todavía parcial.
 
@@ -34,9 +34,11 @@ Esta decisión cambia el orden, no el alcance final:
 
 ## 2. Evidencia de verificación
 
-- Rama revisada: `main`, commit `b9f4db6` antes de esta auditoría de cierre.
-- Pruebas locales al cierre de INV-024: **144 aprobadas**, con 1 advertencia de deprecación.
-- CI de `main`: ejecución [38778356140](https://github.com/No-Country-simulation/G10-ONE-equipo-14/actions/runs/38778356140) verde para quality, pruebas y Terraform.
+- Rama revisada: `main`, commit `3496f4c` después del release del dashboard.
+- Pruebas del cierre: **159 aprobadas**, con 1 advertencia de deprecación de Starlette/httpx.
+- CI de `main`: ejecución [38999088448](https://github.com/No-Country-simulation/G10-ONE-equipo-14/actions/runs/38999088448) verde para calidad, pruebas, Terraform y smoke público.
+- Dashboard público revisado en navegador: nueva interfaz y ayuda contextual
+  visibles, API/PostgreSQL operativos y sin errores de consola.
 - GitHub: no había PR abierto; INV-001 e INV-006 a INV-025 estaban cerrados.
 - Jira: COMLAB-103 y COMLAB-104 estaban Finalizados y sin asignar; los cuatro
   pendientes OCI quedaron creados como COMLAB-105 a COMLAB-108, estado Por hacer
@@ -54,7 +56,7 @@ Esta decisión cambia el orden, no el alcance final:
 | E4 - Contenido | Completa | LinkedIn/FAQ, prompts versionados, trazabilidad, recurrencia y consentimiento | Sin brecha abierta |
 | E5 - Curaduría | Completa | Cola persistente, consulta por run, fuentes, edición, estados, aprobación/rechazo y errores visuales | Sin brecha abierta |
 | E6 - OCI y manifests | Parcial | Adapter OCI/local, paquete JSON, SHA-256, ETag y registro de manifest en PostgreSQL | OCI activo, layout obligatorio completo, upload del manifest y confirmación visual en Streamlit |
-| E7 - Cierre MVP | Completa salvo OCI | 144 pruebas, E2E, logs JSON, métricas, benchmark, backup y evidencias visuales | Repetir validación final con OCI activo |
+| E7 - Cierre MVP | Completa salvo OCI | 159 pruebas, E2E, logs JSON, métricas, benchmark, backup y evidencias visuales | Repetir validación final con OCI activo |
 | E8 - Despliegue | Operativa en Render; OCI pendiente | Render HTTPS, PostgreSQL, health, protección pública y backup/restauración | Activar almacenamiento OCI mediante INV-002 a INV-005 |
 
 ## 4. Lista maestra de brechas
