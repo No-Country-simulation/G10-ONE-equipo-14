@@ -22,6 +22,7 @@ corte hasta disponer de credenciales, permisos y una ventana de despliegue OCI.
 - Prueba funcional: [`sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md`](sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md)
 - Entregable técnico: [`ENTREGABLE_IMPLEMENTACION_E1_E8.md`](ENTREGABLE_IMPLEMENTACION_E1_E8.md)
 - Inventario y brechas: [`INVENTARIO_PROYECTO.md`](INVENTARIO_PROYECTO.md)
+- Evidencia visual paso a paso: [`evidence/COMLAB-115-dashboard-ux/README.md`](evidence/COMLAB-115-dashboard-ux/README.md)
 
 ## Verificación final
 

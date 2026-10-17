@@ -33,8 +33,13 @@ original E8; 159 es la cifra vigente de la entrega actual.
 
 ## Evidencias
 
-- `01-dashboard-publico.png`: dashboard HTTPS conectado a la API y PostgreSQL.
+- `01-dashboard-publico.png`: captura renovada el 17 de octubre de 2026 del
+  dashboard HTTPS con la nueva identidad y los servicios API/PostgreSQL
+  operativos.
 - `02-api-swagger.png`: documentación OpenAPI pública.
+
+El recorrido completo de interfaz está documentado en
+[`../COMLAB-115-dashboard-ux/README.md`](../COMLAB-115-dashboard-ux/README.md).
 
 ## Límites del plan de demostración
 

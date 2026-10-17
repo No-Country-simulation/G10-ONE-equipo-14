@@ -119,6 +119,7 @@ Las imágenes se encuentran dentro de `docs/evidence/`:
 
 ```text
 docs/evidence/
+├── COMLAB-115-dashboard-ux/  # recorrido visual renovado, paso a paso
 ├── INV-021-visual-evidence/   # capturas reales E1–E6
 ├── E7-cierre-mvp/            # Swagger y health
 ├── E8-render-deployment/     # dashboard y OpenAPI públicos
@@ -128,6 +129,8 @@ docs/evidence/
 
 El índice y procedimiento para regenerar las capturas E1–E6 se encuentran en
 [`evidence/INV-021-visual-evidence/README.md`](evidence/INV-021-visual-evidence/README.md).
+El recorrido renovado, con cada captura visible y explicada, se encuentra en
+[`evidence/COMLAB-115-dashboard-ux/README.md`](evidence/COMLAB-115-dashboard-ux/README.md).
 Las evidencias no contienen secretos ni datos personales reales.
 
 ## 6. Trazabilidad de este entregable
