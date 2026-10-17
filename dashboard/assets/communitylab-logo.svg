@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" role="img" aria-labelledby="title desc">
+  <title id="title">CommunityLab</title>
+  <desc id="desc">Red de conversaciones transformadas en conocimiento útil</desc>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14b8a6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="18" y="22" width="136" height="116" rx="34" fill="url(#brand)"/>
+    <path d="M54 138 42 162l38-24" fill="#14b8a6"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round">
+    <path d="M54 77h64M54 101h42"/>
+    <circle cx="121" cy="101" r="7" fill="#fff" stroke="none"/>
+  </g>
+  <text x="182" y="91" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="48" font-weight="750" fill="#0f172a">Community<tspan fill="#0f766e">Lab</tspan></text>
+  <text x="184" y="126" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#64748b">Escuchar · comprender · activar</text>
+</svg>
