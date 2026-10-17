@@ -30,36 +30,49 @@ El entorno está desplegado con el plan gratuito de Render y puede tardar cerca 
 - Generación versionada de activos LinkedIn y FAQ.
 - FAQ basada en recurrencia temática, con umbral configurable.
 - Curaduría persistente: edición, aprobación y rechazo.
+- Interfaz visual con identidad de CommunityLab, ayuda contextual y separación
+  explícita entre controles editables e información de solo lectura.
 - Adaptadores de almacenamiento local y OCI con manifiestos verificables.
-- Suite de 145 pruebas aprobadas y CI en GitHub Actions después de corregir el cold start público.
+- Suite de **159 pruebas aprobadas** y CI en GitHub Actions.
 - Datos de demostración en JSON y CSV.
 
-### Próximos pasos operativos
+### Último cierre verificado
+
+El 17 de octubre de 2026 se publicó en `main` la mejora visual y de ayuda del
+dashboard mediante los PR [#220](https://github.com/No-Country-simulation/G10-ONE-equipo-14/pull/220)
+y [#221](https://github.com/No-Country-simulation/G10-ONE-equipo-14/pull/221).
+La ejecución de CI de producción
+[#38999088448](https://github.com/No-Country-simulation/G10-ONE-equipo-14/actions/runs/38999088448)
+aprobó calidad, Terraform, 159 pruebas y smoke tests públicos. La versión
+desplegada se verificó además en navegador, con API y PostgreSQL operativos y
+sin errores de consola.
+
+### Trabajo deliberadamente pendiente
 
 - Migrar o recrear PostgreSQL antes del vencimiento del plan gratuito de Render.
 - Ejecutar INV-002 a INV-005 durante el despliegue final: activar OCI, completar
   layout y manifest, y mostrar el recibo de publicación en Streamlit.
 - Configurar credenciales OCI únicamente en ese entorno; nunca en el repositorio.
 
-Todos los puntos no OCI del inventario están completados. La trazabilidad del
-cierre y los cuatro pendientes deliberados se detallan en
+Todos los puntos funcionales no OCI del inventario están completados. La
+trazabilidad del cierre y los cuatro pendientes deliberados se detallan en
 [`docs/INVENTARIO_PROYECTO.md`](docs/INVENTARIO_PROYECTO.md).
 
 ## Arquitectura
 
-Flujo actual:
+Flujo implementado:
 
 ```text
-JSON/CSV -> Streamlit -> FastAPI/Pydantic -> normalización y fingerprint
-         -> PostgreSQL (interactions + runs) -> resumen de la ejecución
+JSON/CSV o webhook -> FastAPI/Pydantic -> normalización, privacidad y fingerprint
+                    -> PostgreSQL -> análisis mock/Gemini -> oportunidades o alertas
+                    -> activos LinkedIn/FAQ -> curaduría humana
+                    -> almacenamiento local u OCI mediante adaptador
 ```
 
-Flujo objetivo:
-
-```text
-JSON/CSV -> FastAPI -> PostgreSQL -> LangGraph/LLM -> oportunidades
-         -> activos LinkedIn/FAQ -> curaduría humana -> OCI Object Storage
-```
+Los lotes grandes pueden ingresar por la cola asíncrona durable y ser procesados
+por el worker. La demostración pública usa almacenamiento local efímero y deja
+las mutaciones deshabilitadas; la activación final de OCI sigue registrada como
+trabajo pendiente.
 
 Servicios Docker:
 
@@ -149,6 +162,12 @@ Variables disponibles:
 | `API_WRITE_KEY` | Secreto compartido enviado como `X-API-Key` | Sin valor en desarrollo local |
 | `MUTATION_RATE_LIMIT` | Máximo de mutaciones por cliente y ventana | `60` |
 | `MUTATION_RATE_WINDOW_SECONDS` | Duración de la ventana del límite | `60` |
+| `ANALYSIS_PROVIDER` | Proveedor de análisis | `mock` |
+| `GEMINI_API_KEY` | Secreto requerido sólo para Gemini | Sin valor |
+| `STORAGE_BACKEND` | Adaptador de publicación | `local` |
+| `POSTGRES_DB` | Base de datos local | `communitylab` |
+| `POSTGRES_USER` | Usuario local | `communitylab` |
+| `POSTGRES_PASSWORD` | Contraseña local | `communitylab` |
 
 ### Protección de la API pública
 
@@ -160,10 +179,9 @@ CORS acepta únicamente los orígenes definidos en `CORS_ORIGINS`; por defecto s
 
 `POST /api/v1/webhooks/interactions` recibe un evento normalizado desde n8n, Discord, Slack u otra fuente. `source + event_id` forma la clave idempotente: un reintento devuelve el mismo run y reutilizar el identificador con otro contenido devuelve HTTP 409. El endpoint pasa por los mismos controles de mutación (`MUTATIONS_ENABLED`, `X-API-Key` y rate limiting) y ejecuta exactamente el pipeline de la carga manual.
 
-El contrato, ejemplo `curl` y los mapeos recomendados están en [`docs/WEBHOOK_INTEGRATION.md`](docs/WEBHOOK_INTEGRATION.md). Ningún token de Discord/Slack/n8n se guarda en CommunityLab.
-| `POSTGRES_DB` | Base de datos local | `communitylab` |
-| `POSTGRES_USER` | Usuario local | `communitylab` |
-| `POSTGRES_PASSWORD` | Contraseña local | `communitylab` |
+El contrato, ejemplo `curl` y los mapeos recomendados están en
+[`docs/WEBHOOK_INTEGRATION.md`](docs/WEBHOOK_INTEGRATION.md). Ningún token de
+Discord/Slack/n8n se guarda en CommunityLab.
 
 ### 3. Construir e iniciar la aplicación
 
@@ -254,6 +272,9 @@ el manifest ya creado, sin generar registros duplicados.
 | `GET` | `/api/v1/health` | Implementado |
 | `POST` | `/api/v1/process` | Ingesta JSON implementada |
 | `POST` | `/api/v1/process/csv` | Ingesta CSV implementada |
+| `POST` | `/api/v1/process/async` | Encola lotes para el worker durable |
+| `GET` | `/api/v1/jobs/{job_id}` | Consulta el estado del procesamiento asíncrono |
+| `POST` | `/api/v1/webhooks/interactions` | Entrada automática protegida e idempotente |
 | `GET` | `/api/v1/runs/{run_id}` | Implementado |
 | `GET` | `/api/v1/assets` | Implementado |
 | `GET` | `/api/v1/alerts` | Alertas internas abiertas |
@@ -486,6 +507,7 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - Manual de usuario: [docs/MANUAL_USUARIO.md](docs/MANUAL_USUARIO.md)
 - Evidencias visuales: [docs/evidence](docs/evidence)
 - Entregable técnico E1–E8: [docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md](docs/ENTREGABLE_IMPLEMENTACION_E1_E8.md)
+- Acta de cierre y continuidad: [docs/CIERRE_ETAPA_2026-10-17.md](docs/CIERRE_ETAPA_2026-10-17.md)
 - Inventario auditado y brechas pendientes: [docs/INVENTARIO_PROYECTO.md](docs/INVENTARIO_PROYECTO.md)
 
 Antes de empezar una tarea, revisar el backlog para evitar duplicar trabajo y mantener el ticket relacionado actualizado.
