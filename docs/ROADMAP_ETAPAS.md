@@ -91,7 +91,7 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 
 ## Roadmap
 
-### Estado consolidado al 16 de octubre de 2026
+### Estado consolidado al 17 de octubre de 2026
 
 | Etapa | Estado actual |
 | --- | --- |
@@ -101,8 +101,8 @@ Además de versionarlas cuando sea apropiado, las imágenes finales se adjuntan 
 | E4 | Completa: activos LinkedIn/FAQ trazables, recurrencia y consentimiento. |
 | E5 | Completa para curaduría: cola persistente, edición, decisión, fuentes y manejo de errores. |
 | E6 | Parcial por decisión: publicación local funciona; OCI Object Storage (INV-002 a INV-005) queda para el despliegue final. |
-| E7 | Completa en alcance no OCI: recorridos, capturas, benchmark y evaluación de calidad consolidados. |
-| E8 | Operativa en Render Free; OCI se abordará sólo al finalizar al 100% los puntos de desarrollo. |
+| E7 | Completa en alcance no OCI: 159 pruebas, recorridos, capturas, benchmark y evaluación de calidad consolidados. |
+| E8 | Operativa en Render Free, con dashboard renovado y smoke público; OCI queda para la reanudación del proyecto. |
 
 La fuente de verdad para brechas abiertas es [`INVENTARIO_PROYECTO.md`](INVENTARIO_PROYECTO.md), no el estado histórico de las épicas.
 
@@ -198,6 +198,9 @@ inventario vigente es el bloque OCI del despliegue final:
 Los cuatro tickets permanecen Por hacer, abiertos y sin asignar. Esta secuencia
 mantiene OCI como alcance obligatorio, pero respeta la decisión del equipo de
 abordarlo únicamente después del cierre funcional al 100%.
+
+El estado exacto del corte actual y las instrucciones para retomar se encuentran
+en [`CIERRE_ETAPA_2026-10-17.md`](CIERRE_ETAPA_2026-10-17.md).
 
 ## Cierre de una épica
 
