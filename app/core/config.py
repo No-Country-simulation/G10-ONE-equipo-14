@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     oci_namespace: str | None = None
     oci_region: str | None = None
     oci_use_instance_principal: bool = True
+    oci_config_file: str | None = None
     analysis_provider: Literal["mock", "gemini"] = "mock"
     analysis_fallback_provider: Literal["mock", "gemini"] | None = None
     analysis_max_attempts: int = Field(default=2, ge=1, le=5)

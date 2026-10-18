@@ -248,6 +248,7 @@ def publish_asset(asset_id: UUID, db: Session = Depends(get_db)) -> Manifest:
 def _manifest_response(record: ManifestRecord) -> Manifest:
     return Manifest(
         run_id=record.run_id,
+        bucket=record.bucket,
         object_key=record.object_key,
         content_type=record.content_type,
         sha256=record.sha256,

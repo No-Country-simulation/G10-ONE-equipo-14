@@ -75,6 +75,7 @@ def test_achievement_to_approved_and_published_linkedin(client):
     assert len(manifest_body["sha256"]) == 64
     # El manifest debe declarar un object_key.
     assert manifest_body["object_key"]
+    assert manifest_body["bucket"]
 
 
 # ---------------------------------------------------------------------------

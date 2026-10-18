@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pem
 .Python
 .venv/
 venv/
@@ -16,6 +17,7 @@ build/
 .env.*
 !.env.example
 !deploy/.env.production.example
+!deploy/.env.render.example
 *.tfstate
 *.tfstate.*
 .terraform/

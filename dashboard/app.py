@@ -15,8 +15,10 @@ from api_client import (
     get_health,
     get_run,
     list_open_alerts,
+    list_assets,
     list_pending_assets,
     mutation_headers,
+    publish_asset,
 )
 
 
@@ -54,11 +56,13 @@ st.markdown(
         --cl-surface: #f8fafc;
     }
     .stApp {
+        color: var(--cl-navy);
         background:
             radial-gradient(circle at 88% 5%, rgba(37, 99, 235, .08), transparent 24rem),
             linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     }
     [data-testid="stSidebar"] {
+        color: var(--cl-navy);
         background: linear-gradient(180deg, #f8fafc 0%, #eef6f6 100%);
         border-right: 1px solid var(--cl-border);
     }
@@ -133,6 +137,7 @@ st.markdown(
     }
     .stButton > button[kind="primary"] {
         background: linear-gradient(90deg, var(--cl-teal), var(--cl-blue));
+        color: #ffffff;
         border: none;
         box-shadow: 0 8px 18px rgba(37, 99, 235, .18);
     }
@@ -524,7 +529,7 @@ with assets_tab:
                     st.caption(f"Fuente: {evidence['source_interaction_id']}")
                 if not source_ids and not asset.get("evidence"):
                     st.warning("Este activo histórico no contiene fuentes visibles.")
-            save, approve, reject = st.columns(3)
+            save, approve_publish, reject = st.columns(3)
             if save.button("Guardar", key=f"save-{asset['id']}"):
                 try:
                     asset.update(
@@ -540,7 +545,15 @@ with assets_tab:
                     st.success("Nueva versión guardada.")
                 except requests.RequestException as exc:
                     st.error(f"No se pudo guardar el activo: {api_error_message(exc)}")
-            if approve.button("Aprobar", key=f"approve-{asset['id']}"):
+            if approve_publish.button(
+                "Aprobar y publicar",
+                key=f"approve-publish-{asset['id']}",
+                type="primary",
+                disabled=not API_WRITE_KEY,
+                help="Requiere API_WRITE_KEY configurada en el dashboard."
+                if not API_WRITE_KEY else None,
+            ):
+                approved = False
                 try:
                     decide_asset(
                         API_URL,
@@ -549,13 +562,28 @@ with assets_tab:
                         reviewer="dashboard",
                         api_write_key=API_WRITE_KEY,
                     )
+                    approved = True
                     st.session_state["pending_assets"] = [
                         item for item in pending_assets if item["id"] != asset["id"]
                     ]
-                    st.success("Activo aprobado y retirado de la cola.")
-                    st.rerun()
+                    receipt = publish_asset(
+                        API_URL,
+                        asset["id"],
+                        api_write_key=API_WRITE_KEY,
+                    )
+                    st.session_state["last_publish_receipt"] = receipt
+                    st.success(
+                        "Activo aprobado y publicado en el almacenamiento configurado."
+                    )
                 except requests.RequestException as exc:
-                    st.error(f"No se pudo aprobar el activo: {api_error_message(exc)}")
+                    if approved:
+                        st.warning(
+                            "El activo quedó aprobado, pero no se pudo publicar. "
+                            "Podés reintentar desde la sección de aprobados."
+                        )
+                    st.error(
+                        f"No se pudo completar la operación: {api_error_message(exc)}"
+                    )
             if reject.button("Rechazar", key=f"reject-{asset['id']}"):
                 try:
                     decide_asset(
@@ -572,3 +600,59 @@ with assets_tab:
                     st.rerun()
                 except requests.RequestException as exc:
                     st.error(f"No se pudo rechazar el activo: {api_error_message(exc)}")
+
+    st.divider()
+    st.subheader("Activos aprobados")
+    st.caption(
+        "Los aprobados permanecen disponibles para publicar o recuperar su recibo, "
+        "incluso si una publicación anterior falló."
+    )
+    try:
+        approved_assets = list_assets(
+            API_URL,
+            status="APPROVED",
+            run_id=queue_run_id,
+        ) if health else []
+    except requests.RequestException as exc:
+        approved_assets = []
+        st.error(f"No se pudieron recuperar los aprobados: {api_error_message(exc)}")
+
+    if not approved_assets:
+        st.info("No hay activos aprobados para esta ejecución.")
+    for asset in approved_assets:
+        with st.container(border=True):
+            st.markdown(f"**{escape(asset['title'])}**")
+            st.caption(
+                f"{asset['channel']} · versión {asset['version']} · {asset['id']}"
+            )
+            if st.button(
+                "Publicar / recuperar recibo",
+                key=f"publish-approved-{asset['id']}",
+                disabled=not API_WRITE_KEY,
+                help="Requiere API_WRITE_KEY configurada en el dashboard."
+                if not API_WRITE_KEY else None,
+            ):
+                try:
+                    st.session_state["last_publish_receipt"] = publish_asset(
+                        API_URL,
+                        asset["id"],
+                        api_write_key=API_WRITE_KEY,
+                    )
+                    st.success("Recibo de publicación recuperado.")
+                    st.rerun()
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo publicar el activo: {api_error_message(exc)}")
+
+    receipt = st.session_state.get("last_publish_receipt")
+    if receipt:
+        st.subheader("Recibo de publicación")
+        st.caption("Objeto guardado en el almacenamiento configurado")
+        receipt_columns = st.columns(2)
+        receipt_columns[0].write("**Bucket**")
+        receipt_columns[0].code(receipt.get("bucket", "—"))
+        receipt_columns[0].write("**Objeto**")
+        receipt_columns[0].code(receipt.get("object_key", "—"))
+        receipt_columns[1].write("**ETag**")
+        receipt_columns[1].code(receipt.get("etag") or "—")
+        receipt_columns[1].write("**SHA-256**")
+        receipt_columns[1].code(receipt.get("sha256", "—"))
