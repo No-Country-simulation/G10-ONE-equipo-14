@@ -551,7 +551,8 @@ with assets_tab:
                 type="primary",
                 disabled=not API_WRITE_KEY,
                 help="Requiere API_WRITE_KEY configurada en el dashboard."
-                if not API_WRITE_KEY else None,
+                if not API_WRITE_KEY
+                else None,
             ):
                 approved = False
                 try:
@@ -608,11 +609,15 @@ with assets_tab:
         "incluso si una publicación anterior falló."
     )
     try:
-        approved_assets = list_assets(
-            API_URL,
-            status="APPROVED",
-            run_id=queue_run_id,
-        ) if health else []
+        approved_assets = (
+            list_assets(
+                API_URL,
+                status="APPROVED",
+                run_id=queue_run_id,
+            )
+            if health
+            else []
+        )
     except requests.RequestException as exc:
         approved_assets = []
         st.error(f"No se pudieron recuperar los aprobados: {api_error_message(exc)}")
@@ -630,7 +635,8 @@ with assets_tab:
                 key=f"publish-approved-{asset['id']}",
                 disabled=not API_WRITE_KEY,
                 help="Requiere API_WRITE_KEY configurada en el dashboard."
-                if not API_WRITE_KEY else None,
+                if not API_WRITE_KEY
+                else None,
             ):
                 try:
                     st.session_state["last_publish_receipt"] = publish_asset(

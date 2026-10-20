@@ -2,6 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel
 
+
 class Manifest(BaseModel):
     schema_version: str = "v1"
     run_id: UUID
