@@ -23,6 +23,7 @@ from api_client import (
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
+API_REQUEST_TIMEOUT = 180
 API_WRITE_KEY = os.getenv("API_WRITE_KEY")
 PUBLIC_API_URL = os.getenv(
     "PUBLIC_API_URL",
@@ -187,7 +188,7 @@ def process_upload(
                 "requested_assets": "LINKEDIN,FAQ",
             },
             files={"file": (uploaded_file.name, content, "text/csv")},
-            timeout=30,
+            timeout=API_REQUEST_TIMEOUT,
         )
     else:
         interactions = json.loads(content.decode("utf-8-sig"))
@@ -213,7 +214,7 @@ def process_upload(
             f"{API_URL}/api/v1/process",
             headers=headers,
             json=payload,
-            timeout=30,
+            timeout=API_REQUEST_TIMEOUT,
         )
 
     response.raise_for_status()
@@ -228,7 +229,7 @@ except requests.RequestException as error:
     health_error = api_error_message(error)
 
 with st.sidebar:
-    st.image(str(LOGO_PATH), use_container_width=True)
+    st.image(str(LOGO_PATH), width="stretch")
     st.caption("Centro de operación y ayuda")
 
     st.subheader("Estado del sistema")
@@ -250,13 +251,13 @@ with st.sidebar:
     else:
         st.markdown(
             '<div class="cl-status cl-status--wait"><span class="cl-dot"></span>'
-            "Servicios iniciando</div>",
+            "No se pudo verificar la API</div>",
             unsafe_allow_html=True,
         )
         st.caption(
-            "Render Free puede tardar cerca de un minuto en despertar. "
-            "Esperá unos segundos y recargá la página."
+            "El health check no respondió. Intentá procesar; esa solicitud también contacta la API."
         )
+        st.caption(f"Destino configurado: {escape(API_URL)}")
         if health_error:
             st.caption(health_error)
 
@@ -282,17 +283,17 @@ with st.sidebar:
         )
 
     st.subheader("Ayuda y documentación")
-    st.link_button("📘 Manual de usuario", MANUAL_URL, use_container_width=True)
-    st.link_button("🧪 Guía de prueba", TEST_GUIDE_URL, use_container_width=True)
-    st.link_button("📂 Archivos de prueba", TEST_SETS_URL, use_container_width=True)
+    st.link_button("📘 Manual de usuario", MANUAL_URL, width="stretch")
+    st.link_button("🧪 Guía de prueba", TEST_GUIDE_URL, width="stretch")
+    st.link_button("📂 Archivos de prueba", TEST_SETS_URL, width="stretch")
 
     st.subheader("Accesos rápidos")
     st.link_button(
         "⚙️ API y documentación técnica",
         f"{PUBLIC_API_URL}/docs",
-        use_container_width=True,
+        width="stretch",
     )
-    st.link_button("💻 Repositorio GitHub", REPOSITORY_URL, use_container_width=True)
+    st.link_button("💻 Repositorio GitHub", REPOSITORY_URL, width="stretch")
     st.markdown("[Ir a cargar interacciones](#1-cargar-interacciones)")
     st.markdown("[Ir a análisis y curaduría](#4-analisis-oportunidades-y-curaduria)")
 
@@ -332,7 +333,7 @@ uploaded_file = st.file_uploader(
 if st.button(
     "Procesar archivo",
     type="primary",
-    disabled=uploaded_file is None or health is None,
+    disabled=uploaded_file is None,
 ):
     try:
         with st.spinner("Guardando interacciones en PostgreSQL..."):
@@ -366,8 +367,8 @@ with run_action:
     st.write("")
     load_run = st.button(
         "Buscar ejecución",
-        disabled=not requested_run_id.strip() or health is None,
-        use_container_width=True,
+        disabled=not requested_run_id.strip(),
+        width="stretch",
     )
 
 if load_run:
@@ -427,7 +428,7 @@ if result:
 
     if result.get("record_errors"):
         st.warning("Algunos registros no pudieron procesarse.")
-        st.dataframe(result["record_errors"], use_container_width=True)
+        st.dataframe(result["record_errors"], width="stretch")
 
 st.subheader(
     "4. Análisis, oportunidades y curaduría",
@@ -469,7 +470,7 @@ with analysis_tab:
         st.info("Procesá un archivo para ver análisis.")
 with opportunities_tab:
     if result:
-        st.dataframe(result.get("opportunities", []), use_container_width=True)
+        st.dataframe(result.get("opportunities", []), width="stretch")
     else:
         st.info("Procesá un archivo para ver oportunidades.")
 with alerts_tab:
@@ -477,7 +478,7 @@ with alerts_tab:
         open_alerts = list_open_alerts(API_URL) if health else []
         if open_alerts:
             st.warning(f"{len(open_alerts)} alerta(s) interna(s) abierta(s).")
-            st.dataframe(open_alerts, use_container_width=True)
+            st.dataframe(open_alerts, width="stretch")
         else:
             st.info("No hay alertas internas abiertas.")
     except requests.RequestException as exc:
@@ -490,7 +491,7 @@ with assets_tab:
     queue_header.caption(
         "Cola persistente: se muestran los borradores de la ejecución actual."
     )
-    refresh_queue = queue_action.button("Actualizar cola", use_container_width=True)
+    refresh_queue = queue_action.button("Actualizar cola", width="stretch")
     queue_changed = st.session_state.get("pending_assets_run_id") != queue_run_id
     if "pending_assets" not in st.session_state or refresh_queue or queue_changed:
         try:
