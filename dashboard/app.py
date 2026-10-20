@@ -23,7 +23,6 @@ from api_client import (
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
-API_REQUEST_TIMEOUT = 180
 API_WRITE_KEY = os.getenv("API_WRITE_KEY")
 PUBLIC_API_URL = os.getenv(
     "PUBLIC_API_URL",
@@ -188,7 +187,7 @@ def process_upload(
                 "requested_assets": "LINKEDIN,FAQ",
             },
             files={"file": (uploaded_file.name, content, "text/csv")},
-            timeout=API_REQUEST_TIMEOUT,
+            timeout=30,
         )
     else:
         interactions = json.loads(content.decode("utf-8-sig"))
@@ -214,7 +213,7 @@ def process_upload(
             f"{API_URL}/api/v1/process",
             headers=headers,
             json=payload,
-            timeout=API_REQUEST_TIMEOUT,
+            timeout=30,
         )
 
     response.raise_for_status()
@@ -251,13 +250,13 @@ with st.sidebar:
     else:
         st.markdown(
             '<div class="cl-status cl-status--wait"><span class="cl-dot"></span>'
-            "No se pudo verificar la API</div>",
+            "Servicios iniciando</div>",
             unsafe_allow_html=True,
         )
         st.caption(
-            "El health check no respondió. Intentá procesar; esa solicitud también contacta la API."
+            "Render Free puede tardar cerca de un minuto en despertar. "
+            "Esperá unos segundos y recargá la página."
         )
-        st.caption(f"Destino configurado: {escape(API_URL)}")
         if health_error:
             st.caption(health_error)
 
@@ -333,7 +332,7 @@ uploaded_file = st.file_uploader(
 if st.button(
     "Procesar archivo",
     type="primary",
-    disabled=uploaded_file is None,
+    disabled=uploaded_file is None or health is None,
 ):
     try:
         with st.spinner("Guardando interacciones en PostgreSQL..."):
@@ -367,7 +366,7 @@ with run_action:
     st.write("")
     load_run = st.button(
         "Buscar ejecución",
-        disabled=not requested_run_id.strip(),
+        disabled=not requested_run_id.strip() or health is None,
         width="stretch",
     )
 
