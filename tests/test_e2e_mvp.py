@@ -34,6 +34,7 @@ def _process(client, key, text, assets, interaction_type="message"):
 # Recorrido 1: Logro -> LinkedIn aprobado y publicado
 # ---------------------------------------------------------------------------
 
+
 def test_achievement_to_approved_and_published_linkedin(client):
     response = _process(
         client,
@@ -75,11 +76,13 @@ def test_achievement_to_approved_and_published_linkedin(client):
     assert len(manifest_body["sha256"]) == 64
     # El manifest debe declarar un object_key.
     assert manifest_body["object_key"]
+    assert manifest_body["bucket"]
 
 
 # ---------------------------------------------------------------------------
 # Recorrido 2: Duda técnica -> FAQ aprobada
 # ---------------------------------------------------------------------------
+
 
 def test_technical_question_to_approved_faq(client):
     response = _process(
@@ -116,6 +119,7 @@ def test_technical_question_to_approved_faq(client):
 # ---------------------------------------------------------------------------
 # Recorrido 3: Contenido sensible -> bloqueado sin activos
 # ---------------------------------------------------------------------------
+
 
 def test_sensitive_content_is_blocked_without_assets(client):
     response = _process(

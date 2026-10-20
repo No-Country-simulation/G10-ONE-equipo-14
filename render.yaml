@@ -13,13 +13,21 @@ services:
           name: communitylab-db
           property: connectionString
       - key: STORAGE_BACKEND
-        value: local
+        value: oci
       - key: STORAGE_BUCKET
-        value: communitylab-demo
-      # The public demo is read-only. To enable curation, change this to true
-      # and configure the same API_WRITE_KEY secret in both web services.
+        sync: false
+      - key: OCI_NAMESPACE
+        sync: false
+      - key: OCI_REGION
+        sync: false
+      - key: OCI_USE_INSTANCE_PRINCIPAL
+        value: "false"
+      - key: OCI_CONFIG_FILE
+        value: /etc/secrets/oci_config
+      - key: API_WRITE_KEY
+        sync: false
       - key: MUTATIONS_ENABLED
-        value: false
+        value: "true"
 
   - type: web
     name: communitylab-dashboard
@@ -32,6 +40,8 @@ services:
           type: web
           name: communitylab-api
           envVarKey: RENDER_EXTERNAL_URL
+      - key: API_WRITE_KEY
+        sync: false
 
 databases:
   - name: communitylab-db

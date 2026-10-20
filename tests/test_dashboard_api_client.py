@@ -9,8 +9,10 @@ from dashboard.api_client import (
     edit_asset,
     get_health,
     get_run,
+    list_assets,
     list_open_alerts,
     list_pending_assets,
+    publish_asset,
 )
 
 
@@ -71,6 +73,43 @@ def test_list_pending_assets_filters_the_current_run():
                 "params": {"status": "PENDING_REVIEW", "run_id": run_id},
                 "timeout": 10,
             },
+        )
+    ]
+
+
+def test_list_assets_can_recover_approved_assets_for_the_current_run():
+    session = FakeSession()
+    run_id = "bdc11ba4-0b40-4a15-b909-16f2e8fae50a"
+
+    list_assets(
+        "http://api:8000",
+        status="APPROVED",
+        run_id=run_id,
+        session=session,
+    )
+
+    assert session.calls[0][2]["params"] == {
+        "status": "APPROVED",
+        "run_id": run_id,
+    }
+
+
+def test_publish_asset_sends_mutation_key_and_returns_receipt():
+    session = FakeSession()
+
+    receipt = publish_asset(
+        "http://api:8000/",
+        "asset-1",
+        api_write_key="shared-secret",
+        session=session,
+    )
+
+    assert receipt["status"] == "APPROVED"
+    assert session.calls == [
+        (
+            "POST",
+            "http://api:8000/api/v1/assets/asset-1/publish",
+            {"headers": {"X-API-Key": "shared-secret"}, "timeout": 30},
         )
     ]
 
