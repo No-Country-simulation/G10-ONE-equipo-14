@@ -500,6 +500,8 @@ Reglas adicionales: [CONTRIBUTING.md](CONTRIBUTING.md) y [docs/GIT_WORKFLOW.md](
 - CÃ³digo: [repositorio de GitHub](https://github.com/No-Country-simulation/G10-ONE-equipo-14)
 - Backlog: [proyecto CommunityLab en Jira](https://g10-latam-equipo14.atlassian.net/jira/software/projects/COMLAB/boards/1)
 - DocumentaciÃ³n funcional: carpeta [`docs`](docs)
+- Documento base del MVP: [docs/CommunityLab_MVP.pdf](docs/CommunityLab_MVP.pdf)
+- Guion reproducible para grabar la demo: [docs/GUION_GRABACION_DEMO_REPRODUCIBLE.md](docs/GUION_GRABACION_DEMO_REPRODUCIBLE.md)
 - Roadmap y proceso por etapas: [docs/ROADMAP_ETAPAS.md](docs/ROADMAP_ETAPAS.md)
 - Guion de demo y cierre: [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
 - Prueba funcional paso a paso: [docs/sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md](docs/sets_pruebas/GUIA_PRUEBA_FUNCIONAL.md)
