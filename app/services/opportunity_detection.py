@@ -4,6 +4,7 @@ from app.schemas.v1.content_opportunity import (
     ContentOpportunity,
     ContentOpportunityStatus,
 )
+from app.services.pii_detection import contains_pii
 
 MIN_RELEVANCE = 0.80
 REVIEW_CONFIDENCE_THRESHOLD = 0.70
@@ -14,10 +15,23 @@ def detect_content_opportunity(
     analysis: Analysis,
     *,
     opt_out: bool = False,
+    pii_detected: bool = False,
 ) -> ContentOpportunity | None:
     source_ids = [e.source_interaction_id for e in analysis.evidence]
     if not source_ids:
         return None
+
+    evidence_contains_pii = any(
+        contains_pii(item.excerpt) for item in analysis.evidence
+    )
+    if pii_detected or evidence_contains_pii:
+        return _build(
+            analysis_id,
+            analysis,
+            source_ids,
+            ContentOpportunityStatus.BLOCKED,
+            "Blocked because personally identifiable information was detected.",
+        )
 
     if opt_out:
         return _build(

@@ -192,6 +192,7 @@ def analyze_and_persist(
             analysis_record.id,
             analysis,
             opt_out=interaction.opt_out,
+            pii_detected=interaction.pii_detected,
         )
         analyses.append(analysis)
         if decision is None:
