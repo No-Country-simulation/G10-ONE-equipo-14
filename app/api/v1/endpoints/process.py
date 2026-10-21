@@ -102,6 +102,10 @@ def _response(
             schema_version="v1",
             run_id=run.id,
             status=("ACCEPTED" if not all_errors else "ACCEPTED_WITH_ERRORS"),
+            organization_id=payload.organization_id,
+            community_id=payload.community_id,
+            reference_period=payload.reference_period,
+            source_name=payload.source_name,
             summary=RunSummary(
                 received=result.received + len(pre_errors or []),
                 accepted=result.accepted,
@@ -206,6 +210,7 @@ async def process_csv(
         organization_id=organization_id,
         community_id=community_id,
         reference_period=reference_period,
+        source_name=file.filename,
         requested_assets=assets,
         interactions=items,
     )

@@ -12,6 +12,7 @@ from dashboard.api_client import (
     list_assets,
     list_open_alerts,
     list_pending_assets,
+    list_runs,
     publish_asset,
 )
 
@@ -164,6 +165,36 @@ def test_get_run_rejects_an_invalid_uuid_without_http_call():
         get_run("http://api:8000", "not-a-uuid", session=session)
 
     assert session.calls == []
+
+
+def test_list_runs_sends_filters_and_private_header():
+    session = FakeSession()
+
+    runs = list_runs(
+        "http://api:8000/",
+        organization_id="one",
+        community_id="g10",
+        api_write_key="shared-secret",
+        limit=25,
+        session=session,
+    )
+
+    assert runs
+    assert session.calls == [
+        (
+            "GET",
+            "http://api:8000/api/v1/runs",
+            {
+                "params": {
+                    "limit": 25,
+                    "organization_id": "one",
+                    "community_id": "g10",
+                },
+                "headers": {"X-API-Key": "shared-secret"},
+                "timeout": 10,
+            },
+        )
+    ]
 
 
 def test_edit_asset_sends_curator_changes():

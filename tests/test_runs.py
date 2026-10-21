@@ -58,3 +58,28 @@ def test_get_run_reports_an_unfinished_run(client, db_session):
 
     assert response.status_code == 409
     assert response.json()["detail"] == "Run is still being processed."
+
+
+def test_list_runs_returns_recent_filtered_executions(client):
+    payload = {**PAYLOAD, "source_name": "reacciones_LinkedIn_21102026.json"}
+    process_response = client.post(
+        "/api/v1/process",
+        json=payload,
+        headers={"Idempotency-Key": "run-list-success"},
+    )
+    assert process_response.status_code == 202
+
+    response = client.get(
+        "/api/v1/runs",
+        params={
+            "organization_id": PAYLOAD["organization_id"],
+            "community_id": PAYLOAD["community_id"],
+        },
+    )
+
+    assert response.status_code == 200
+    item = response.json()[0]
+    assert item["run_id"] == process_response.json()["run_id"]
+    assert item["source_name"] == "reacciones_LinkedIn_21102026.json"
+    assert item["display_label"].startswith("reacciones_LinkedIn_21102026-")
+    assert item["display_label"].endswith(item["run_id"])

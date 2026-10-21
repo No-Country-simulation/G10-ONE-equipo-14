@@ -20,6 +20,7 @@ class ProcessRequest(BaseModel):
     organization_id: str = Field(min_length=1)
     community_id: str = Field(min_length=1)
     reference_period: str = Field(min_length=1)
+    source_name: str | None = Field(default=None, max_length=255)
     requested_assets: list[RequestedAsset] = Field(min_length=1)
     interactions: list[InteractionRequest] = Field(min_length=1, max_length=500)
 
@@ -46,6 +47,10 @@ class ProcessResponse(BaseModel):
     schema_version: str = "v1"
     run_id: UUID
     status: str
+    organization_id: str | None = None
+    community_id: str | None = None
+    reference_period: str | None = None
+    source_name: str | None = None
     summary: RunSummary
     record_errors: list[RecordErrorResponse] = Field(default_factory=list)
     analyses: list[Analysis] = Field(default_factory=list)

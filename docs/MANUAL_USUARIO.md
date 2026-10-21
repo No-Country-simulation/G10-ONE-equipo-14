@@ -70,6 +70,18 @@ Windows-1252. No cargar archivos de salida ni manifests.
    el procesamiento.
 5. Copiar el **Run ID** para consultas y soporte.
 
+Si el mismo nombre de archivo ya fue procesado para la Organización y Comunidad
+seleccionadas, el dashboard pregunta qué hacer:
+
+- **Recuperar ejecución existente:** muestra el resultado anterior sin volver a
+  procesar ni modificar registros.
+- **Procesar nuevamente y actualizar resultados:** crea un Run nuevo, conserva
+  una sola copia de cada interacción ya almacenada y vuelve a generar sus
+  análisis, oportunidades y borradores.
+
+La detección automática aplica a cargas realizadas desde esta versión, porque
+las ejecuciones anteriores no conservaban el nombre original del archivo.
+
 El resumen diferencia registros recibidos, aceptados, duplicados, reprocesados y
 erróneos. Un duplicado significa que la interacción ya existe en la comunidad;
 reprocesada indica que volvió a enviarse a la IA en esta ejecución. No es un
@@ -90,11 +102,18 @@ error del sistema.
 Los resultados generados por IA pueden variar. La evidencia y las interacciones
 fuente deben revisarse antes de aprobar un borrador.
 
-## 7. Consultar por Run ID
+## 7. Recuperar una ejecución
 
-1. Ubicar **Consultar ejecución por Run ID**.
-2. Pegar el identificador completo.
-3. Presionar **Buscar ejecución**.
+1. Ubicar **Recuperar una ejecución**.
+2. Filtrar opcionalmente por **Organización** y **Comunidad**.
+3. Elegir una opción de la lista. Cada etiqueta muestra el nombre del archivo,
+   la fecha y, al final, el Run ID completo; por ejemplo,
+   `reacciones_LinkedIn_21102026-21102026-36c28c96-0997-438c-bcb8-ef4babcfe677`.
+4. Presionar **Abrir ejecución seleccionada**.
+
+Las ejecuciones antiguas que no guardaron el nombre del archivo se identifican
+con Comunidad, fecha y Run ID. Si una ejecución no aparece, desplegar **Ingresar
+un Run ID manualmente**, pegar el UUID y presionar **Buscar Run ID manual**.
 
 La aplicación recuperará el resultado persistido. Un mensaje de “no encontrado”
 indica normalmente que el ID es incorrecto o pertenece a otra base de datos.

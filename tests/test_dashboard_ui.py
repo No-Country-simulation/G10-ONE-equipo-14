@@ -45,3 +45,28 @@ def test_operational_metadata_is_rendered_as_read_only_content():
     assert "<small>API</small><strong>Operativa</strong>" in DASHBOARD_SOURCE
     assert 'st.text_input("Estado"' not in DASHBOARD_SOURCE
     assert 'st.text_input("API"' not in DASHBOARD_SOURCE
+
+
+def test_run_catalog_exposes_filters_and_manual_fallback():
+    for label in (
+        "Filtrar por Organización",
+        "Filtrar por Comunidad",
+        "Ejecución disponible",
+        "Abrir ejecución seleccionada",
+        "Ingresar un Run ID manualmente",
+    ):
+        assert label in DASHBOARD_SOURCE
+
+    assert "display_label" in DASHBOARD_SOURCE
+    assert "list_runs" in DASHBOARD_SOURCE
+
+
+def test_repeated_file_offers_recovery_or_reprocessing():
+    for label in (
+        "Este archivo ya fue procesado",
+        "Recuperar ejecución existente",
+        "Procesar nuevamente y actualizar resultados",
+        "Recuperar esta ejecución",
+        "Procesar nuevamente",
+    ):
+        assert label in DASHBOARD_SOURCE

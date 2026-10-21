@@ -253,8 +253,13 @@ X/Twitter, newsletter, highlights o informes de sentimiento ya estÃ©n activos.
    - `data/sample_interactions.csv`
 4. Presionar **Procesar archivo**.
 5. Confirmar el resumen de recibidas, aceptadas, duplicadas, reprocesadas y errores.
-6. Volver a cargar el mismo archivo. La segunda carga debe crear un Run nuevo y volver a analizar las interacciones existentes con Gemini; no debe insertar filas duplicadas.
-7. Copiar el `Run ID`, recargar el navegador y usar **Buscar ejecuciÃ³n** para recuperar el mismo resultado desde PostgreSQL.
+6. Volver a seleccionar el mismo archivo. El dashboard debe permitir recuperar
+   una ejecuciÃ³n anterior o procesarlo nuevamente. Si se reprocesa, crea un Run
+   nuevo y vuelve a analizar las interacciones existentes sin insertar filas
+   duplicadas.
+7. En **Recuperar una ejecuciÃ³n**, filtrar por OrganizaciÃ³n o Comunidad y elegir
+   la opciÃ³n identificada por nombre de archivo, fecha y Run ID. El ingreso
+   manual del UUID queda disponible como alternativa.
 
 Las pestanas permiten inspeccionar el analisis, las oportunidades y los activos generados por la ejecucion. La cola de curaduria tiene pestanas separadas para LinkedIn y FAQ y consulta PostgreSQL mediante la API; los borradores pendientes siguen visibles al recargar el navegador o iniciar otra sesion. El boton **Actualizar cola** fuerza una nueva consulta. Cada anÃ¡lisis y activo incluye una secciÃ³n **Evidencia y
 fuentes** con los extractos originales y sus identificadores de interacciÃ³n.

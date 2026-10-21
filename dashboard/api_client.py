@@ -70,6 +70,32 @@ def get_run(
     return response.json()
 
 
+def list_runs(
+    api_url: str,
+    *,
+    organization_id: str | None = None,
+    community_id: str | None = None,
+    api_write_key: str | None = None,
+    limit: int = 100,
+    timeout: float = 10,
+    session: Any = requests,
+) -> list[dict]:
+    """Return recent executions available to the authenticated dashboard."""
+    params: dict[str, str | int] = {"limit": limit}
+    if organization_id:
+        params["organization_id"] = organization_id
+    if community_id:
+        params["community_id"] = community_id
+    response = session.get(
+        f"{api_url.rstrip('/')}/api/v1/runs",
+        params=params,
+        headers=mutation_headers(api_write_key),
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
 def list_pending_assets(
     api_url: str,
     *,

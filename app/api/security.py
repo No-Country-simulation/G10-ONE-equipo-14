@@ -39,6 +39,28 @@ class MutationRateLimiter:
 mutation_rate_limiter = MutationRateLimiter()
 
 
+def _require_valid_key(api_key: str | None, detail: str) -> None:
+    configured_key = (
+        settings.api_write_key.get_secret_value()
+        if settings.api_write_key is not None
+        else None
+    )
+    if configured_key and (
+        api_key is None or not compare_digest(api_key, configured_key)
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=detail,
+        )
+
+
+def require_private_access(
+    api_key: str | None = Header(default=None, alias="X-API-Key"),
+) -> None:
+    """Protect non-public read endpoints when a shared key is configured."""
+    _require_valid_key(api_key, "A valid X-API-Key header is required.")
+
+
 def require_mutation_access(
     request: Request,
     api_key: str | None = Header(default=None, alias="X-API-Key"),
@@ -50,16 +72,10 @@ def require_mutation_access(
             detail="Mutable operations are disabled in this environment.",
         )
 
-    configured_key = (
-        settings.api_write_key.get_secret_value()
-        if settings.api_write_key is not None
-        else None
+    _require_valid_key(
+        api_key,
+        "A valid X-API-Key header is required for mutable operations.",
     )
-    if configured_key and (api_key is None or not compare_digest(api_key, configured_key)):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="A valid X-API-Key header is required for mutable operations.",
-        )
 
     client_id = request.client.host if request.client else "unknown"
     mutation_rate_limiter.check(client_id)

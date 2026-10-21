@@ -15,6 +15,7 @@ from api_client import (
     edit_asset,
     get_health,
     get_run,
+    list_runs,
     list_open_alerts,
     list_assets,
     list_pending_assets,
@@ -347,6 +348,7 @@ def process_upload(
                 organization_id=organization_id,
                 community_id=community_id,
                 reference_period=reference_period,
+                source_name=uploaded_file.name,
             )
             payload.setdefault("requested_assets", ["LINKEDIN", "FAQ"])
         else:
@@ -355,6 +357,7 @@ def process_upload(
                 "organization_id": organization_id,
                 "community_id": community_id,
                 "reference_period": reference_period,
+                "source_name": uploaded_file.name,
                 "requested_assets": ["LINKEDIN", "FAQ"],
                 "interactions": interactions,
             }
@@ -446,6 +449,14 @@ with st.sidebar:
     st.markdown("[Ir a cargar interacciones](#1-cargar-interacciones)")
     st.markdown("[Ir a análisis y curaduría](#4-analisis-oportunidades-y-curaduria)")
 
+run_catalog = []
+run_catalog_error = None
+if health:
+    try:
+        run_catalog = list_runs(API_URL, api_write_key=API_WRITE_KEY)
+    except requests.RequestException as error:
+        run_catalog_error = api_error_message(error)
+
 st.subheader("1. Cargar interacciones", anchor="1-cargar-interacciones")
 st.caption(
     "Identifican a quién pertenecen las interacciones, qué comunidad se analiza "
@@ -479,11 +490,61 @@ uploaded_file = st.file_uploader(
     help="Podés usar data/sample_interactions.json o data/sample_interactions.csv.",
 )
 
-if st.button(
-    "Procesar archivo",
-    type="primary",
-    disabled=uploaded_file is None or health is None,
-):
+upload_recovery_run_id = ""
+process_upload_requested = False
+matching_file_runs = []
+if uploaded_file is not None:
+    uploaded_name = Path(uploaded_file.name).name.casefold()
+    matching_file_runs = [
+        item
+        for item in run_catalog
+        if item["organization_id"] == organization_id
+        and item["community_id"] == community_id
+        and item.get("source_name")
+        and Path(str(item["source_name"])).name.casefold() == uploaded_name
+    ]
+
+if matching_file_runs:
+    st.warning(
+        "Este archivo ya fue procesado para la Organización y Comunidad "
+        "seleccionadas. Elegí si querés recuperar un resultado o procesarlo "
+        "nuevamente."
+    )
+    matching_runs_by_id = {str(item["run_id"]): item for item in matching_file_runs}
+    existing_run_id = st.selectbox(
+        "Ejecución anterior del archivo",
+        list(matching_runs_by_id),
+        format_func=lambda value: matching_runs_by_id[value]["display_label"],
+    )
+    repeated_file_action = st.radio(
+        "¿Qué querés hacer?",
+        (
+            "Recuperar ejecución existente",
+            "Procesar nuevamente y actualizar resultados",
+        ),
+        horizontal=True,
+    )
+    if repeated_file_action == "Recuperar ejecución existente":
+        if st.button("Recuperar esta ejecución"):
+            upload_recovery_run_id = existing_run_id
+    else:
+        st.caption(
+            "Se creará un Run nuevo, se reutilizarán las interacciones ya "
+            "guardadas y se volverán a generar análisis y resultados."
+        )
+        process_upload_requested = st.button(
+            "Procesar nuevamente",
+            type="primary",
+            disabled=health is None,
+        )
+else:
+    process_upload_requested = st.button(
+        "Procesar archivo",
+        type="primary",
+        disabled=uploaded_file is None or health is None,
+    )
+
+if process_upload_requested:
     try:
         with st.spinner("Guardando interacciones en PostgreSQL..."):
             st.session_state["process_result"] = process_upload(
@@ -503,24 +564,85 @@ if st.button(
         st.error(api_error_message(exc))
 
 st.subheader("2. Recuperar una ejecución", anchor="2-recuperar-una-ejecucion")
-st.caption("Ingresá un Run ID sólo cuando necesites recuperar un resultado anterior.")
-run_input, run_action = st.columns([4, 1])
-with run_input:
-    requested_run_id = st.text_input(
-        "Run ID",
-        placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-        help="Pegá el identificador mostrado después de procesar una carga.",
+st.caption(
+    "Filtrá por Organización y Comunidad, y elegí una ejecución por su archivo, "
+    "fecha y Run ID."
+)
+
+selected_run_id = ""
+if run_catalog:
+    organization_options = ["Todas"] + sorted(
+        {item["organization_id"] for item in run_catalog}
     )
-with run_action:
-    st.write("")
-    st.write("")
-    load_run = st.button(
-        "Buscar ejecución",
-        disabled=not requested_run_id.strip() or health is None,
-        width="stretch",
+    filter_organization, filter_community = st.columns(2)
+    with filter_organization:
+        selected_organization = st.selectbox(
+            "Filtrar por Organización",
+            organization_options,
+        )
+
+    organization_runs = [
+        item
+        for item in run_catalog
+        if selected_organization == "Todas"
+        or item["organization_id"] == selected_organization
+    ]
+    community_options = ["Todas"] + sorted(
+        {item["community_id"] for item in organization_runs}
+    )
+    with filter_community:
+        selected_community = st.selectbox(
+            "Filtrar por Comunidad",
+            community_options,
+        )
+
+    filtered_runs = [
+        item
+        for item in organization_runs
+        if selected_community == "Todas" or item["community_id"] == selected_community
+    ]
+    runs_by_id = {str(item["run_id"]): item for item in filtered_runs}
+    selected_run_id = st.selectbox(
+        "Ejecución disponible",
+        [""] + list(runs_by_id),
+        format_func=lambda value: (
+            "Seleccioná una ejecución"
+            if not value
+            else runs_by_id[value]["display_label"]
+        ),
+        help="La etiqueta termina siempre con el Run ID completo.",
+    )
+elif run_catalog_error:
+    st.warning(f"No se pudo cargar la lista de ejecuciones: {run_catalog_error}")
+elif health:
+    st.info("Todavía no hay ejecuciones persistidas para seleccionar.")
+
+load_selected_run = st.button(
+    "Abrir ejecución seleccionada",
+    disabled=not selected_run_id or health is None,
+)
+
+with st.expander("Ingresar un Run ID manualmente"):
+    manual_run_id = st.text_input(
+        "Run ID manual",
+        placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        help="Usá esta opción si la ejecución no aparece en la lista.",
+    )
+    load_manual_run = st.button(
+        "Buscar Run ID manual",
+        disabled=not manual_run_id.strip() or health is None,
     )
 
-if load_run:
+if upload_recovery_run_id:
+    requested_run_id = upload_recovery_run_id
+elif load_selected_run:
+    requested_run_id = selected_run_id
+elif load_manual_run:
+    requested_run_id = manual_run_id
+else:
+    requested_run_id = ""
+
+if requested_run_id:
     try:
         with st.spinner("Recuperando la ejecución desde PostgreSQL..."):
             st.session_state["process_result"] = get_run(
