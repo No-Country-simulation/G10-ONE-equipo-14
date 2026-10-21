@@ -35,6 +35,99 @@ TEST_GUIDE_URL = (
 )
 TEST_SETS_URL = f"{REPOSITORY_URL}/tree/main/docs/sets_pruebas"
 LOGO_PATH = Path(__file__).parent / "assets" / "communitylab-logo.svg"
+PROCESS_REQUEST_TIMEOUT = 300
+
+
+def _render_pending_asset_editors(assets_to_render, all_pending_assets):
+    for asset in assets_to_render:
+        with st.container(border=True):
+            title = st.text_input(
+                "Título", value=asset["title"], key=f"title-{asset['id']}"
+            )
+            body = st.text_area(
+                "Contenido", value=asset["body"], key=f"body-{asset['id']}"
+            )
+            st.caption(
+                f"{asset['channel']} · {asset['status']} · versión {asset['version']}"
+            )
+            with st.expander("Evidencia y fuentes"):
+                source_ids = asset.get("source_interaction_ids", [])
+                if source_ids:
+                    st.caption("Interacciones fuente: " + ", ".join(source_ids))
+                for evidence in asset.get("evidence", []):
+                    st.markdown(f"> {evidence['excerpt']}")
+                    st.caption(f"Fuente: {evidence['source_interaction_id']}")
+                if not source_ids and not asset.get("evidence"):
+                    st.warning("Este activo histórico no contiene fuentes visibles.")
+            save, approve_publish, reject = st.columns(3)
+            if save.button("Guardar", key=f"save-{asset['id']}"):
+                try:
+                    asset.update(
+                        edit_asset(
+                            API_URL,
+                            asset["id"],
+                            title=title,
+                            body=body,
+                            editor="dashboard",
+                            api_write_key=API_WRITE_KEY,
+                        )
+                    )
+                    st.success("Nueva versión guardada.")
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo guardar el activo: {api_error_message(exc)}")
+            if approve_publish.button(
+                "Aprobar y publicar",
+                key=f"approve-publish-{asset['id']}",
+                type="primary",
+            ):
+                approved = False
+                try:
+                    decide_asset(
+                        API_URL,
+                        asset["id"],
+                        decision="approve",
+                        reviewer="dashboard",
+                        api_write_key=API_WRITE_KEY,
+                    )
+                    approved = True
+                    st.session_state["pending_assets"] = [
+                        item for item in all_pending_assets if item["id"] != asset["id"]
+                    ]
+                    receipt = publish_asset(
+                        API_URL,
+                        asset["id"],
+                        api_write_key=API_WRITE_KEY,
+                    )
+                    st.session_state["last_publish_receipt"] = receipt
+                    st.success(
+                        "Activo aprobado y publicado en el almacenamiento configurado."
+                    )
+                except requests.RequestException as exc:
+                    if approved:
+                        st.warning(
+                            "El activo quedó aprobado, pero no se pudo publicar. "
+                            "Podés reintentar desde la sección de aprobados."
+                        )
+                    st.error(
+                        f"No se pudo completar la operación: {api_error_message(exc)}"
+                    )
+            if reject.button("Rechazar", key=f"reject-{asset['id']}"):
+                try:
+                    decide_asset(
+                        API_URL,
+                        asset["id"],
+                        decision="reject",
+                        reviewer="dashboard",
+                        api_write_key=API_WRITE_KEY,
+                    )
+                    st.session_state["pending_assets"] = [
+                        item for item in all_pending_assets if item["id"] != asset["id"]
+                    ]
+                    st.warning("Activo rechazado y retirado de la cola.")
+                    st.rerun()
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo rechazar el activo: {api_error_message(exc)}")
+
 
 st.set_page_config(
     page_title="CommunityLab · Inteligencia para comunidades",
@@ -187,7 +280,7 @@ def process_upload(
                 "requested_assets": "LINKEDIN,FAQ",
             },
             files={"file": (uploaded_file.name, content, "text/csv")},
-            timeout=30,
+            timeout=PROCESS_REQUEST_TIMEOUT,
         )
     else:
         interactions = json.loads(content.decode("utf-8-sig"))
@@ -213,7 +306,7 @@ def process_upload(
             f"{API_URL}/api/v1/process",
             headers=headers,
             json=payload,
-            timeout=30,
+            timeout=PROCESS_REQUEST_TIMEOUT,
         )
 
     response.raise_for_status()
@@ -395,11 +488,12 @@ result = st.session_state.get("process_result")
 if result:
     st.subheader("3. Resultado persistido", anchor="3-resultado-persistido")
     summary = result["summary"]
-    columns = st.columns(4)
+    columns = st.columns(5)
     columns[0].metric("Recibidas", summary["received"])
     columns[1].metric("Aceptadas", summary["accepted"])
     columns[2].metric("Duplicadas", summary["duplicates"])
-    columns[3].metric("Con errores", summary["errors"])
+    columns[3].metric("Reprocesadas", summary.get("reprocessed", 0))
+    columns[4].metric("Con errores", summary["errors"])
     insight_columns = st.columns(3)
     insight_columns[0].metric(
         "Sentimiento predominante",
@@ -509,98 +603,21 @@ with assets_tab:
     if not pending_assets:
         st.info("No hay activos pendientes de revisión.")
 
-    for asset in pending_assets:
-        with st.container(border=True):
-            title = st.text_input(
-                "Título", value=asset["title"], key=f"title-{asset['id']}"
-            )
-            body = st.text_area(
-                "Contenido", value=asset["body"], key=f"body-{asset['id']}"
-            )
-            st.caption(
-                f"{asset['channel']} · {asset['status']} · versión {asset['version']}"
-            )
-            with st.expander("Evidencia y fuentes"):
-                source_ids = asset.get("source_interaction_ids", [])
-                if source_ids:
-                    st.caption("Interacciones fuente: " + ", ".join(source_ids))
-                for evidence in asset.get("evidence", []):
-                    st.markdown(f"> {evidence['excerpt']}")
-                    st.caption(f"Fuente: {evidence['source_interaction_id']}")
-                if not source_ids and not asset.get("evidence"):
-                    st.warning("Este activo histórico no contiene fuentes visibles.")
-            save, approve_publish, reject = st.columns(3)
-            if save.button("Guardar", key=f"save-{asset['id']}"):
-                try:
-                    asset.update(
-                        edit_asset(
-                            API_URL,
-                            asset["id"],
-                            title=title,
-                            body=body,
-                            editor="dashboard",
-                            api_write_key=API_WRITE_KEY,
-                        )
-                    )
-                    st.success("Nueva versión guardada.")
-                except requests.RequestException as exc:
-                    st.error(f"No se pudo guardar el activo: {api_error_message(exc)}")
-            if approve_publish.button(
-                "Aprobar y publicar",
-                key=f"approve-publish-{asset['id']}",
-                type="primary",
-                disabled=not API_WRITE_KEY,
-                help="Requiere API_WRITE_KEY configurada en el dashboard."
-                if not API_WRITE_KEY
-                else None,
-            ):
-                approved = False
-                try:
-                    decide_asset(
-                        API_URL,
-                        asset["id"],
-                        decision="approve",
-                        reviewer="dashboard",
-                        api_write_key=API_WRITE_KEY,
-                    )
-                    approved = True
-                    st.session_state["pending_assets"] = [
-                        item for item in pending_assets if item["id"] != asset["id"]
-                    ]
-                    receipt = publish_asset(
-                        API_URL,
-                        asset["id"],
-                        api_write_key=API_WRITE_KEY,
-                    )
-                    st.session_state["last_publish_receipt"] = receipt
-                    st.success(
-                        "Activo aprobado y publicado en el almacenamiento configurado."
-                    )
-                except requests.RequestException as exc:
-                    if approved:
-                        st.warning(
-                            "El activo quedó aprobado, pero no se pudo publicar. "
-                            "Podés reintentar desde la sección de aprobados."
-                        )
-                    st.error(
-                        f"No se pudo completar la operación: {api_error_message(exc)}"
-                    )
-            if reject.button("Rechazar", key=f"reject-{asset['id']}"):
-                try:
-                    decide_asset(
-                        API_URL,
-                        asset["id"],
-                        decision="reject",
-                        reviewer="dashboard",
-                        api_write_key=API_WRITE_KEY,
-                    )
-                    st.session_state["pending_assets"] = [
-                        item for item in pending_assets if item["id"] != asset["id"]
-                    ]
-                    st.warning("Activo rechazado y retirado de la cola.")
-                    st.rerun()
-                except requests.RequestException as exc:
-                    st.error(f"No se pudo rechazar el activo: {api_error_message(exc)}")
+    linkedin_assets_tab, faq_assets_tab = st.tabs(["LinkedIn", "FAQ"])
+    with linkedin_assets_tab:
+        linkedin_assets = [
+            asset for asset in pending_assets if asset["channel"] == "LINKEDIN"
+        ]
+        if linkedin_assets:
+            _render_pending_asset_editors(linkedin_assets, pending_assets)
+        else:
+            st.info("No hay borradores de LinkedIn pendientes.")
+    with faq_assets_tab:
+        faq_assets = [asset for asset in pending_assets if asset["channel"] == "FAQ"]
+        if faq_assets:
+            _render_pending_asset_editors(faq_assets, pending_assets)
+        else:
+            st.info("No hay propuestas FAQ pendientes.")
 
     st.divider()
     st.subheader("Activos aprobados")
@@ -633,10 +650,6 @@ with assets_tab:
             if st.button(
                 "Publicar / recuperar recibo",
                 key=f"publish-approved-{asset['id']}",
-                disabled=not API_WRITE_KEY,
-                help="Requiere API_WRITE_KEY configurada en el dashboard."
-                if not API_WRITE_KEY
-                else None,
             ):
                 try:
                     st.session_state["last_publish_receipt"] = publish_asset(

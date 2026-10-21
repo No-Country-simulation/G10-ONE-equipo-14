@@ -41,9 +41,10 @@ debe completarlos para aportar contexto, separar correctamente los datos y
 conservar la trazabilidad de cada ejecución. La misma explicación está disponible
 en la ayuda lateral del dashboard.
 
-Usar nombres de comunidad estables para datos reales. Para pruebas aisladas,
-usar nombres diferentes evita que cargas anteriores sean contabilizadas como
-duplicados.
+Usar nombres de comunidad estables para datos reales. Si se vuelve a cargar el
+mismo archivo en esa comunidad, se crea una ejecucion nueva y se vuelve a enviar
+el contenido a la IA; las interacciones ya guardadas no se insertan otra vez.
+Para pruebas aisladas que necesiten datos independientes, usar otra comunidad.
 
 Los resúmenes, métricas, Run ID, estados, análisis, oportunidades, alertas y
 evidencias son elementos de visualización. En la cola de curaduría, únicamente
@@ -69,9 +70,10 @@ Windows-1252. No cargar archivos de salida ni manifests.
    el procesamiento.
 5. Copiar el **Run ID** para consultas y soporte.
 
-El resumen diferencia registros recibidos, aceptados, duplicados y erróneos. Un
-duplicado significa que esa interacción ya existe en la misma comunidad; no es
-un error del sistema.
+El resumen diferencia registros recibidos, aceptados, duplicados, reprocesados y
+erróneos. Un duplicado significa que la interacción ya existe en la comunidad;
+reprocesada indica que volvió a enviarse a la IA en esta ejecución. No es un
+error del sistema.
 
 ## 6. Interpretar los resultados
 
@@ -99,8 +101,7 @@ indica normalmente que el ID es incorrecto o pertenece a otra base de datos.
 
 ## 8. Revisar y curar activos
 
-La cola **LinkedIn y FAQ** muestra los activos de la ejecución seleccionada. El
-botón **Actualizar cola** vuelve a consultar la API.
+Las pestanas **LinkedIn** y **FAQ** separan las propuestas de la ejecucion seleccionada. Las FAQ se generan con IA cuando las preguntas recurrentes de un tema alcanzan el umbral configurado. Cada propuesta conserva evidencia y puede editarse manualmente antes de aprobarse. El boton **Actualizar cola** vuelve a consultar la API.
 
 Estados principales:
 
@@ -126,7 +127,7 @@ propio en la pantalla.
 - Confirmar que existe autorización para usar interacciones reales.
 - Los correos y teléfonos se redactan antes del análisis.
 - `opt_out=true` impide generar un activo publicable.
-- Sin consentimiento de publicación, el autor se anonimiza.
+- Los borradores de LinkedIn omiten el nombre del autor y se centran en el aprendizaje compartido.
 - Ningún borrador de IA debe publicarse sin revisión humana.
 
 ## 10. Cerrar la aplicación local
@@ -173,8 +174,9 @@ revisar los logs del worker. Para una prueba determinista, usar el proveedor
 
 ### Todos los registros aparecen duplicados
 
-El archivo ya fue procesado para esa comunidad. Cambiar el nombre de comunidad
-para una prueba limpia o mantenerlo si se quiere verificar deduplicación.
+Las interacciones ya existen en esa comunidad. La carga debe crear un Run nuevo
+y volver a enviarlas a Gemini. Cambiar la comunidad sólo si se necesita otro
+conjunto independiente de interacciones.
 
 ### No se puede aprobar, rechazar o publicar
 

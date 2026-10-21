@@ -1,43 +1,68 @@
 from uuid import UUID
 from app.schemas.v1.analysis import Analysis
-from app.schemas.v1.content_opportunity import ContentOpportunity, ContentOpportunityStatus
-from app.services.pii_detection import contains_pii
+from app.schemas.v1.content_opportunity import (
+    ContentOpportunity,
+    ContentOpportunityStatus,
+)
 
 MIN_RELEVANCE = 0.80
 REVIEW_CONFIDENCE_THRESHOLD = 0.70
+
 
 def detect_content_opportunity(
     analysis_id: UUID,
     analysis: Analysis,
     *,
     opt_out: bool = False,
-    pii_detected: bool = False,
 ) -> ContentOpportunity | None:
     source_ids = [e.source_interaction_id for e in analysis.evidence]
     if not source_ids:
         return None
 
     if opt_out:
-        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
-                      "Blocked because the author opted out of publication.")
-
-    if pii_detected or any(contains_pii(e.excerpt) for e in analysis.evidence):
-        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
-                      "Blocked because PII was detected.")
+        return _build(
+            analysis_id,
+            analysis,
+            source_ids,
+            ContentOpportunityStatus.BLOCKED,
+            "Blocked because the author opted out of publication.",
+        )
 
     if analysis.sentiment == "negative":
-        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.BLOCKED,
-                      "Blocked from public content and routed to an internal alert.")
+        return _build(
+            analysis_id,
+            analysis,
+            source_ids,
+            ContentOpportunityStatus.BLOCKED,
+            "Blocked from public content and routed to an internal alert.",
+        )
 
     if analysis.confidence < REVIEW_CONFIDENCE_THRESHOLD:
-        return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.REVIEW_REQUIRED,
-                      "Human review required because confidence is below 0.70.")
+        return _build(
+            analysis_id,
+            analysis,
+            source_ids,
+            ContentOpportunityStatus.REVIEW_REQUIRED,
+            "Human review required because confidence is below 0.70.",
+        )
 
     if analysis.relevance < MIN_RELEVANCE:
-        return None
+        return _build(
+            analysis_id,
+            analysis,
+            source_ids,
+            ContentOpportunityStatus.REVIEW_REQUIRED,
+            "Human review required because relevance is below 0.80.",
+        )
 
-    return _build(analysis_id, analysis, source_ids, ContentOpportunityStatus.PENDING,
-                  "Qualified by backend content rules.")
+    return _build(
+        analysis_id,
+        analysis,
+        source_ids,
+        ContentOpportunityStatus.PENDING,
+        "Qualified by backend content rules.",
+    )
+
 
 def _build(analysis_id, analysis, source_ids, status, prefix):
     return ContentOpportunity(
@@ -48,6 +73,7 @@ def _build(analysis_id, analysis, source_ids, status, prefix):
         source_ids=source_ids,
         status=status,
     )
+
 
 def _kind(analysis: Analysis) -> str:
     if analysis.sentiment == "negative":

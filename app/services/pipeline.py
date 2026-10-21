@@ -1,7 +1,11 @@
 """Analysis and opportunity pipeline with PostgreSQL persistence."""
 
+import logging
+import random
+from time import sleep
 from uuid import UUID
 
+from app.ai.base import AnalysisProvider
 from sqlalchemy.orm import Session
 
 from app.ai.provider_factory import (
@@ -23,8 +27,15 @@ from app.schemas.v1.interaction import InteractionRequest
 from app.schemas.v1.opportunity import Opportunity
 from app.services.opportunity_detection import detect_content_opportunity
 from app.services.pii_detection import REDACTED_PERSON
-from app.services.resilient_analysis import analyze_with_resilience
+from app.services.resilient_analysis import (
+    AnalysisProviderUnavailable,
+    AnalysisRateLimited,
+    analyze_with_resilience,
+)
 from app.services.content_generation import generate_content
+from app.ai.gemini_provider import MAX_SINGLE_BATCH_CHARS
+
+logger = logging.getLogger("communitylab.pipeline")
 
 
 def analyze_and_persist(
@@ -40,16 +51,11 @@ def analyze_and_persist(
     opportunities: list[Opportunity] = []
     assets: list[Asset] = []
     alerts: list[Alert] = []
-    faq_candidates: dict[str, list[tuple[OpportunityRecord, Analysis]]] = {}
-
-    for interaction in interactions:
-        interaction_payload = InteractionRequest(
+    faq_candidates: dict[str, list[tuple[OpportunityRecord, Analysis, str]]] = {}
+    interaction_payloads = {
+        interaction.id: InteractionRequest(
             external_id=interaction.external_id,
-            author=(
-                interaction.author
-                if interaction.publication_consent
-                else REDACTED_PERSON
-            ),
+            author=REDACTED_PERSON,
             channel=interaction.channel,
             type=interaction.type,
             text=interaction.text,
@@ -57,13 +63,81 @@ def analyze_and_persist(
             publication_consent=interaction.publication_consent,
             opt_out=interaction.opt_out,
         )
-        analysis = analyze_with_resilience(
-            provider=provider,
-            interaction_id=interaction.id,
-            interaction=interaction_payload,
-            max_attempts=settings.analysis_max_attempts,
-            fallback=fallback,
-        )
+        for interaction in interactions
+    }
+    batch_analyses: dict[UUID, Analysis] = {}
+    batch_drafts = []
+    batch_generator = getattr(provider, "generate_batch", None)
+    batch_mode = callable(batch_generator)
+    if batch_mode:
+        try:
+            for batch in _interaction_batches(interactions, interaction_payloads):
+                for attempt in range(1, settings.analysis_max_attempts + 1):
+                    try:
+                        batch_results, drafts = batch_generator(
+                            interactions=[
+                                (interaction.id, interaction_payloads[interaction.id])
+                                for interaction in batch
+                            ],
+                            requested_assets=requested_assets,
+                            faq_recurrence_threshold=settings.faq_recurrence_threshold,
+                        )
+                        batch_analyses.update(batch_results)
+                        batch_drafts.extend(drafts)
+                        break
+                    except Exception as exc:
+                        error_code = getattr(
+                            exc, "code", getattr(exc, "status_code", None)
+                        )
+                        error_message = getattr(exc, "message", None)
+                        input_chars = sum(
+                            len(interaction_payloads[item.id].text) for item in batch
+                        )
+                        logger.warning(
+                            "Gemini batch failed (attempt %s/%s, code=%s, "
+                            "items=%s, input_chars=%s, message=%s): %s",
+                            attempt,
+                            settings.analysis_max_attempts,
+                            error_code,
+                            len(batch),
+                            input_chars,
+                            str(error_message)[:500] if error_message else None,
+                            type(exc).__name__,
+                        )
+                        retryable = error_code in {408, 429, 500, 502, 503, 504}
+                        if attempt == settings.analysis_max_attempts or not retryable:
+                            raise
+                        sleep(min(2 ** (attempt - 1), 4) + random.uniform(0, 0.25))
+        except Exception as exc:
+            batch_mode = False
+            batch_analyses.clear()
+            batch_drafts.clear()
+            if fallback is not None:
+                # A configured fallback is an explicit operator choice. Use it
+                # directly so we do not repeat the rejected Gemini requests.
+                provider, fallback = fallback, None
+            elif getattr(exc, "code", getattr(exc, "status_code", None)) == 429:
+                raise AnalysisRateLimited(
+                    "Gemini rate or quota limit reached."
+                ) from exc
+            else:
+                raise AnalysisProviderUnavailable(
+                    "Gemini batch analysis failed."
+                ) from exc
+
+    opportunities_by_interaction: dict[UUID, OpportunityRecord] = {}
+    interaction_by_id = {interaction.id: interaction for interaction in interactions}
+
+    for interaction in interactions:
+        analysis = batch_analyses.get(interaction.id)
+        if analysis is None:
+            analysis = analyze_with_resilience(
+                provider=provider,
+                interaction_id=interaction.id,
+                interaction=interaction_payloads[interaction.id],
+                max_attempts=settings.analysis_max_attempts,
+                fallback=fallback,
+            )
         analysis_record = AnalysisRecord(
             run_id=run_id,
             interaction_id=interaction.id,
@@ -96,7 +170,9 @@ def analyze_and_persist(
                 severity="HIGH",
                 status="OPEN",
                 message="Negative sentiment or frustration requires internal attention.",
-                excerpt=analysis.evidence[0].excerpt if analysis.evidence else interaction.text[:240],
+                excerpt=analysis.evidence[0].excerpt
+                if analysis.evidence
+                else interaction.text[:240],
             )
             db.add(alert_record)
             db.flush()
@@ -116,7 +192,6 @@ def analyze_and_persist(
             analysis_record.id,
             analysis,
             opt_out=interaction.opt_out,
-            pii_detected=interaction.pii_detected,
         )
         analyses.append(analysis)
         if decision is None:
@@ -153,6 +228,8 @@ def analyze_and_persist(
             )
         )
 
+        opportunities_by_interaction[interaction.id] = opportunity_record
+
         if internal_alert:
             continue
 
@@ -164,31 +241,125 @@ def analyze_and_persist(
                 if interaction.type == "question":
                     topic = analysis.topics[0] if analysis.topics else "general"
                     faq_candidates.setdefault(topic, []).append(
-                        (opportunity_record, analysis)
+                        (opportunity_record, analysis, interaction.text)
                     )
                 continue
+            if batch_mode:
+                continue
             assets.append(
-                _persist_asset(db, run_id, opportunity_record, analysis, channel)
+                _persist_asset(
+                    db,
+                    run_id,
+                    opportunity_record,
+                    analysis,
+                    channel,
+                    provider=provider,
+                    fallback=fallback,
+                )
             )
 
-    if "FAQ" in requested_assets:
+    if not batch_mode and "FAQ" in requested_assets:
         for candidates in faq_candidates.values():
             if len(candidates) < settings.faq_recurrence_threshold:
                 continue
-            opportunity_record, representative = candidates[0]
-            merged_evidence = list({
-                (evidence.source_interaction_id, evidence.excerpt): evidence
-                for _, candidate in candidates
-                for evidence in candidate.evidence
-            }.values())
+            opportunity_record, representative, _ = candidates[0]
+            merged_evidence = list(
+                {
+                    (evidence.source_interaction_id, evidence.excerpt): evidence
+                    for _, candidate, _ in candidates
+                    for evidence in candidate.evidence
+                }.values()
+            )
+            recurring_questions = [question for _, _, question in candidates]
             recurring_analysis = representative.model_copy(
                 update={"evidence": merged_evidence}
             )
             assets.append(
                 _persist_asset(
-                    db, run_id, opportunity_record, recurring_analysis, "FAQ"
+                    db,
+                    run_id,
+                    opportunity_record,
+                    recurring_analysis,
+                    "FAQ",
+                    provider=provider,
+                    fallback=fallback,
+                    questions=recurring_questions,
                 )
             )
+
+    if batch_mode:
+        seen_assets: set[tuple[UUID, str]] = set()
+        persisted_batch_drafts = 0
+        for draft in batch_drafts:
+            try:
+                source_ids = [UUID(value) for value in draft.source_interaction_ids]
+            except (TypeError, ValueError):
+                logger.warning(
+                    "Skipping Gemini draft with invalid source interaction id."
+                )
+                continue
+            source_ids = list(dict.fromkeys(source_ids))
+            if (
+                not source_ids
+                or any(source_id not in interaction_by_id for source_id in source_ids)
+                or any(
+                    interaction_by_id[source_id].opt_out
+                    or interaction_by_id[source_id].pii_detected
+                    for source_id in source_ids
+                )
+            ):
+                continue
+            if draft.channel not in requested_assets:
+                continue
+            source_interactions = [
+                interaction_by_id[source_id] for source_id in source_ids
+            ]
+            source_analyses = [batch_analyses[source_id] for source_id in source_ids]
+            opportunity_record = next(
+                (
+                    opportunities_by_interaction[source_id]
+                    for source_id in source_ids
+                    if source_id in opportunities_by_interaction
+                ),
+                None,
+            )
+            if opportunity_record is None:
+                continue
+            asset_key = (opportunity_record.id, draft.channel)
+            if asset_key in seen_assets:
+                continue
+            seen_assets.add(asset_key)
+            merged_evidence = list(
+                {
+                    (evidence.source_interaction_id, evidence.excerpt): evidence
+                    for analysis in source_analyses
+                    for evidence in analysis.evidence
+                }.values()
+            )
+            representative = source_analyses[0].model_copy(
+                update={"evidence": merged_evidence}
+            )
+            assets.append(
+                _persist_asset(
+                    db,
+                    run_id,
+                    opportunity_record,
+                    representative,
+                    draft.channel,
+                    provider=provider,
+                    fallback=fallback,
+                    questions=[interaction.text for interaction in source_interactions]
+                    if draft.channel == "FAQ"
+                    else None,
+                    draft=(draft.title, draft.body),
+                )
+            )
+            persisted_batch_drafts += 1
+        logger.info(
+            "Gemini batch drafts processed (received=%s, persisted=%s).",
+            len(batch_drafts),
+            persisted_batch_drafts,
+        )
 
     db.commit()
     return analyses, opportunities, assets, alerts
@@ -200,11 +371,20 @@ def _persist_asset(
     opportunity_record: OpportunityRecord,
     analysis: Analysis,
     channel: str,
+    *,
+    provider: AnalysisProvider,
+    fallback: AnalysisProvider | None,
+    questions: list[str] | None = None,
+    draft: tuple[str, str] | None = None,
 ) -> Asset:
     generated = generate_content(
         channel=channel,
         opportunity_id=opportunity_record.id,
         analysis=analysis,
+        provider=provider,
+        fallback=fallback,
+        questions=questions,
+        draft=draft,
     )
     asset_record = AssetRecord(
         run_id=run_id,
@@ -248,3 +428,24 @@ def _persist_asset(
         ],
         evidence=analysis.evidence,
     )
+
+
+def _interaction_batches(
+    interactions: list[Interaction],
+    payloads: dict[UUID, InteractionRequest],
+) -> list[list[Interaction]]:
+    """Keep Gemini structured responses bounded for larger uploads."""
+    batches: list[list[Interaction]] = []
+    current: list[Interaction] = []
+    current_chars = 0
+    for interaction in interactions:
+        size = len(payloads[interaction.id].text) + 120
+        if current and current_chars + size > MAX_SINGLE_BATCH_CHARS:
+            batches.append(current)
+            current = []
+            current_chars = 0
+        current.append(interaction)
+        current_chars += size
+    if current:
+        batches.append(current)
+    return batches

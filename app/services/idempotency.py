@@ -127,6 +127,10 @@ def save_run_response(
 
 
 def mark_run_failed(db: Session, run: Run) -> None:
+    # Discard the ingestion and pipeline writes from the failed attempt before
+    # persisting its terminal run status. This leaves the source available for
+    # a clean retry when an external AI provider is temporarily unavailable.
+    db.rollback()
     run.status = "FAILED"
     db.add(run)
     db.commit()

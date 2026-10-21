@@ -26,7 +26,7 @@ Do not run `alembic downgrade` on databases containing data without a backup. CI
 - `created_at` defaults to database server time; `occurred_at` is optional timezone-aware timestamp.
 - Index on organization/community/created_at for scoped retrieval.
 
-`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions, calculate fingerprints, ignore duplicates and store idempotent run responses. `GET /api/v1/runs/{run_id}` retrieves that persisted response: it returns HTTP 404 for an unknown UUID and HTTP 409 only while an existing run has no completed response. The dashboard exposes this lookup through its **Run ID** field.
+`POST /api/v1/process` and `POST /api/v1/process/csv` persist normalized interactions and calculate fingerprints. A repeated interaction reuses its stored interaction row but is analyzed again in each new run; repeated copies within one upload are analyzed once. A repeated `Idempotency-Key` still replays its original run response. `GET /api/v1/runs/{run_id}` retrieves that response: it returns HTTP 404 for an unknown UUID and HTTP 409 only while an existing run has no completed response. The dashboard exposes this lookup through its **Run ID** field.
 
 ## Validation
 

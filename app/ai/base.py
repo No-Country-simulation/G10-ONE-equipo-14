@@ -6,5 +6,25 @@ from app.schemas.v1.interaction import InteractionRequest
 
 
 class AnalysisProvider(Protocol):
-    def analyze(self, interaction_id: UUID, interaction: InteractionRequest) -> Analysis:
+    def analyze(
+        self, interaction_id: UUID, interaction: InteractionRequest
+    ) -> Analysis: ...
+
+    def generate_linkedin(
+        self,
+        *,
+        topic: str,
+        evidence: list[str],
+    ) -> tuple[str, str]:
+        """Return a freely written, evidence-grounded LinkedIn title and body."""
+        ...
+
+    def generate_faq(
+        self,
+        *,
+        topic: str,
+        questions: list[str],
+        evidence: list[str],
+    ) -> tuple[str, str]:
+        """Return proposed FAQs grounded in recurring questions and evidence."""
         ...

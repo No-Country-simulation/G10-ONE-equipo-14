@@ -8,9 +8,9 @@ Fecha: 14 de octubre de 2026.
 - Exclusión de publicación mediante `opt_out`.
 - Redacción determinística de correos como `[EMAIL]`.
 - Redacción determinística de teléfonos como `[PHONE]`.
-- Redacción del nombre del autor como `[PERSON]` cuando no existe consentimiento.
+- Redacción del nombre del autor como `[PERSON]` en todos los borradores.
 - Texto saneado antes de persistirse o enviarse al proveedor de análisis.
-- Oportunidad `BLOCKED` y cero activos cuando existe opt-out o PII sensible.
+- Oportunidad `BLOCKED` y cero activos cuando existe opt-out. Correos, teléfonos y menciones de usuario se redactan antes de crear borradores.
 
 ## Validación
 

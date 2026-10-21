@@ -29,6 +29,11 @@ from app.services.idempotency import (
 )
 from app.services.ingestion import ingest_interactions
 from app.services.pipeline import analyze_and_persist
+from app.services.content_generation import ContentProviderUnavailable
+from app.services.resilient_analysis import (
+    AnalysisProviderUnavailable,
+    AnalysisRateLimited,
+)
 
 router = APIRouter(dependencies=[Depends(require_mutation_access)])
 
@@ -82,7 +87,7 @@ def _response(
         analyses, opportunities, assets, alerts = analyze_and_persist(
             db,
             run.id,
-            result.persisted,
+            result.interactions_to_process,
             [asset.value for asset in payload.requested_assets],
         )
         sentiment_counts = Counter(item.sentiment for item in analyses)
@@ -96,24 +101,18 @@ def _response(
         response = ProcessResponse(
             schema_version="v1",
             run_id=run.id,
-            status=(
-                "ACCEPTED"
-                if not all_errors
-                else "ACCEPTED_WITH_ERRORS"
-            ),
+            status=("ACCEPTED" if not all_errors else "ACCEPTED_WITH_ERRORS"),
             summary=RunSummary(
                 received=result.received + len(pre_errors or []),
                 accepted=result.accepted,
                 duplicates=result.duplicates,
+                reprocessed=result.reprocessed,
                 errors=len(all_errors),
                 predominant_sentiment=predominant_sentiment,
                 top_topics=top_topics,
                 processing_time_ms=processing_time_ms,
             ),
-            record_errors=[
-                RecordErrorResponse(**vars(error))
-                for error in all_errors
-            ],
+            record_errors=[RecordErrorResponse(**vars(error)) for error in all_errors],
             analyses=analyses,
             opportunities=opportunities,
             assets=assets,
@@ -129,6 +128,25 @@ def _response(
 
         return response
 
+    except AnalysisRateLimited as exc:
+        mark_run_failed(db, run)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=(
+                "Gemini respondió 429 por un límite de solicitudes, tokens o cuota. "
+                "Esperá antes de reintentar y, si persiste, revisá los límites del "
+                "proyecto en Google AI Studio."
+            ),
+        ) from exc
+    except (AnalysisProviderUnavailable, ContentProviderUnavailable) as exc:
+        mark_run_failed(db, run)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=(
+                "El servicio de IA no está disponible temporalmente. "
+                "La carga no se procesó; reintentá cuando Gemini vuelva a estar disponible."
+            ),
+        ) from exc
     except Exception:
         mark_run_failed(db, run)
         raise
@@ -181,9 +199,7 @@ async def process_csv(
         )
 
     assets = [
-        asset.strip().upper()
-        for asset in requested_assets.split(",")
-        if asset.strip()
+        asset.strip().upper() for asset in requested_assets.split(",") if asset.strip()
     ]
 
     payload = ProcessRequest(

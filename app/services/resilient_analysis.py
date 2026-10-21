@@ -17,6 +17,10 @@ class AnalysisProviderUnavailable(RuntimeError):
     """Raised when the primary provider and its fallback cannot analyze."""
 
 
+class AnalysisRateLimited(AnalysisProviderUnavailable):
+    """Raised when Gemini rejects work because the project hit a rate limit."""
+
+
 def analyze_with_resilience(
     *,
     provider: AnalysisProvider,
@@ -33,18 +37,38 @@ def analyze_with_resilience(
         started = perf_counter()
         try:
             result = analyze_interaction(provider, interaction_id, interaction)
-            log_event(logger, "analysis_completed", provider=type(provider).__name__, attempt=attempt, duration_ms=round((perf_counter() - started) * 1000, 2))
+            log_event(
+                logger,
+                "analysis_completed",
+                provider=type(provider).__name__,
+                attempt=attempt,
+                duration_ms=round((perf_counter() - started) * 1000, 2),
+            )
             return result
         except Exception as exc:  # provider boundary: normalize external failures
             last_error = exc
-            log_event(logger, "analysis_retry", provider=type(provider).__name__, attempt=attempt, error_type=type(exc).__name__, duration_ms=round((perf_counter() - started) * 1000, 2))
+            log_event(
+                logger,
+                "analysis_retry",
+                provider=type(provider).__name__,
+                attempt=attempt,
+                error_type=type(exc).__name__,
+                error_code=getattr(exc, "code", getattr(exc, "status_code", None)),
+                duration_ms=round((perf_counter() - started) * 1000, 2),
+            )
 
     if fallback is not None:
         try:
             return analyze_interaction(fallback, interaction_id, interaction)
         except Exception as exc:
             last_error = exc
-            log_event(logger, "analysis_fallback_failed", provider=type(fallback).__name__, error_type=type(exc).__name__)
+            log_event(
+                logger,
+                "analysis_fallback_failed",
+                provider=type(fallback).__name__,
+                error_type=type(exc).__name__,
+                error_code=getattr(exc, "code", getattr(exc, "status_code", None)),
+            )
 
     raise AnalysisProviderUnavailable(
         "Analysis provider failed after all configured attempts."

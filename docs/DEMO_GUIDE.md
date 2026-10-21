@@ -11,7 +11,7 @@
 
 1. **Logro → LinkedIn**: procesar, revisar, editar, aprobar y publicar.
 2. **Duda → FAQ**: procesar una duda técnica y aprobar la FAQ trazable.
-3. **PII bloqueada**: procesar texto con correo o teléfono y comprobar que no genera assets.
+3. **PII anonimizada**: procesar texto con correo, teléfono o mención de usuario y comprobar que se redacta en el borrador pendiente de revisión.
 
 ## Definition of Done
 

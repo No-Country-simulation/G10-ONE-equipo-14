@@ -60,7 +60,7 @@ Cuando un mismo mensaje podría disparar más de un insumo, el orden de priorida
 
 ### 2.3 Validaciones antes de generar
 
-- No usar información personal sensible sin autorización explícita del autor
+- Anonimizar autor, menciones de usuario, correo y teléfono antes de analizar o redactar contenido
 - No generar contenido a partir de miembros marcados como "no desea ser mencionado"
 - El contenido educativo (FAQ/Tip) requiere validación técnica antes de publicarse, para evitar respuestas incorrectas
 - Las alertas internas nunca se convierten en contenido público
@@ -79,7 +79,7 @@ Cuando un mismo mensaje podría disparar más de un insumo, el orden de priorida
 
 | Insumo | Disparador | Canal destino | Tono | Formato / longitud | Dato importante |
 |---|---|---|---|---|---|
-| **Post LinkedIn** | Testimonio + sentimiento Altamente Positivo, o logro/proyecto destacado | LinkedIn | Inspirador | Título + copy (~150–300 palabras) con hashtags | Requiere validar que el autor autoriza usar su nombre/cita públicamente |
+| **Post LinkedIn** | Testimonio + sentimiento Altamente Positivo, o logro/proyecto destacado | LinkedIn | Inspirador | Título + copy (150–300 palabras) | Borrador anonimizado sujeto a revisión humana |
 | **Post X (Twitter)** | Mismo evento que el post de LinkedIn, en versión breve | X/Twitter | Conciso, directo | ≤ 280 caracteres | Se genera como variante corta del mismo insumo, no como evento aparte |
 | **Caso de Éxito / Testimonio** | Testimonio con logro laboral/personal + sentimiento alto | Insumo base para marketing | Inspirador | Cita extraída + contexto narrativo | Requiere autorización del autor antes de usar su cita públicamente |
 | **FAQ / Tip educativo** | Pregunta técnica recurrente (≥ N menciones) | Blog / Docs | Didáctico | Pregunta + respuesta breve, con ejemplo si aplica | Requiere validación técnica antes de publicar |

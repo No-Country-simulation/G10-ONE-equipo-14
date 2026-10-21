@@ -97,8 +97,8 @@ del formato CSV de la prueba de duplicados, se recomienda este orden:
 3. Verificar 25 registros recibidos, lectura correcta de caracteres y fechas, y
    ausencia de errores.
 4. Sin cambiar la comunidad, cargar exactamente el mismo CSV por segunda vez.
-5. Confirmar que la segunda carga reporta duplicados y no crea interacciones
-   nuevas equivalentes.
+5. Confirmar que la segunda carga reporta duplicados y reprocesados, crea un Run
+   nuevo con un nuevo análisis y no inserta interacciones equivalentes otra vez.
 
 Si se carga el CSV inmediatamente después del JSON usando la misma comunidad,
 es normal que los registros equivalentes se detecten como duplicados. Eso prueba

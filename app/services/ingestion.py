@@ -24,8 +24,10 @@ class IngestionResult:
     received: int
     accepted: int = 0
     duplicates: int = 0
+    reprocessed: int = 0
     errors: list[RecordError] = field(default_factory=list)
-    persisted: list[Interaction] = field(default_factory=list)
+    # New and already stored interactions to analyze for this run.
+    interactions_to_process: list[Interaction] = field(default_factory=list)
 
 
 def ingest_interactions(
@@ -34,11 +36,11 @@ def ingest_interactions(
     community_id: str,
     interactions: list[InteractionRequest],
 ) -> IngestionResult:
-    """Normalize, fingerprint, deduplicate and persist interactions.
+    """Persist new interactions and return existing ones for fresh analysis.
 
-    Duplicate protection exists at two levels:
-    1. In-memory `seen` prevents duplicates inside the same request.
-    2. PostgreSQL lookups + unique constraints prevent duplicates already stored.
+    Exact duplicates already stored remain a single database row, but are
+    included in this run's analysis so a new upload always invokes the provider.
+    Repeated copies within the same upload are only processed once.
     """
     result = IngestionResult(received=len(interactions))
     seen: set[str] = set()
@@ -51,8 +53,9 @@ def ingest_interactions(
         opt_out = bool(normalized.get("opt_out", False))
         original_author = normalized["author"]
         pii_detected = contains_pii(normalized["text"])
+        # Always omit the author's identity from text used for analysis/content.
         normalized["text"] = redact_pii(
-            normalized["text"], original_author, redact_author=not consent
+            normalized["text"], original_author, redact_author=True
         )
 
         fingerprint = interaction_fingerprint(
@@ -68,7 +71,7 @@ def ingest_interactions(
         seen.add(fingerprint)
 
         existing = db.scalar(
-            select(Interaction.id).where(
+            select(Interaction).where(
                 Interaction.organization_id == organization_id,
                 Interaction.community_id == community_id,
                 Interaction.fingerprint == fingerprint,
@@ -76,6 +79,8 @@ def ingest_interactions(
         )
         if existing is not None:
             result.duplicates += 1
+            result.reprocessed += 1
+            result.interactions_to_process.append(existing)
             continue
 
         external_id = normalized.get("external_id")
@@ -94,24 +99,24 @@ def ingest_interactions(
         try:
             with db.begin_nested():
                 interaction = Interaction(
-                        organization_id=organization_id,
-                        community_id=community_id,
-                        external_id=external_id,
-                        author=normalized["author"],
-                        channel=normalized["channel"],
-                        type=normalized["type"],
-                        text=normalized["text"],
-                        fingerprint=fingerprint,
-                        occurred_at=normalized.get("occurred_at"),
-                        publication_consent=consent,
-                        opt_out=opt_out,
-                        pii_detected=pii_detected,
-                    )
+                    organization_id=organization_id,
+                    community_id=community_id,
+                    external_id=external_id,
+                    author=normalized["author"],
+                    channel=normalized["channel"],
+                    type=normalized["type"],
+                    text=normalized["text"],
+                    fingerprint=fingerprint,
+                    occurred_at=normalized.get("occurred_at"),
+                    publication_consent=consent,
+                    opt_out=opt_out,
+                    pii_detected=pii_detected,
+                )
                 db.add(interaction)
                 db.flush()
 
             result.accepted += 1
-            result.persisted.append(interaction)
+            result.interactions_to_process.append(interaction)
 
         except IntegrityError:
             # The DB unique constraints are the last line of defense against
@@ -128,5 +133,4 @@ def ingest_interactions(
                 )
             )
 
-    db.commit()
     return result

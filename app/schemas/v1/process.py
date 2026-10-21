@@ -9,9 +9,11 @@ from app.schemas.v1.approval import Approval
 from app.schemas.v1.manifest import Manifest
 from app.schemas.v1.alert import Alert
 
+
 class RequestedAsset(StrEnum):
     LINKEDIN = "LINKEDIN"
     FAQ = "FAQ"
+
 
 class ProcessRequest(BaseModel):
     schema_version: str = "v1"
@@ -21,20 +23,24 @@ class ProcessRequest(BaseModel):
     requested_assets: list[RequestedAsset] = Field(min_length=1)
     interactions: list[InteractionRequest] = Field(min_length=1, max_length=500)
 
+
 class RecordErrorResponse(BaseModel):
     index: int = Field(ge=0)
     external_id: str | None = None
     code: str
     message: str
 
+
 class RunSummary(BaseModel):
     received: int = Field(ge=0)
     accepted: int = Field(ge=0)
     duplicates: int = Field(ge=0)
+    reprocessed: int = Field(default=0, ge=0)
     errors: int = Field(ge=0)
     predominant_sentiment: str | None = None
     top_topics: list[str] = Field(default_factory=list)
     processing_time_ms: float = Field(default=0, ge=0)
+
 
 class ProcessResponse(BaseModel):
     schema_version: str = "v1"
