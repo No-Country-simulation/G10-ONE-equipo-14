@@ -125,7 +125,7 @@ class MockAnalysisProvider:
         evidence: list[str],
     ) -> tuple[str, str]:
         """Return a deterministic FAQ sample for local development and tests."""
-        title = f"Preguntas frecuentes sobre {topic}"
+        title = f"¿Qué conviene saber sobre {topic}?"
         entries = []
         for question in questions:
             entries.append(

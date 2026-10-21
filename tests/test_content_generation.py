@@ -24,10 +24,12 @@ def _analysis(with_evidence: bool = True):
         relevance=1,
         confidence=1,
         evidence=(
-            [Evidence(
-                source_interaction_id=interaction_id,
-                excerpt="FastAPI permitió entregar una API estable.",
-            )]
+            [
+                Evidence(
+                    source_interaction_id=interaction_id,
+                    excerpt="FastAPI permitió entregar una API estable.",
+                )
+            ]
             if with_evidence
             else []
         ),
@@ -40,9 +42,10 @@ def _analysis(with_evidence: bool = True):
 # COMLAB-40 y COMLAB-41: Versionado y trazabilidad
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize(
     ("channel", "prompt_version"),
-    [("LINKEDIN", "linkedin-v1"), ("FAQ", "faq-v1")],
+    [("LINKEDIN", "linkedin-v4"), ("FAQ", "faq-v2")],
 )
 def test_channel_generators_are_versioned_and_traceable(channel, prompt_version):
     generated = generate_content(
@@ -63,6 +66,7 @@ def test_channel_generators_are_versioned_and_traceable(channel, prompt_version)
 # ---------------------------------------------------------------------------
 # COMLAB-40: Validaciones específicas del generador de LinkedIn
 # ---------------------------------------------------------------------------
+
 
 def test_linkedin_body_length_is_within_channel_range():
     """E4-S02: el copy debe respetar el rango de longitud esperado."""
@@ -98,6 +102,7 @@ def test_linkedin_has_title_and_body():
 # ---------------------------------------------------------------------------
 # COMLAB-41: Validaciones específicas del generador de FAQ
 # ---------------------------------------------------------------------------
+
 
 def test_faq_title_is_phrased_as_question():
     """E4-S03: la FAQ debe formularse como pregunta."""

@@ -17,6 +17,10 @@ from app.services.pii_detection import redact_pii
 LINKEDIN_PROMPT_VERSION = "linkedin-v4"
 FAQ_PROMPT_VERSION = "faq-v2"
 
+# Keep LinkedIn drafts within the channel's supported character range.
+LINKEDIN_MIN_LENGTH = 80
+LINKEDIN_MAX_LENGTH = 3000
+
 # COMLAB-41: rango permitido para una respuesta FAQ didáctica y acotada.
 FAQ_MIN_LENGTH = 40
 FAQ_MAX_LENGTH = 2000
@@ -189,6 +193,14 @@ def _validate_channel_output(
         raise ValueError(f"{channel}: title must be non-empty")
     if not body or not body.strip():
         raise ValueError(f"{channel}: body must be non-empty")
+
+    if channel == "LINKEDIN" and not (
+        LINKEDIN_MIN_LENGTH <= len(body) <= LINKEDIN_MAX_LENGTH
+    ):
+        raise ValueError(
+            f"LINKEDIN: body length {len(body)} out of range "
+            f"[{LINKEDIN_MIN_LENGTH}, {LINKEDIN_MAX_LENGTH}]"
+        )
 
     # Criterio común a E4-S02 y E4-S03: Evidencia vinculada.
     if not traceable.claims:
