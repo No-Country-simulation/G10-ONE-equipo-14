@@ -580,7 +580,7 @@ if result:
     run_id_json = json.dumps(run_id).replace("<", "\\u003c")
     run_meta_html = f"""
     <div class="run-card">
-      <div class="run-label">Run ID</div>
+      <div class="run-label">Run ID · sólo lectura</div>
       <code class="run-value">{escape(run_id)}</code>
       <button class="copy-button" type="button" aria-label="Copiar Run ID">
         Copiar
