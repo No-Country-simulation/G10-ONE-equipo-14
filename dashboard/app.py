@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import requests
 import streamlit as st
+import streamlit.components.v1 as components
 
 from api_client import (
     api_error_message,
@@ -209,20 +210,76 @@ st.markdown(
     .cl-status--wait { color: #92400e; background: #fef3c7; border: 1px solid #fde68a; }
     .cl-dot { width: .58rem; height: .58rem; border-radius: 50%; background: currentColor; }
     .cl-readonly {
-        padding: .75rem .85rem;
+        padding: 1rem;
         margin: .4rem 0;
         border: 1px solid var(--cl-border);
-        border-radius: 12px;
-        background: rgba(255,255,255,.82);
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 7px 20px rgba(15, 23, 42, .04);
     }
     .cl-readonly small { display: block; color: #64748b; margin-bottom: .2rem; }
     .cl-readonly strong { color: var(--cl-navy); overflow-wrap: anywhere; }
     div[data-testid="stMetric"] {
         border: 1px solid var(--cl-border);
-        background: rgba(255, 255, 255, .86);
+        background: #fff;
         padding: 1rem;
         border-radius: 16px;
         box-shadow: 0 7px 20px rgba(15, 23, 42, .04);
+    }
+    .cl-summary-card {
+        background: #fff !important;
+        box-sizing: border-box;
+        height: 137px;
+        padding: 1rem;
+        border: 1px solid var(--cl-border);
+        border-radius: 16px;
+        box-shadow: 0 7px 20px rgba(15, 23, 42, .04);
+        overflow: hidden;
+    }
+    .cl-summary-label {
+        color: #475569;
+        font-size: .875rem;
+        margin-bottom: .25rem;
+    }
+    .cl-summary-value {
+        color: var(--cl-navy);
+        font-size: clamp(1.25rem, 2vw, 2rem);
+        line-height: 1.15;
+        max-height: 2.3em;
+        overflow-wrap: anywhere;
+        overflow: hidden;
+    }
+    .cl-summary-empty {
+        color: #64748b;
+        font-size: 1rem;
+    }
+    .cl-summary-status {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    .cl-summary-row-spacer {
+        height: 1rem;
+    }
+    .cl-topic-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .45rem;
+        padding: .15rem 0 .3rem;
+        max-height: 70px;
+        overflow-y: auto;
+    }
+    .cl-topic-chip {
+        display: inline-flex;
+        max-width: 100%;
+        padding: .3rem .55rem;
+        border: 1px solid var(--cl-border);
+        border-radius: 999px;
+        background: var(--cl-surface);
+        color: var(--cl-slate);
+        font-size: .78rem;
+        line-height: 1.25;
+        white-space: normal;
+        overflow-wrap: anywhere;
     }
     div[data-testid="stExpander"], div[data-testid="stFileUploader"] section {
         border-color: var(--cl-border);
@@ -494,28 +551,106 @@ if result:
     columns[2].metric("Duplicadas", summary["duplicates"])
     columns[3].metric("Reprocesadas", summary.get("reprocessed", 0))
     columns[4].metric("Con errores", summary["errors"])
-    insight_columns = st.columns(3)
-    insight_columns[0].metric(
-        "Sentimiento predominante",
-        summary.get("predominant_sentiment") or "Sin datos",
-    )
-    insight_columns[1].metric(
-        "Temas principales",
-        ", ".join(summary.get("top_topics", [])) or "Sin datos",
-    )
-    insight_columns[2].metric(
-        "Tiempo de procesamiento",
-        f"{summary.get('processing_time_ms', 0):.2f} ms",
-    )
-    run_meta, status_meta = st.columns([3, 1])
-    run_meta.markdown(
-        '<div class="cl-readonly"><small>Run ID · sólo lectura</small>'
-        f"<strong>{escape(str(result['run_id']))}</strong></div>",
+    st.markdown('<div class="cl-summary-row-spacer"></div>', unsafe_allow_html=True)
+    insight_columns = st.columns(2)
+    sentiment = escape(str(summary.get("predominant_sentiment") or "Sin datos"))
+    insight_columns[0].markdown(
+        '<div class="cl-summary-card">'
+        '<div class="cl-summary-label">Sentimiento predominante</div>'
+        f'<div class="cl-summary-value">{sentiment}</div></div>',
         unsafe_allow_html=True,
     )
+    top_topics = summary.get("top_topics", [])
+    if top_topics:
+        topic_chips = "".join(
+            f'<span class="cl-topic-chip">{escape(str(topic))}</span>'
+            for topic in top_topics
+        )
+    else:
+        topic_chips = '<span class="cl-summary-empty">Sin datos</span>'
+    insight_columns[1].markdown(
+        '<div class="cl-summary-card">'
+        '<div class="cl-summary-label">Temas principales</div>'
+        f'<div class="cl-topic-list">{topic_chips}</div></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown('<div class="cl-summary-row-spacer"></div>', unsafe_allow_html=True)
+    run_meta, status_meta = st.columns(2)
+    run_id = str(result["run_id"])
+    run_id_json = json.dumps(run_id).replace("<", "\\u003c")
+    run_meta_html = f"""
+    <div class="run-card">
+      <div class="run-label">Run ID</div>
+      <code class="run-value">{escape(run_id)}</code>
+      <button class="copy-button" type="button" aria-label="Copiar Run ID">
+        Copiar
+      </button>
+      <span class="copy-feedback" aria-live="polite"></span>
+    </div>
+    <style>
+      * {{ box-sizing: border-box; }}
+      body {{ margin: 0; font-family: sans-serif; color: #0f172a; }}
+      .run-card {{
+        height: 137px; padding: 1rem; position: relative; overflow: hidden;
+        border: 1px solid #dbe4ee; border-radius: 16px; background: #fff;
+        box-shadow: 0 7px 20px rgba(15, 23, 42, .04);
+      }}
+      .run-label {{ color: #475569; font-size: .875rem; margin-bottom: .55rem; }}
+      .run-value {{
+        display: block; max-width: calc(100% - 5.5rem); overflow-wrap: anywhere;
+        color: #0f172a; font: .9rem/1.5 monospace;
+      }}
+      .copy-button {{
+        position: absolute; top: .7rem; right: .7rem; display: inline-flex;
+        align-items: center; justify-content: center; min-height: 2rem;
+        padding: .35rem .65rem; border: 1px solid #dbe4ee; border-radius: 8px;
+        background: #fff; color: #0f172a; font: 600 .8rem sans-serif;
+        cursor: pointer;
+      }}
+      .copy-button:hover {{ background: #f8fafc; }}
+      .copy-feedback {{ color: #166534; font-size: .8rem; margin-left: .5rem; }}
+    </style>
+    <script>
+      const runId = {run_id_json};
+      const copyButton = document.querySelector(".copy-button");
+      const copyFeedback = document.querySelector(".copy-feedback");
+      async function copyRunId() {{
+        let copied = false;
+        try {{
+          await window.parent.navigator.clipboard.writeText(runId);
+          copied = true;
+        }} catch (error) {{
+          // Fall back for browsers that block clipboard access in iframes.
+        }}
+        if (!copied) {{
+          const textArea = document.createElement("textarea");
+          textArea.value = runId;
+          textArea.style.position = "fixed";
+          textArea.style.opacity = "0";
+          document.body.appendChild(textArea);
+          textArea.select();
+          copied = document.execCommand("copy");
+          textArea.remove();
+        }}
+        copyButton.textContent = copied ? "Copiado" : "Copiar";
+        copyFeedback.textContent = copied
+          ? "Run ID copiado"
+          : "No se pudo copiar";
+        window.setTimeout(() => {{
+          copyButton.textContent = "Copiar";
+          copyFeedback.textContent = "";
+        }}, 1800);
+      }}
+      copyButton.addEventListener("click", copyRunId);
+    </script>
+    """
+    with run_meta:
+        components.html(run_meta_html, height=137)
     status_meta.markdown(
-        '<div class="cl-readonly"><small>Estado · sólo lectura</small>'
-        f"<strong>{escape(str(result['status']))}</strong></div>",
+        '<div class="cl-summary-card">'
+        '<div class="cl-summary-label">Estado · sólo lectura</div>'
+        f'<div class="cl-summary-value cl-summary-status">'
+        f"{escape(str(result['status']))}</div></div>",
         unsafe_allow_html=True,
     )
 

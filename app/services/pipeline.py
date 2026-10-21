@@ -90,6 +90,10 @@ def analyze_and_persist(
                             exc, "code", getattr(exc, "status_code", None)
                         )
                         error_message = getattr(exc, "message", None)
+                        if type(exc) is ValueError:
+                            # Batch validation errors contain fixed messages,
+                            # not interaction text or model response content.
+                            error_message = str(exc)
                         input_chars = sum(
                             len(interaction_payloads[item.id].text) for item in batch
                         )
