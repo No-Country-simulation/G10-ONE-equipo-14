@@ -11,7 +11,6 @@ from app.db.base import Base
 class AssetRecord(Base):
     __tablename__ = "assets"
     __table_args__ = (
-        UniqueConstraint("opportunity_id", "asset_type", name="uq_assets_opportunity_type"),
         CheckConstraint("length(btrim(schema_version)) > 0", name="ck_assets_schema_version_nonempty"),
         CheckConstraint("asset_type IN ('LINKEDIN', 'FAQ')", name="ck_assets_type"),
         CheckConstraint("status IN ('PENDING_REVIEW', 'APPROVED', 'REJECTED')", name="ck_assets_status"),

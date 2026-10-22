@@ -14,8 +14,8 @@ from app.services.asset_generation import build_traceable_asset
 from app.services.pii_detection import redact_pii
 
 
-LINKEDIN_PROMPT_VERSION = "linkedin-v4"
-FAQ_PROMPT_VERSION = "faq-v2"
+LINKEDIN_PROMPT_VERSION = "linkedin-v5"
+FAQ_PROMPT_VERSION = "faq-v4"
 
 # Keep LinkedIn drafts within the channel's supported character range.
 LINKEDIN_MIN_LENGTH = 80

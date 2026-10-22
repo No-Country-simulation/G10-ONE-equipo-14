@@ -40,6 +40,56 @@ LOGO_PATH = Path(__file__).parent / "assets" / "communitylab-logo.svg"
 PROCESS_REQUEST_TIMEOUT = 300
 
 
+def _short_reference(value):
+    """Return a compact identifier suitable for the dashboard summary."""
+    if not value:
+        return "sin referencia"
+    return str(value).split("-")[0]
+
+
+def _opportunity_kind_label(kind):
+    labels = {
+        "educational_content": "Contenido educativo",
+        "success_content": "Experiencia positiva",
+        "support_content": "Contenido de soporte",
+    }
+    return labels.get(kind, str(kind or "Oportunidad").replace("_", " ").capitalize())
+
+
+def _opportunity_status_label(status):
+    labels = {
+        "PENDING": "Pendiente",
+        "REVIEW_REQUIRED": "Requiere revisión",
+        "BLOCKED": "Bloqueada",
+    }
+    return labels.get(
+        status, str(status or "Estado desconocido").replace("_", " ").capitalize()
+    )
+
+
+def _opportunity_reason_label(reason):
+    reason = str(reason or "")
+    if "personally identifiable information" in reason:
+        return "Contiene datos personales; no debe publicarse."
+    if "author opted out" in reason:
+        return "La persona no autorizó la publicación."
+    if "routed to an internal alert" in reason:
+        return "Se derivó a una alerta interna."
+    if "confidence is below" in reason:
+        return "Requiere revisión humana por baja confianza."
+    if "relevance is below" in reason:
+        return "Requiere revisión humana por baja relevancia."
+    if "Qualified by backend content rules" in reason:
+        return "Cumple los criterios para preparar contenido."
+    return reason or "Sin explicación disponible."
+
+
+def _alert_message_label(message):
+    if "Negative sentiment or frustration" in str(message or ""):
+        return "La interacción expresa una experiencia negativa o frustración."
+    return message or "Alerta que requiere atención interna."
+
+
 def _render_pending_asset_editors(assets_to_render, all_pending_assets):
     for asset in assets_to_render:
         with st.container(border=True):
@@ -49,6 +99,12 @@ def _render_pending_asset_editors(assets_to_render, all_pending_assets):
             body = st.text_area(
                 "Contenido", value=asset["body"], key=f"body-{asset['id']}"
             )
+            if asset["channel"] == "FAQ":
+                st.caption(
+                    "La respuesta puede incluir orientación general de Gemini. "
+                    "Las fuentes muestran de dónde surgió la pregunta; revisá y "
+                    "editá el texto antes de aprobarlo."
+                )
             st.caption(
                 f"{asset['channel']} · {asset['status']} · versión {asset['version']}"
             )
@@ -789,7 +845,7 @@ st.caption(
     "Sólo el título y contenido de un borrador pendiente pueden editarse."
 )
 analysis_tab, opportunities_tab, alerts_tab, assets_tab = st.tabs(
-    ["Análisis", "Oportunidades", "Alertas internas", "LinkedIn y FAQ"]
+    ["Análisis", "Oportunidades", "Alertas internas", "Generación de Contenido"]
 )
 with analysis_tab:
     if result:
@@ -820,7 +876,50 @@ with analysis_tab:
         st.info("Procesá un archivo para ver análisis.")
 with opportunities_tab:
     if result:
-        st.dataframe(result.get("opportunities", []), width="stretch")
+        opportunities = result.get("opportunities", [])
+        if opportunities:
+            st.caption(f"{len(opportunities)} oportunidad(es) detectada(s).")
+            evidence_by_source = {
+                evidence.get("source_interaction_id"): evidence.get("excerpt", "")
+                for analysis in result.get("analyses", [])
+                for evidence in analysis.get("evidence", [])
+            }
+            for opportunity in opportunities:
+                source_ids = opportunity.get("source_ids", [])
+                source_reference = (
+                    _short_reference(source_ids[0]) if source_ids else None
+                )
+                with st.container(border=True):
+                    st.markdown(
+                        f"**{_opportunity_kind_label(opportunity.get('kind'))}**"
+                    )
+                    reason = opportunity.get("reason", "")
+                    if "Qualified by backend content rules" in str(reason):
+                        source_message = (
+                            evidence_by_source.get(source_ids[0], "")
+                            if source_ids
+                            else ""
+                        )
+                        if source_message:
+                            st.markdown(
+                                f"<em>“{escape(str(source_message))}”</em>",
+                                unsafe_allow_html=True,
+                            )
+                        else:
+                            st.write(_opportunity_reason_label(reason))
+                    else:
+                        st.write(_opportunity_reason_label(reason))
+                    reference_label = (
+                        f" · Referencia: `{source_reference}`"
+                        if source_reference
+                        else ""
+                    )
+                    st.caption(
+                        f"{_opportunity_status_label(opportunity.get('status'))}"
+                        f"{reference_label}"
+                    )
+        else:
+            st.info("La ejecución no generó oportunidades.")
     else:
         st.info("Procesá un archivo para ver oportunidades.")
 with alerts_tab:
@@ -828,7 +927,18 @@ with alerts_tab:
         open_alerts = list_open_alerts(API_URL) if health else []
         if open_alerts:
             st.warning(f"{len(open_alerts)} alerta(s) interna(s) abierta(s).")
-            st.dataframe(open_alerts, width="stretch")
+            for alert in open_alerts:
+                severity = str(alert.get("severity", "MEDIUM")).upper()
+                severity_label = "Alta" if severity == "HIGH" else "Media"
+                with st.container(border=True):
+                    st.markdown(f"**Alerta de prioridad {severity_label.lower()}**")
+                    st.write(_alert_message_label(alert.get("message")))
+                    excerpt = alert.get("excerpt")
+                    if excerpt:
+                        st.markdown(f"> {excerpt}")
+                    st.caption(
+                        f"Abierta · Referencia: `{_short_reference(alert.get('interaction_id'))}`"
+                    )
         else:
             st.info("No hay alertas internas abiertas.")
     except requests.RequestException as exc:

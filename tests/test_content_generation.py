@@ -45,7 +45,7 @@ def _analysis(with_evidence: bool = True):
 
 @pytest.mark.parametrize(
     ("channel", "prompt_version"),
-    [("LINKEDIN", "linkedin-v4"), ("FAQ", "faq-v2")],
+    [("LINKEDIN", "linkedin-v5"), ("FAQ", "faq-v4")],
 )
 def test_channel_generators_are_versioned_and_traceable(channel, prompt_version):
     generated = generate_content(

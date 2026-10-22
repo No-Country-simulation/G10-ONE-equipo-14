@@ -689,11 +689,7 @@ del autor se sustituyen por `[PERSON]`; con `opt_out: true` se conserva la
 trazabilidad de la decisión, pero no se genera ningún activo publicable. Las
 mismas columnas pueden incluirse de forma opcional en archivos CSV.
 
-Las FAQ no se generan por una consulta aislada. El pipeline agrupa únicamente
-interacciones de tipo `question` por su tema principal y genera una sola FAQ
-cuando el grupo alcanza `FAQ_RECURRENCE_THRESHOLD` (2 por defecto). El activo
-resultante conserva la evidencia y los identificadores de todas las preguntas
-del grupo.
+Las FAQ no se generan por una consulta aislada. El pipeline agrupa interacciones de tipo `question` por tema y crea una propuesta cuando se alcanza `FAQ_RECURRENCE_THRESHOLD` (2 por defecto). Gemini redacta hasta cinco preguntas y respuestas propuestas basadas en las dudas recurrentes y evidencia del grupo. La propuesta conserva fuentes, se puede editar manualmente en la pestana FAQ y requiere revisi.n humana.
 
 Las interacciones con sentimiento negativo o frustración siguen una ruta
 interna: crean una alerta persistente, dejan la oportunidad bloqueada y no

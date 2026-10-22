@@ -26,5 +26,5 @@ class AnalysisProvider(Protocol):
         questions: list[str],
         evidence: list[str],
     ) -> tuple[str, str]:
-        """Return proposed FAQs grounded in recurring questions and evidence."""
+        """Return FAQ drafts with recurring questions and proposed general answers."""
         ...

@@ -293,7 +293,7 @@ def analyze_and_persist(
             )
 
     if batch_mode:
-        seen_assets: set[tuple[UUID, str]] = set()
+        seen_assets: set[tuple] = set()
         persisted_batch_drafts = 0
         for draft in batch_drafts:
             try:
@@ -330,7 +330,12 @@ def analyze_and_persist(
             )
             if opportunity_record is None:
                 continue
-            asset_key = (opportunity_record.id, draft.channel)
+            if draft.channel == "FAQ":
+                asset_key = (draft.channel, tuple(sorted(source_ids)))
+            else:
+                normalized_title = " ".join(draft.title.split()).casefold()
+                normalized_body = " ".join(draft.body.split()).casefold()
+                asset_key = (draft.channel, normalized_title, normalized_body)
             if asset_key in seen_assets:
                 continue
             seen_assets.add(asset_key)
