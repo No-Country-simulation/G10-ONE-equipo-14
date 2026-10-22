@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="https://i.imageupload.app/067962ef1fa0424cd565.svg" alt="CommunityLab Logo" width="100%">
+</div>
+
 # CommunityLab
 
 Motor inteligente de transformación y distribución para comunidades digitales, desarrollado por **G10 · Hackathon ONE · Equipo 14**.
