@@ -343,6 +343,13 @@ st.markdown(
             radial-gradient(circle at 88% 5%, rgba(37, 99, 235, .08), transparent 24rem),
             linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     }
+    /* Keep the sidebar toggle available without an opaque header over the page. */
+    [data-testid="stHeader"] {
+        background: transparent;
+        pointer-events: none;
+    }
+    [data-testid="stHeader"] button { pointer-events: auto; }
+    [data-testid="stToolbar"], [data-testid="stDecoration"] { display: none; }
     [data-testid="stSidebar"] {
         color: var(--cl-navy);
         background: linear-gradient(180deg, #f8fafc 0%, #eef6f6 100%);
