@@ -41,16 +41,23 @@ def api_error_message(error: requests.RequestException) -> str:
 def get_health(
     api_url: str,
     *,
-    timeout: float = 60,
+    timeout: float = 5,
     session: Any = requests,
 ) -> dict:
-    """Wait long enough for a Render Free API cold start and return its health."""
+    """Probe readiness briefly; the dashboard retries while Render wakes up."""
     response = session.get(
         f"{api_url.rstrip('/')}/api/v1/health",
         timeout=timeout,
     )
     response.raise_for_status()
-    return response.json()
+    payload = response.json()
+    if (
+        not isinstance(payload, dict)
+        or payload.get("status") != "ok"
+        or payload.get("database") != "ok"
+    ):
+        raise requests.RequestException("La API todavía no está lista.")
+    return payload
 
 
 def get_run(

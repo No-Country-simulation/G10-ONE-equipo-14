@@ -17,6 +17,14 @@ CommunityLab recibe interacciones en JSON o CSV, las normaliza, deduplica y guar
 
 El entorno está desplegado con el plan gratuito de Render y puede tardar cerca de un minuto en despertar después de un período sin actividad. La base gratuita de demostración expira a los 30 días.
 
+El dashboard muestra «Conectando con el servicio» y comprueba la API cada 15
+segundos durante el arranque, con un timeout de 5 segundos por intento.
+Cuando la API y PostgreSQL responden correctamente, actualiza el estado, habilita
+los controles y carga los datos automáticamente. Si la conexión no se recupera
+en dos minutos, ofrece **Reintentar conexión** y continúa comprobando una vez
+por minuto. Con el servicio disponible también comprueba una vez por minuto,
+únicamente mientras la sesión del dashboard está activa.
+
 ## Estado del proyecto
 
 ### Implementado

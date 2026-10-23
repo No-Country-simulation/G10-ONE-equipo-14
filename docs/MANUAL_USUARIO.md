@@ -16,6 +16,13 @@ después de un período sin uso. La demostración pública puede estar configura
 en modo sólo lectura; las operaciones de carga y curaduría se realizan en local
 o en un entorno compartido autorizado.
 
+Mientras la API despierta, el dashboard muestra **Conectando con el servicio** y
+reintenta cada 15 segundos. Al recuperar la conexión, actualiza el estado y
+habilita las acciones automáticamente, sin necesidad de recargar la página.
+Si pasan dos minutos sin conectar, muestra un aviso y el botón **Reintentar
+conexión**; continúa comprobando una vez por minuto mientras la sesión esté
+activa. Los campos y resultados de la sesión se conservan durante la reconexión.
+
 ## 3. Pantalla principal
 
 La barra lateral concentra el estado de la API y PostgreSQL en indicadores de

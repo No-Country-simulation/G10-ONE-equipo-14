@@ -2,6 +2,7 @@
 
 import pytest
 import requests
+from unittest.mock import Mock
 
 from dashboard.api_client import (
     api_error_message,
@@ -36,6 +37,8 @@ class FakeSession:
 
     def get(self, url, **kwargs):
         self.calls.append(("GET", url, kwargs))
+        if url.endswith("/health"):
+            return FakeResponse({"status": "ok", "database": "ok"})
         return FakeResponse([{"id": "asset-1", "status": "PENDING_REVIEW"}])
 
     def patch(self, url, **kwargs):
@@ -117,18 +120,54 @@ def test_publish_asset_sends_mutation_key_and_returns_receipt():
     ]
 
 
-def test_health_allows_render_free_cold_start():
+def test_health_uses_a_short_probe_for_automatic_cold_start_retries():
     session = FakeSession()
 
-    get_health("https://communitylab-api.onrender.com/", session=session)
+    health = get_health("https://communitylab-api.onrender.com/", session=session)
 
+    assert health == {"status": "ok", "database": "ok"}
     assert session.calls == [
         (
             "GET",
             "https://communitylab-api.onrender.com/api/v1/health",
-            {"timeout": 60},
+            {"timeout": 5},
         )
     ]
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [None, [], {}, {"status": "ok"}, {"status": "ok", "database": "error"}],
+)
+def test_health_rejects_responses_that_do_not_confirm_readiness(payload):
+    session = Mock()
+    session.get.return_value = FakeResponse(payload)
+
+    with pytest.raises(requests.RequestException):
+        get_health("http://api:8000", session=session)
+
+
+@pytest.mark.parametrize("status_code", [200, 503])
+def test_health_rejects_html_pages_returned_while_render_is_starting(status_code):
+    response = requests.Response()
+    response.status_code = status_code
+    response._content = b"<html><body>Service starting</body></html>"
+    session = Mock()
+    session.get.return_value = response
+
+    with pytest.raises(requests.RequestException):
+        get_health("http://api:8000", session=session)
+
+
+@pytest.mark.parametrize(
+    "error", [requests.Timeout(), requests.ConnectionError(), requests.HTTPError()]
+)
+def test_health_propagates_failures_to_the_connection_monitor(error):
+    session = Mock()
+    session.get.side_effect = error
+
+    with pytest.raises(type(error)):
+        get_health("http://api:8000", session=session)
 
 
 def test_list_open_alerts_uses_separate_internal_endpoint():

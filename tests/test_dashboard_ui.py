@@ -42,7 +42,6 @@ def test_sidebar_exposes_contextual_help_and_project_links():
 def test_operational_metadata_is_rendered_as_read_only_content():
     assert "Run ID · sólo lectura" in DASHBOARD_SOURCE
     assert "Estado · sólo lectura" in DASHBOARD_SOURCE
-    assert "<small>API</small><strong>Operativa</strong>" in DASHBOARD_SOURCE
     assert 'st.text_input("Estado"' not in DASHBOARD_SOURCE
     assert 'st.text_input("API"' not in DASHBOARD_SOURCE
 

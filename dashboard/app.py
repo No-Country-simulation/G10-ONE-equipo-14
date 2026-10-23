@@ -3,6 +3,7 @@ import os
 from datetime import date, datetime, timezone
 from html import escape
 from pathlib import Path
+from time import monotonic
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
@@ -24,6 +25,7 @@ from api_client import (
     publish_asset,
     resolve_alert,
 )
+from service_status import POLL_SECONDS, ServiceStatus
 
 
 API_URL = os.getenv("API_URL", "http://api:8000").rstrip("/")
@@ -244,7 +246,7 @@ def _render_pending_asset_editors(assets_to_render, all_pending_assets):
                 if not source_ids and not asset.get("evidence"):
                     st.warning("Este activo histórico no contiene fuentes visibles.")
             save, approve_publish, reject = st.columns(3)
-            if save.button("Guardar", key=f"save-{asset['id']}"):
+            if save.button("Guardar", key=f"save-{asset['id']}", disabled=not health):
                 try:
                     asset.update(
                         edit_asset(
@@ -263,6 +265,7 @@ def _render_pending_asset_editors(assets_to_render, all_pending_assets):
                 "Aprobar y publicar",
                 key=f"approve-publish-{asset['id']}",
                 type="primary",
+                disabled=not health,
             ):
                 approved = False
                 try:
@@ -295,7 +298,9 @@ def _render_pending_asset_editors(assets_to_render, all_pending_assets):
                     st.error(
                         f"No se pudo completar la operación: {api_error_message(exc)}"
                     )
-            if reject.button("Rechazar", key=f"reject-{asset['id']}"):
+            if reject.button(
+                "Rechazar", key=f"reject-{asset['id']}", disabled=not health
+            ):
                 try:
                     decide_asset(
                         API_URL,
@@ -644,45 +649,57 @@ def process_upload(
     return response.json()
 
 
-health = None
-health_error = None
-try:
-    health = get_health(API_URL)
-except requests.RequestException as error:
-    health_error = api_error_message(error)
+@st.fragment(run_every=POLL_SECONDS)
+def _render_service_status():
+    status = st.session_state.setdefault("service_status", ServiceStatus())
+    # Render feedback before the first request, which also wakes a sleeping API.
+    status_box = st.empty()
+    if status.health is None:
+        status_box.info("Conectando con el servicio…")
+    availability_changed = status.poll(lambda: get_health(API_URL), now=monotonic())
+    if availability_changed:
+        if status.health is not None:
+            st.session_state.pop("pending_assets", None)
+        # Update controls and reload persisted data only on an availability change.
+        st.rerun()
+
+    with status_box.container():
+        st.subheader("Estado del sistema")
+        if status.health is not None:
+            st.markdown(
+                '<div class="cl-status cl-status--ok"><span class="cl-dot"></span>'
+                "Servicios disponibles</div>",
+                unsafe_allow_html=True,
+            )
+        elif status.timed_out(monotonic()):
+            st.warning("No pudimos conectar con el servicio.")
+            st.caption(
+                "Seguimos comprobando la conexión una vez por minuto. "
+                "También podés reintentar ahora."
+            )
+            if status.error:
+                st.caption(api_error_message(status.error))
+            st.button(
+                "Reintentar conexión",
+                key="retry-service-connection",
+                on_click=status.retry,
+            )
+        else:
+            st.markdown(
+                '<div class="cl-status cl-status--wait"><span class="cl-dot"></span>'
+                "Conectando con el servicio</div>",
+                unsafe_allow_html=True,
+            )
+            st.caption(
+                "Render puede estar iniciando; suele tardar cerca de un minuto. "
+                "Reintentamos cada 15 segundos y actualizamos el estado automáticamente."
+            )
+
 
 with st.sidebar:
     st.image(str(LOGO_PATH), width="stretch")
     st.caption("Centro de operación y ayuda")
-
-    st.subheader("Estado del sistema")
-    if health:
-        st.markdown(
-            '<div class="cl-status cl-status--ok"><span class="cl-dot"></span>'
-            "Servicios disponibles</div>",
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            '<div class="cl-readonly"><small>API</small><strong>Operativa</strong></div>',
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            '<div class="cl-readonly"><small>PostgreSQL</small>'
-            f"<strong>{escape(str(health.get('database', 'desconocido')))}</strong></div>",
-            unsafe_allow_html=True,
-        )
-    else:
-        st.markdown(
-            '<div class="cl-status cl-status--wait"><span class="cl-dot"></span>'
-            "Servicios iniciando</div>",
-            unsafe_allow_html=True,
-        )
-        st.caption(
-            "Render Free puede tardar cerca de un minuto en despertar. "
-            "Esperá unos segundos y recargá la página."
-        )
-        if health_error:
-            st.caption(health_error)
+    _render_service_status()
 
     with st.expander("¿Cómo empezar?", expanded=False):
         st.markdown(
@@ -692,7 +709,7 @@ with st.sidebar:
             "4. Revisá los análisis, oportunidades, alertas y borradores."
         )
 
-    with st.expander("¿Para qué sirven los datos de la carga?", expanded=True):
+    with st.expander("¿Para qué sirven los datos de la carga?", expanded=False):
         st.markdown(
             "**Organización** identifica a quién pertenecen los datos y permite "
             "separarlos de los de otras organizaciones. Ejemplo: `one`.\n\n"
@@ -720,6 +737,7 @@ with st.sidebar:
     st.markdown("[Ir a cargar interacciones](#1-cargar-interacciones)")
     st.markdown("[Ir a análisis y curaduría](#4-analisis-oportunidades-y-curaduria)")
 
+health = st.session_state["service_status"].health
 run_catalog = []
 run_catalog_error = None
 if health:
@@ -796,7 +814,7 @@ if matching_file_runs:
         horizontal=True,
     )
     if repeated_file_action == "Recuperar ejecución existente":
-        if st.button("Recuperar esta ejecución"):
+        if st.button("Recuperar esta ejecución", disabled=health is None):
             upload_recovery_run_id = existing_run_id
     else:
         st.caption(
@@ -1276,9 +1294,13 @@ with assets_tab:
     queue_header.caption(
         "Cola persistente: se muestran los borradores de la ejecución actual."
     )
-    refresh_queue = queue_action.button("Actualizar cola", width="stretch")
+    refresh_queue = queue_action.button(
+        "Actualizar cola", width="stretch", disabled=not health
+    )
     queue_changed = st.session_state.get("pending_assets_run_id") != queue_run_id
-    if "pending_assets" not in st.session_state or refresh_queue or queue_changed:
+    if health and (
+        "pending_assets" not in st.session_state or refresh_queue or queue_changed
+    ):
         try:
             st.session_state["pending_assets"] = list_pending_assets(
                 API_URL,
