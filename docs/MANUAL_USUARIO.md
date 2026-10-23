@@ -46,8 +46,9 @@ mismo archivo en esa comunidad, se crea una ejecucion nueva y se vuelve a enviar
 el contenido a la IA; las interacciones ya guardadas no se insertan otra vez.
 Para pruebas aisladas que necesiten datos independientes, usar otra comunidad.
 
-Los resúmenes, métricas, Run ID, estados, análisis, oportunidades, alertas y
-evidencias son elementos de visualización. En la cola de curaduría, únicamente
+Los resúmenes, métricas, Run ID, análisis, oportunidades y evidencias son
+elementos de visualización. Las alertas pendientes pueden marcarse como
+resueltas mediante su botón. En la cola de curaduría, únicamente
 el título y el contenido del borrador pendiente son editables porque el botón
 **Guardar** persiste esos cambios.
 
@@ -101,6 +102,38 @@ error del sistema.
 
 Los resultados generados por IA pueden variar. La evidencia y las interacciones
 fuente deben revisarse antes de aprobar un borrador.
+
+La pestaña **Alertas internas** muestra primero las **Alertas del análisis
+actual**, correspondientes a la ejecución recién procesada o recuperada. Debajo,
+el desplegable **Historial de alertas**, cerrado por defecto, reúne las alertas de
+las demás ejecuciones, sin repetir las del análisis actual. Muestra 10 alertas
+por página, de más recientes a más antiguas, con botones **Anterior** y
+**Siguiente** y un indicador de página y registros. Los botones **Todas**,
+**Pendientes** y **Resueltas** filtran el historial e indican cuántas alertas hay
+en cada grupo. La paginación se aplica al filtro seleccionado. Al cambiar de
+filtro, de ejecución o actualizar las alertas, vuelve a la primera página.
+Resolver una alerta actualiza los contadores y la retira del filtro de pendientes.
+Si no hay una ejecución
+abierta, el desplegable permite consultar todo el historial registrado. Este
+historial abarca todas las ejecuciones, sin aplicar los filtros del selector de
+recuperación.
+
+Cada alerta indica su estado con un badge: **Pendiente** (`OPEN`) en ámbar o
+**Resuelta** (`RESOLVED`) en verde. La prioridad aparece en otro badge, junto al
+estado. El comentario original es el contenido principal de la tarjeta y muestra
+hasta tres líneas. El pie incluye la fecha de detección en hora de Santiago y el
+archivo de origen, cuando esos datos están disponibles. **Ver detalles** despliega
+el comentario completo, el motivo, la referencia y el Run ID. El botón verde
+**Resolver** permanece a la derecha y permite resolver una alerta pendiente, tanto del análisis
+actual como del historial. El cambio se guarda en la base de datos y actualiza
+el badge y los contadores. **Actualizar alertas** consulta nuevamente los estados
+persistidos. Si la consulta falla, las alertas del análisis siguen visibles con
+una advertencia de que corresponden al resultado guardado.
+
+La API expone `POST /api/v1/alerts/{alert_id}/resolve`, con la misma protección
+de acceso que las demás operaciones de escritura. Repetir la operación mantiene
+la alerta resuelta. Todavía no hay campo de observaciones ni operación para
+reabrir alertas.
 
 ## 7. Recuperar una ejecución
 

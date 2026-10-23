@@ -9,11 +9,13 @@ from dashboard.api_client import (
     edit_asset,
     get_health,
     get_run,
+    list_alerts,
     list_assets,
     list_open_alerts,
     list_pending_assets,
     list_runs,
     publish_asset,
+    resolve_alert,
 )
 
 
@@ -142,6 +144,22 @@ def test_list_open_alerts_uses_separate_internal_endpoint():
     ]
 
 
+@pytest.mark.parametrize("status", [None, "OPEN", "RESOLVED"])
+def test_list_alerts_can_include_resolved_alerts(status):
+    session = FakeSession()
+
+    alerts = list_alerts("http://api:8000/", status=status, session=session)
+
+    assert alerts
+    assert session.calls == [
+        (
+            "GET",
+            "http://api:8000/api/v1/alerts",
+            {"params": {"status": status or ""}, "timeout": 10},
+        )
+    ]
+
+
 def test_get_run_recovers_a_persisted_execution():
     session = FakeSession()
     run_id = "bdc11ba4-0b40-4a15-b909-16f2e8fae50a"
@@ -156,6 +174,39 @@ def test_get_run_recovers_a_persisted_execution():
             {"timeout": 10},
         )
     ]
+
+
+@pytest.mark.parametrize("api_write_key", [None, "shared-secret"])
+def test_resolve_alert_sends_write_key(api_write_key):
+    session = FakeSession()
+    alert_id = "bdc11ba4-0b40-4a15-b909-16f2e8fae50a"
+
+    resolve_alert(
+        "http://api:8000/",
+        alert_id,
+        api_write_key=api_write_key,
+        session=session,
+    )
+
+    assert session.calls == [
+        (
+            "POST",
+            f"http://api:8000/api/v1/alerts/{alert_id}/resolve",
+            {
+                "headers": {"X-API-Key": api_write_key} if api_write_key else {},
+                "timeout": 10,
+            },
+        )
+    ]
+
+
+def test_resolve_alert_rejects_invalid_identifier_without_http_call():
+    session = FakeSession()
+
+    with pytest.raises(ValueError):
+        resolve_alert("http://api:8000", "invalid", session=session)
+
+    assert session.calls == []
 
 
 def test_get_run_rejects_an_invalid_uuid_without_http_call():

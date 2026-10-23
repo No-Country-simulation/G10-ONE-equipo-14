@@ -1,9 +1,10 @@
 import json
 import os
-from datetime import date
+from datetime import date, datetime, timezone
 from html import escape
 from pathlib import Path
 from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 import requests
 import streamlit as st
@@ -16,11 +17,12 @@ from api_client import (
     get_health,
     get_run,
     list_runs,
-    list_open_alerts,
+    list_alerts,
     list_assets,
     list_pending_assets,
     mutation_headers,
     publish_asset,
+    resolve_alert,
 )
 
 
@@ -88,6 +90,130 @@ def _alert_message_label(message):
     if "Negative sentiment or frustration" in str(message or ""):
         return "La interacción expresa una experiencia negativa o frustración."
     return message or "Alerta que requiere atención interna."
+
+
+def _alert_created_label(value):
+    if not value:
+        return None
+    try:
+        created = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
+    if created.tzinfo is None:
+        created = created.replace(tzinfo=timezone.utc)
+    created = created.astimezone(ZoneInfo("America/Santiago"))
+    months = (
+        "ene",
+        "feb",
+        "mar",
+        "abr",
+        "may",
+        "jun",
+        "jul",
+        "ago",
+        "sep",
+        "oct",
+        "nov",
+        "dic",
+    )
+    return f"{created.day} {months[created.month - 1]} {created.year} · {created:%H:%M}"
+
+
+def _render_alerts(alerts, runs_by_id):
+    pending = sum(alert.get("status") == "OPEN" for alert in alerts)
+    resolved = sum(alert.get("status") == "RESOLVED" for alert in alerts)
+    st.caption(
+        f"{len(alerts)} alerta(s) · {pending} pendiente(s) · {resolved} resuelta(s)"
+    )
+    for alert in alerts:
+        severity = str(alert.get("severity", "MEDIUM")).upper()
+        severity_label, priority_style = {
+            "HIGH": ("alta", "high"),
+            "MEDIUM": ("media", "medium"),
+            "LOW": ("baja", "low"),
+        }.get(severity, ("no definida", "unknown"))
+        status_label, badge_style = {
+            "OPEN": ("Pendiente", "pending"),
+            "RESOLVED": ("Resuelta", "resolved"),
+        }.get(alert.get("status"), ("Estado desconocido", "unknown"))
+        reference = escape(str(alert.get("interaction_id") or "sin referencia"))
+        run_reference = escape(str(alert.get("run_id") or "sin referencia"))
+        message = escape(str(_alert_message_label(alert.get("message"))))
+        excerpt = escape(str(alert.get("excerpt") or "").strip())
+        comment = excerpt or message
+        created_label = _alert_created_label(alert.get("created_at"))
+        source_name = runs_by_id.get(str(alert.get("run_id")), {}).get("source_name")
+        source_name = str(source_name or "").replace("\\", "/").rsplit("/", 1)[-1]
+        metadata = []
+        if created_label:
+            metadata.append(
+                '<span class="cl-alert-meta" title="Fecha de detección · hora de Santiago">'
+                f"{escape(created_label)}</span>"
+            )
+        if source_name:
+            metadata.append(
+                f'<span class="cl-alert-meta cl-alert-source" title="Archivo de origen: {escape(source_name)}">'
+                f"{escape(source_name)}</span>"
+            )
+        footer = '<span class="cl-alert-separator" aria-hidden="true">·</span>'.join(
+            metadata
+        )
+        with st.container(border=True, key=f"alert-card-{alert['id']}"):
+            information, action = st.columns(
+                [5, 1], gap="medium", vertical_alignment="center"
+            )
+            with information:
+                st.markdown(
+                    '<div class="cl-alert-info">'
+                    '<div class="cl-alert-badges">'
+                    f'<span class="cl-alert-badge cl-alert-badge--{badge_style}">'
+                    f"{status_label}</span>"
+                    f'<span class="cl-alert-badge cl-alert-priority--{priority_style}">'
+                    f"Prioridad {severity_label}</span></div>"
+                    f'<div class="cl-alert-comment">{comment}</div>'
+                    f'<div class="cl-alert-footer">{footer}'
+                    '<details class="cl-alert-details">'
+                    "<summary>Ver detalles</summary>"
+                    '<div class="cl-alert-detail-body">'
+                    '<span class="cl-alert-detail-label">Comentario completo</span>'
+                    f'<p class="cl-alert-full-comment">{comment}</p>'
+                    '<dl class="cl-alert-identifiers">'
+                    f"<dt>Motivo</dt><dd>{message}</dd>"
+                    f"<dt>Referencia</dt><dd>{reference}</dd>"
+                    f"<dt>Run ID</dt><dd>{run_reference}</dd>"
+                    "</dl></div></details></div></div>",
+                    unsafe_allow_html=True,
+                )
+            if alert.get("status") == "OPEN" and action.button(
+                "Resolver",
+                key=f"resolve-alert-{alert['id']}",
+                disabled=not health,
+                width="stretch",
+                help="Marcar esta alerta como resuelta.",
+            ):
+                try:
+                    resolved_alert = resolve_alert(
+                        API_URL, alert["id"], api_write_key=API_WRITE_KEY
+                    )
+                    saved_result = st.session_state.get("process_result") or {}
+                    for saved_alert in saved_result.get("alerts", []):
+                        if saved_alert.get("id") == alert["id"]:
+                            saved_alert.update(resolved_alert)
+                    st.session_state["alert_resolution_notice"] = (
+                        "Alerta marcada como resuelta."
+                    )
+                    st.rerun()
+                except requests.RequestException as exc:
+                    st.error(f"No se pudo resolver la alerta: {api_error_message(exc)}")
+
+
+def _change_alert_history_page(step):
+    st.session_state["alert_history_page"] += step
+
+
+def _filter_alert_history(status):
+    st.session_state["alert_history_status"] = status
+    st.session_state["alert_history_page"] = 0
 
 
 def _render_pending_asset_editors(assets_to_render, all_pending_assets):
@@ -265,6 +391,95 @@ st.markdown(
     }
     .cl-status--ok { color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; }
     .cl-status--wait { color: #92400e; background: #fef3c7; border: 1px solid #fde68a; }
+    .cl-alert-badge {
+        display: inline-block; padding: .15rem .55rem; border-radius: 999px;
+        font-size: .75rem; font-weight: 600; line-height: 1.4;
+        border: 1px solid transparent;
+    }
+    .cl-alert-badge--pending {
+        color: #92400e; background: #fef3c7; border-color: #fde68a;
+    }
+    .cl-alert-badge--resolved {
+        color: #166534; background: #dcfce7; border-color: #bbf7d0;
+    }
+    .cl-alert-badge--unknown {
+        color: #475569; background: #f1f5f9; border-color: #cbd5e1;
+    }
+    .cl-alert-priority--high {
+        color: #991b1b; background: #fee2e2; border-color: #fecaca;
+    }
+    .cl-alert-priority--medium {
+        color: #92400e; background: #fef3c7; border-color: #fde68a;
+    }
+    .cl-alert-priority--low {
+        color: #1e40af; background: #dbeafe; border-color: #bfdbfe;
+    }
+    .cl-alert-priority--unknown {
+        color: #475569; background: #f1f5f9; border-color: #cbd5e1;
+    }
+    [class*="st-key-alert-card-"] {
+        padding: 1rem; border-radius: 12px; background: #fff;
+    }
+    .cl-alert-info { display: flow-root; padding-bottom: .75rem; }
+    .cl-alert-badges { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .cl-alert-comment {
+        margin-top: .65rem; color: #0f172a; font-size: .95rem;
+        line-height: 1.5; font-weight: 500; overflow-wrap: anywhere;
+        white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .cl-alert-footer {
+        display: flex; align-items: baseline; flex-wrap: wrap;
+        column-gap: .55rem; row-gap: .35rem; margin-top: .7rem;
+    }
+    .cl-alert-meta, .cl-alert-separator {
+        color: #64748b; font-size: .75rem; line-height: 1.5;
+    }
+    .cl-alert-source {
+        max-width: 30ch; white-space: nowrap; overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .cl-alert-details { min-width: 0; font-size: .75rem; }
+    .cl-alert-details summary {
+        color: #475569; cursor: pointer; line-height: 1.5;
+        text-decoration: underline; text-underline-offset: 3px;
+    }
+    .cl-alert-details summary:hover { color: #0f172a; }
+    .cl-alert-details summary:focus-visible {
+        outline: 2px solid #0f766e; outline-offset: 3px; border-radius: 2px;
+    }
+    .cl-alert-details[open] { flex-basis: 100%; }
+    .cl-alert-detail-body {
+        margin-top: .6rem; padding: .75rem; background: #f8fafc;
+        border: 1px solid #e2e8f0; border-radius: 8px;
+    }
+    .cl-alert-detail-label { color: #475569; font-weight: 600; }
+    .cl-alert-full-comment {
+        color: #334155; white-space: pre-line; overflow-wrap: anywhere;
+        margin: .35rem 0 .75rem; font-size: .85rem; line-height: 1.5;
+    }
+    .cl-alert-identifiers {
+        display: grid; grid-template-columns: auto minmax(0, 1fr);
+        gap: .4rem .75rem; margin: 0; color: #64748b; font-size: .75rem;
+    }
+    .cl-alert-identifiers dt { font-weight: 600; }
+    .cl-alert-identifiers dd { margin: 0; overflow-wrap: anywhere; }
+    [class*="st-key-alert-card-"] [data-testid="stMarkdownContainer"] {
+        padding-bottom: .25rem;
+    }
+    [class*="st-key-alert-card-"] [data-testid="stButton"] button {
+        background: #15803d; color: #fff; border: 1px solid #15803d;
+        min-height: 2.25rem; border-radius: 8px; font-weight: 600;
+    }
+    [class*="st-key-alert-card-"] [data-testid="stButton"] button:hover:not(:disabled) {
+        background: #166534; border-color: #166534; color: #fff;
+    }
+    [class*="st-key-alert-card-"] [data-testid="stButton"] button:focus-visible {
+        outline: 2px solid #86efac; outline-offset: 2px;
+    }
+    [class*="st-key-alert-card-"] [data-testid="stButton"] button:disabled {
+        background: #e2e8f0; border-color: #cbd5e1; color: #64748b;
+    }
     .cl-dot { width: .58rem; height: .58rem; border-radius: 50%; background: currentColor; }
     .cl-readonly {
         padding: 1rem;
@@ -841,7 +1056,8 @@ st.subheader(
     anchor="4-analisis-oportunidades-y-curaduria",
 )
 st.caption(
-    "Análisis, oportunidades, alertas y evidencias son de consulta. "
+    "Análisis, oportunidades y evidencias son de consulta. "
+    "Las alertas pendientes pueden marcarse como resueltas. "
     "Sólo el título y contenido de un borrador pendiente pueden editarse."
 )
 analysis_tab, opportunities_tab, alerts_tab, assets_tab = st.tabs(
@@ -923,28 +1139,137 @@ with opportunities_tab:
     else:
         st.info("Procesá un archivo para ver oportunidades.")
 with alerts_tab:
-    try:
-        open_alerts = list_open_alerts(API_URL) if health else []
-        if open_alerts:
-            st.warning(f"{len(open_alerts)} alerta(s) interna(s) abierta(s).")
-            for alert in open_alerts:
-                severity = str(alert.get("severity", "MEDIUM")).upper()
-                severity_label = "Alta" if severity == "HIGH" else "Media"
-                with st.container(border=True):
-                    st.markdown(f"**Alerta de prioridad {severity_label.lower()}**")
-                    st.write(_alert_message_label(alert.get("message")))
-                    excerpt = alert.get("excerpt")
-                    if excerpt:
-                        st.markdown(f"> {excerpt}")
-                    st.caption(
-                        f"Abierta · Referencia: `{_short_reference(alert.get('interaction_id'))}`"
-                    )
-        else:
-            st.info("No hay alertas internas abiertas.")
-    except requests.RequestException as exc:
-        st.error(
-            f"No se pudieron recuperar las alertas internas: {api_error_message(exc)}"
+    alert_runs_by_id = {str(run["run_id"]): run for run in run_catalog}
+    if result:
+        alert_runs_by_id[str(result["run_id"])] = result
+    resolution_notice = st.session_state.pop("alert_resolution_notice", None)
+    if resolution_notice:
+        st.success(resolution_notice)
+    refresh_alerts = st.button("Actualizar alertas", disabled=not health)
+    alerts_run_id = str(result["run_id"]) if result else None
+    current_alerts = result.get("alerts", []) if result else []
+    historical_alerts = None
+    if health:
+        try:
+            persisted_alerts = list_alerts(API_URL)
+            current_alerts = [
+                alert
+                for alert in persisted_alerts
+                if str(alert.get("run_id")) == alerts_run_id
+            ]
+            historical_alerts = [
+                alert
+                for alert in persisted_alerts
+                if str(alert.get("run_id")) != alerts_run_id
+            ]
+        except requests.RequestException as exc:
+            st.error(
+                "No se pudieron actualizar las alertas internas: "
+                f"{api_error_message(exc)}"
+            )
+
+    st.subheader("Alertas del análisis actual")
+    if result:
+        st.caption(
+            "Corresponden únicamente a la ejecución procesada o recuperada "
+            f"que estás consultando. Run ID: `{alerts_run_id}`"
         )
+        if historical_alerts is None:
+            st.warning(
+                "Se muestran las alertas guardadas en el resultado del análisis; "
+                "no se pudo consultar su estado actualizado."
+            )
+        if current_alerts:
+            _render_alerts(current_alerts, alert_runs_by_id)
+        else:
+            st.info("Esta ejecución no generó alertas internas.")
+    else:
+        st.info("Procesá un archivo o recuperá una ejecución para ver sus alertas.")
+
+    st.divider()
+    if refresh_alerts or st.session_state.get("alert_history_run_id") != alerts_run_id:
+        st.session_state["alert_history_page"] = 0
+    st.session_state["alert_history_run_id"] = alerts_run_id
+
+    with st.expander("Historial de alertas", expanded=False):
+        st.caption(
+            "Historial de alertas pendientes y resueltas de las demás ejecuciones. "
+            "Sin un análisis abierto, se muestra todo el historial registrado. "
+            "Se muestran 10 alertas por página, de más recientes a más antiguas."
+        )
+        history_status = st.session_state.get("alert_history_status", "ALL")
+        with st.container(horizontal=True, gap="small"):
+            for filter_status, filter_label in (
+                ("ALL", "Todas"),
+                ("OPEN", "Pendientes"),
+                ("RESOLVED", "Resueltas"),
+            ):
+                filter_count = sum(
+                    filter_status == "ALL" or alert.get("status") == filter_status
+                    for alert in historical_alerts or []
+                )
+                st.button(
+                    (
+                        f"{filter_label} ({filter_count})"
+                        if historical_alerts is not None
+                        else filter_label
+                    ),
+                    key=f"alert-history-filter-{filter_status}",
+                    type="primary" if history_status == filter_status else "secondary",
+                    disabled=historical_alerts is None,
+                    on_click=_filter_alert_history,
+                    args=(filter_status,),
+                )
+        filtered_history = [
+            alert
+            for alert in historical_alerts or []
+            if history_status == "ALL" or alert.get("status") == history_status
+        ]
+        if historical_alerts is None:
+            st.warning("El historial de alertas no está disponible en este momento.")
+        elif filtered_history:
+            history_page_size = 10
+            history_total = len(filtered_history)
+            history_pages = (history_total + history_page_size - 1) // history_page_size
+            history_page = max(
+                0,
+                min(st.session_state.get("alert_history_page", 0), history_pages - 1),
+            )
+            st.session_state["alert_history_page"] = history_page
+            history_start = history_page * history_page_size
+            history_end = min(history_start + history_page_size, history_total)
+
+            previous_page, page_info, next_page = st.columns([1, 2, 1])
+            previous_page.button(
+                "Anterior",
+                key="alert-history-previous",
+                disabled=history_page == 0,
+                on_click=_change_alert_history_page,
+                args=(-1,),
+            )
+            page_info.caption(
+                f"Página {history_page + 1} de {history_pages} · "
+                f"Alertas {history_start + 1}–{history_end} de {history_total}"
+            )
+            next_page.button(
+                "Siguiente",
+                key="alert-history-next",
+                disabled=history_page == history_pages - 1,
+                on_click=_change_alert_history_page,
+                args=(1,),
+            )
+            _render_alerts(
+                filtered_history[history_start:history_end], alert_runs_by_id
+            )
+        else:
+            st.session_state["alert_history_page"] = 0
+            st.info(
+                {
+                    "ALL": "No hay alertas de otras ejecuciones.",
+                    "OPEN": "No hay alertas pendientes en el historial.",
+                    "RESOLVED": "No hay alertas resueltas en el historial.",
+                }[history_status]
+            )
 with assets_tab:
     queue_run_id = result.get("run_id") if result else None
     queue_header, queue_action = st.columns([4, 1])

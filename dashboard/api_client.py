@@ -158,9 +158,40 @@ def list_open_alerts(
     timeout: float = 10,
     session: Any = requests,
 ) -> list[dict]:
+    return list_alerts(api_url, status="OPEN", timeout=timeout, session=session)
+
+
+def list_alerts(
+    api_url: str,
+    *,
+    status: str | None = None,
+    timeout: float = 10,
+    session: Any = requests,
+) -> list[dict]:
+    """Return alerts in every state, or filter by a specific status."""
     response = session.get(
         f"{api_url.rstrip('/')}/api/v1/alerts",
-        params={"status": "OPEN"},
+        # An omitted status defaults to OPEN in the API; empty means all states.
+        params={"status": status or ""},
+        timeout=timeout,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def resolve_alert(
+    api_url: str,
+    alert_id: str,
+    *,
+    api_write_key: str | None = None,
+    timeout: float = 10,
+    session: Any = requests,
+) -> dict:
+    """Persist the transition from an open alert to a resolved alert."""
+    normalized_alert_id = str(UUID(alert_id.strip()))
+    response = session.post(
+        f"{api_url.rstrip('/')}/api/v1/alerts/{normalized_alert_id}/resolve",
+        headers=mutation_headers(api_write_key),
         timeout=timeout,
     )
     response.raise_for_status()
