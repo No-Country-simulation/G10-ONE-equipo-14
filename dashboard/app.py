@@ -753,7 +753,7 @@ if health:
     except requests.RequestException as error:
         run_catalog_error = api_error_message(error)
 
-st.subheader("1. Cargar interacciones", anchor="1-cargar-interacciones")
+st.subheader("Cargar interacciones", anchor="1-cargar-interacciones")
 st.caption(
     "Identifican a quién pertenecen las interacciones, qué comunidad se analiza "
     "y a qué período corresponden. Abrí la ayuda lateral para ver ejemplos."
@@ -859,7 +859,7 @@ if process_upload_requested:
     except requests.RequestException as exc:
         st.error(api_error_message(exc))
 
-st.subheader("2. Recuperar una ejecución", anchor="2-recuperar-una-ejecucion")
+st.subheader("Recuperar una ejecución", anchor="2-recuperar-una-ejecucion")
 st.caption(
     "Filtrá por Organización y Comunidad, y elegí una ejecución por su archivo, "
     "fecha y Run ID."
@@ -961,7 +961,7 @@ if requested_run_id:
 
 result = st.session_state.get("process_result")
 if result:
-    st.subheader("3. Resultado persistido", anchor="3-resultado-persistido")
+    st.subheader("Resultado", anchor="3-resultado-persistido")
     summary = result["summary"]
     columns = st.columns(5)
     columns[0].metric("Recibidas", summary["received"])
@@ -1077,7 +1077,7 @@ if result:
         st.dataframe(result["record_errors"], width="stretch")
 
 st.subheader(
-    "4. Análisis, oportunidades y curaduría",
+    "Análisis, oportunidades y curaduría",
     anchor="4-analisis-oportunidades-y-curaduria",
 )
 st.caption(
