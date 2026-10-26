@@ -27,8 +27,12 @@ activa. Los campos y resultados de la sesión se conservan durante la reconexió
 
 La barra lateral concentra el estado de la API y PostgreSQL en indicadores de
 solo lectura. También incluye una ayuda de inicio, enlaces a este manual, la
-guía de prueba, los archivos de ejemplo, Swagger y el repositorio. Esos datos no
-son campos de entrada y no admiten escritura.
+guía de prueba, los archivos de ejemplo y Swagger. Esos datos no son campos de
+entrada y no admiten escritura.
+
+Las secciones principales del dashboard se pueden desplegar y contraer. **Cargar
+interacciones** aparece abierta al iniciar; las demás secciones se abren cuando
+se necesitan.
 
 La cabecera presenta el propósito de CommunityLab. Antes de procesar un archivo,
 completar únicamente los campos funcionales:
@@ -97,8 +101,9 @@ error del sistema.
 
 ## 6. Interpretar los resultados
 
-- **Resumen:** estado, cantidades, sentimiento predominante, temas frecuentes y
-  tiempo de procesamiento.
+- **Resumen:** cantidades, Run ID, temas frecuentes, tiempo de procesamiento y
+  un gráfico comparativo con la distribución de todos los sentimientos
+  detectados. El gráfico destaca la categoría con el mayor porcentaje.
 - **Análisis:** clasificación, sentimiento, relevancia, confianza y evidencia de
   cada interacción.
 - **Oportunidades:** casos útiles para contenido o atención. Los casos internos
